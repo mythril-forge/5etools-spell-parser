@@ -1,5 +1,4 @@
 import requests
-from slugify import slugify
 
 URL='https://raw.githubusercontent.com/ariestae/5etools/master/data/spells/'
 SOURCE = {
@@ -11,7 +10,8 @@ SOURCE = {
 	'XGE': 'spells-xge.json',
 	'BoLS 3pp': 'spells-3pp-bols.json'
 }
-TEMP_DATA =  requests.get(''.join([URL, SOURCE['PHB']])).json()
+SOURCE_DATA = {
+	requests.get(f'{URL}{SOURCE['SCAG']}').json()
 
 
 def get_school(letter):
@@ -45,17 +45,18 @@ def get_nth(number):
 	elif number == 3:
 		return '3rd'
 	else:
-		return ''.join([str(number),'th'])
+		return f'{str(number)}th'
 
 def grab_entries(entries_list):
 	for entry in entries_list:
 		print(entry)
 
 if __name__ == '__main__':
+	print(f'getting data from {"".join([URL, SOURCE["SCAG"]])}')
 	for spell in TEMP_DATA['spell']:
 		slug = slugify(spell['name'])
-		href = ''.join(['./phb/',slug,'.md'])
-		spell['school'] = get_school(spell['school'])		
+		href = ''.join(['./scag/',slug,'.md'])
+		spell['school'] = get_school(spell['school'])
 		with open(href, 'w+') as file:
 			# put title in h1
 			file.write('# ' + spell['name'] + '\n')
