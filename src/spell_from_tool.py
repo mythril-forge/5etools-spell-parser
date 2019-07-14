@@ -204,7 +204,7 @@ class ToolSpell(Spell):
 		xtra = self.xtra[self.name]['Range'].lower()
 		xtra_shape = ''.join(re.findall('\(.*?\)', xtra)).strip()
 		xtra_range = re.sub("[\(\[].*?[\)\]]", "", xtra).strip()
-		dirt_shape = self.json['range']
+		dirty_shape = self.json['range']
 		# now for the main part of the function
 		if xtra_range == 'self':
 			self.range = 'self'
@@ -241,45 +241,97 @@ class ToolSpell(Spell):
 		- special
 		'''
 		xtra = self.xtra[self.name]['Range'].lower()
-		xtra_shape = ''.join(re.findall('\(.*?\)', xtra))
-		xtra_range = re.sub("[\(\[].*?[\)\]]", "", xtra)
-		dirt_shape = self.json['range']
-		print(xtra_shape)
-		print(dirt_shape)
+		xtra_shape = ''.join(re.findall('\(.*?\)', xtra)).strip()
+		xtra_range = re.sub("[\(\[].*?[\)\]]", "", xtra).strip()
+		dirty_shape = self.json['range']
 		print()
+		print(xtra_shape)
+		print(xtra_range)
+		print(dirty_shape)
+		print(self.name)
 		shape = "TODO"
+
+		# check for point
+		if dirty_shape['type'] == 'point':
+			if dirty_shape['distance']['type'] == 'self':
+				shape = 'point'
+			elif dirty_shape['distance']['type'] == 'touch':
+				shape = 'point'
+			elif dirty_shape['distance']['type'] == 'sight':
+				shape = 'point'
+			elif dirty_shape['distance']['type'] == 'unlimited':
+				shape = 'point'
+			elif dirty_shape['distance']['type'] == 'feet':
+				shape = 'point'
+			elif dirty_shape['distance']['type'] == 'mile':
+				shape = 'point'
+			elif dirty_shape['distance']['type'] == 'miles':
+				shape = 'point'
+			else:
+				raise
+		elif dirty_shape['type'] == 'radius' or dirty_shape['type'] == 'sphere' or dirty_shape['type'] == 'hemisphere':
+			if xtra_range == 'self':
+				shape = 'aura'
+			else:
+				raise
+		elif dirty_shape['type'] == 'cone':
+			shape = 'cone'
+		elif dirty_shape['type'] == 'special':
+			shape = 'special'
+		elif dirty_shape['type'] == 'line':
+			shape = 'line'
+		elif dirty_shape['type'] == 'cube':
+			shape = 'cone'
+		else:
+			raise
+
+		# if dirty_shape['type'] == 
+
+		# hooray, point is good!
 		if shape == 'point':
-			pass
+			self.area['shape'] = 'point'
+			self.area['radius'] = 0
+
+		# creature centered
 		elif shape == 'creature':
-			pass
+			self.area['shape'] = 'creature'
+
 		elif shape == 'sphere':
-			self.shape['radius'] = 0
-			pass
+			self.area['shape'] = 'sphere'
+			self.area['radius'] = 0
+
 		elif shape == 'aura':
-			self.shape['radius'] = 0
-			pass
+			self.area['shape'] = 'aura'
+			self.area['radius'] = 0
+
 		elif shape == 'cone':
-			self.shape['radius'] = 0
-			pass
+			self.area['shape'] = 'cone'
+			self.area['radius'] = 0
+
 		elif shape == 'cube':
-			self.shape['length'] = 0
-			pass
+			self.area['shape'] = 'cube'
+			self.area['length'] = 0
+
 		elif shape == 'line':
-			self.shape['length'] = 0
-			self.shape['width'] = 0
-			pass
+			self.area['shape'] = 'line'
+			self.area['length'] = 0
+			self.area['width'] = 0
+
 		elif shape == 'wall':
-			self.shape['radius'] = 0
-			self.shape['length'] = 0
-			self.shape['width'] = 0
-			self.shape['height'] = 0
-			pass
+			self.area['shape'] = 'wall'
+			self.area['radius'] = 0
+			self.area['length'] = 0
+			self.area['width'] = 0
+			self.area['height'] = 0
+
 		elif shape == 'cylinder':
-			self.shape['radius'] = 0
-			self.shape['height'] = 0
-			pass
+			self.area['shape'] = 'cylinder'
+			self.area['radius'] = 0
+			self.area['height'] = 0
+
 		elif shape == 'special':
-			pass
+			self.area['shape'] = 'special'
+
 		else:
 			raise
 
