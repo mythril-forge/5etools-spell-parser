@@ -1,0 +1,472 @@
+Name,Source,Level,Casting Time,School,Range
+Abi-Dalzim's Horrid Wilting,XGE,8th,Action,Necromancy,150 feet
+Absorb Elements,XGE,1st,Reaction,Abjuration,Self
+Acid Splash,PHB,Cantrip,Action,Conjuration,60 feet
+Aganazzar's Scorcher,XGE,2nd,Action,Evocation,30 feet
+Aid,PHB,2nd,Action,Abjuration,30 feet
+Alarm,PHB,1st,1 minute,Abjuration,30 feet
+Alter Self,PHB,2nd,Action,Transmutation,Self
+Animal Friendship,PHB,1st,Action,Enchantment,30 feet
+Animal Messenger,PHB,2nd,Action,Enchantment,30 feet
+Animal Shapes,PHB,8th,Action,Transmutation,30 feet
+Animate Dead,PHB,3rd,1 minute,Necromancy,10 feet
+Animate Objects,PHB,5th,Action,Transmutation,120 feet
+Antilife Shell,PHB,5th,Action,Abjuration,Self (10-foot radius)
+Antimagic Field,PHB,8th,Action,Abjuration,Self (10-foot radius)
+Antipathy/Sympathy,PHB,8th,1 hour,Enchantment,60 feet
+Arcane Eye,PHB,4th,Action,Divination,30 feet
+Arcane Gate,PHB,6th,Action,Conjuration,500 feet
+Arcane Lock,PHB,2nd,Action,Abjuration,Touch
+Armor of Agathys,PHB,1st,Action,Abjuration,Self
+Arms of Hadar,PHB,1st,Action,Conjuration,Self (10-foot radius)
+Astral Projection,PHB,9th,1 hour,Necromancy,10 feet
+Augury,PHB,2nd,1 minute,Divination,Self
+Aura of Life,PHB,4th,Action,Abjuration,Self (30-foot radius)
+Aura of Purity,PHB,4th,Action,Abjuration,Self (30-foot radius)
+Aura of Vitality,PHB,3rd,Action,Evocation,Self (30-foot radius)
+Awaken,PHB,5th,8 hours,Transmutation,Touch
+Bane,PHB,1st,Action,Enchantment,30 feet
+Banishing Smite,PHB,5th,Bonus acn.,Abjuration,Self
+Banishment,PHB,4th,Action,Abjuration,60 feet
+Barkskin,PHB,2nd,Action,Transmutation,Touch
+Beacon of Hope,PHB,3rd,Action,Abjuration,30 feet
+Beast Bond,XGE,1st,Action,Divination,Touch
+Beast Sense,PHB,2nd,Action,Divination,Touch
+Bestow Curse,PHB,3rd,Action,Necromancy,Touch
+Bigby's Hand,PHB,5th,Action,Evocation,120 feet
+Blade Barrier,PHB,6th,Action,Evocation,90 feet
+Blade Ward,PHB,Cantrip,Action,Abjuration,Self
+Bless,PHB,1st,Action,Enchantment,30 feet
+Blight,PHB,4th,Action,Necromancy,30 feet
+Blinding Smite,PHB,3rd,Bonus acn.,Evocation,Self
+Blindness/Deafness,PHB,2nd,Action,Necromancy,30 feet
+Blink,PHB,3rd,Action,Transmutation,Self
+Blur,PHB,2nd,Action,Illusion,Self
+Bones of the Earth,XGE,6th,Action,Transmutation,120 feet
+Booming Blade,SCAG,Cantrip,Action,Evocation,5 feet
+Branding Smite,PHB,2nd,Bonus acn.,Evocation,Self
+Burning Hands,PHB,1st,Action,Evocation,Self (15-foot cone)
+Call Lightning,PHB,3rd,Action,Conjuration,120 feet
+Calm Emotions,PHB,2nd,Action,Enchantment,60 feet
+Catapult,XGE,1st,Action,Transmutation,60 feet
+Catnap,XGE,3rd,Action,Enchantment,30 feet
+Cause Fear,XGE,1st,Action,Necromancy,60 feet
+Ceremony,XGE,1st,1 hour,Abjuration,Touch
+Chain Lightning,PHB,6th,Action,Evocation,150 feet
+Chaos Bolt,XGE,1st,Action,Evocation,120 feet
+Charm Monster,XGE,4th,Action,Enchantment,30 feet
+Charm Person,PHB,1st,Action,Enchantment,30 feet
+Chill Touch,PHB,Cantrip,Action,Necromancy,120 feet
+Chromatic Orb,PHB,1st,Action,Evocation,90 feet
+Circle of Death,PHB,6th,Action,Necromancy,150 feet
+Circle of Power,PHB,5th,Action,Abjuration,Self (30-foot radius)
+Clairvoyance,PHB,3rd,10 minutes,Divination,1 mile
+Clone,PHB,8th,1 hour,Necromancy,Touch
+Cloud of Daggers,PHB,2nd,Action,Conjuration,60 feet
+Cloudkill,PHB,5th,Action,Conjuration,120 feet
+Color Spray,PHB,1st,Action,Illusion,Self (15-foot cone)
+Command,PHB,1st,Action,Enchantment,60 feet
+Commune,PHB,5th,1 minute,Divination,Self
+Commune with Nature,PHB,5th,1 minute,Divination,Self
+Compelled Duel,PHB,1st,Bonus acn.,Enchantment,30 feet
+Comprehend Languages,PHB,1st,Action,Divination,Self
+Compulsion,PHB,4th,Action,Enchantment,30 feet
+Cone of Cold,PHB,5th,Action,Evocation,Self (60-foot cone)
+Confusion,PHB,4th,Action,Enchantment,90 feet
+Conjure Animals,PHB,3rd,Action,Conjuration,60 feet
+Conjure Barrage,PHB,3rd,Action,Conjuration,Self (60-foot cone)
+Conjure Celestial,PHB,7th,1 minute,Conjuration,90 feet
+Conjure Elemental,PHB,5th,1 minute,Conjuration,90 feet
+Conjure Fey,PHB,6th,1 minute,Conjuration,90 feet
+Conjure Minor Elementals,PHB,4th,1 minute,Conjuration,90 feet
+Conjure Volley,PHB,5th,Action,Conjuration,150 feet
+Conjure Woodland Beings,PHB,4th,Action,Conjuration,60 feet
+Contact Other Plane,PHB,5th,1 minute,Divination,Self
+Contagion,PHB,5th,Action,Necromancy,Touch
+Contingency,PHB,6th,10 minutes,Evocation,Self
+Continual Flame,PHB,2nd,Action,Evocation,Touch
+Control Flames,XGE,Cantrip,Action,Transmutation,60 feet
+Control Water,PHB,4th,Action,Transmutation,300 feet
+Control Weather,PHB,8th,10 minutes,Transmutation,Self (5-mile radius)
+Control Winds,XGE,5th,Action,Transmutation,300 feet
+Cordon of Arrows,PHB,2nd,Action,Transmutation,5 feet
+Counterspell,PHB,3rd,Reaction,Abjuration,60 feet
+Create Bonfire,XGE,Cantrip,Action,Conjuration,60 feet
+Create Food and Water,PHB,3rd,Action,Conjuration,30 feet
+Create Homunculus,XGE,6th,1 hour,Transmutation,Touch
+Create Undead,PHB,6th,1 minute,Necromancy,10 feet
+Create or Destroy Water,PHB,1st,Action,Transmutation,30 feet
+Creation,PHB,5th,1 minute,Illusion,30 feet
+Crown of Madness,PHB,2nd,Action,Enchantment,120 feet
+Crown of Stars,XGE,7th,Action,Evocation,Self
+Crusader's Mantle,PHB,3rd,Action,Evocation,Self (30-foot radius)
+Cure Wounds,PHB,1st,Action,Evocation,Touch
+Dancing Lights,PHB,Cantrip,Action,Evocation,120 feet
+Danse Macabre,XGE,5th,Action,Necromancy,60 feet
+Darkness,PHB,2nd,Action,Evocation,60 feet
+Darkvision,PHB,2nd,Action,Transmutation,Touch
+Dawn,XGE,5th,Action,Evocation,60 feet
+Daylight,PHB,3rd,Action,Evocation,60 feet
+Death Ward,PHB,4th,Action,Abjuration,Touch
+Delayed Blast Fireball,PHB,7th,Action,Evocation,150 feet
+Demiplane,PHB,8th,Action,Conjuration,60 feet
+Destructive Wave,PHB,5th,Action,Evocation,Self (30-foot radius)
+Detect Evil and Good,PHB,1st,Action,Divination,Self
+Detect Magic,PHB,1st,Action,Divination,Self
+Detect Poison and Disease,PHB,1st,Action,Divination,Self
+Detect Thoughts,PHB,2nd,Action,Divination,Self
+Dimension Door,PHB,4th,Action,Conjuration,500 feet
+Disguise Self,PHB,1st,Action,Illusion,Self
+Disintegrate,PHB,6th,Action,Transmutation,60 feet
+Dispel Evil and Good,PHB,5th,Action,Abjuration,Self
+Dispel Magic,PHB,3rd,Action,Abjuration,120 feet
+Dissonant Whispers,PHB,1st,Action,Enchantment,60 feet
+Distort Value,AI,1st,1 minute,Illusion,Touch
+Divination,PHB,4th,Action,Divination,Self
+Divine Favor,PHB,1st,Bonus acn.,Evocation,Self
+Divine Word,PHB,7th,Bonus acn.,Evocation,30 feet
+Dominate Beast,PHB,4th,Action,Enchantment,60 feet
+Dominate Monster,PHB,8th,Action,Enchantment,60 feet
+Dominate Person,PHB,5th,Action,Enchantment,60 feet
+Dragon's Breath,XGE,2nd,Bonus acn.,Transmutation,Touch
+Drawmij's Instant Summons,PHB,6th,1 minute,Conjuration,Touch
+Dream,PHB,5th,1 minute,Illusion,Special
+Druid Grove,XGE,6th,10 minutes,Abjuration,Touch
+Druidcraft,PHB,Cantrip,Action,Transmutation,30 feet
+Dust Devil,XGE,2nd,Action,Conjuration,60 feet
+Earth Tremor,XGE,1st,Action,Evocation,10 feet
+Earthbind,XGE,2nd,Action,Transmutation,300 feet
+Earthquake,PHB,8th,Action,Evocation,500 feet
+Eldritch Blast,PHB,Cantrip,Action,Evocation,120 feet
+Elemental Bane,XGE,4th,Action,Transmutation,90 feet
+Elemental Weapon,PHB,3rd,Action,Transmutation,Touch
+Encode Thoughts,GGR,Cantrip,Action,Enchantment,Self
+Enemies Abound,XGE,3rd,Action,Enchantment,120 feet
+Enervation,XGE,5th,Action,Necromancy,60 feet
+Enhance Ability,PHB,2nd,Action,Transmutation,Touch
+Enlarge/Reduce,PHB,2nd,Action,Transmutation,30 feet
+Ensnaring Strike,PHB,1st,Bonus acn.,Conjuration,Self
+Entangle,PHB,1st,Action,Conjuration,90 feet
+Enthrall,PHB,2nd,Action,Enchantment,60 feet
+Erupting Earth,XGE,3rd,Action,Transmutation,120 feet
+Etherealness,PHB,7th,Action,Transmutation,Self
+Evard's Black Tentacles,PHB,4th,Action,Conjuration,90 feet
+Expeditious Retreat,PHB,1st,Bonus acn.,Transmutation,Self
+Eyebite,PHB,6th,Action,Necromancy,Self
+Fabricate,PHB,4th,10 minutes,Transmutation,120 feet
+Faerie Fire,PHB,1st,Action,Evocation,60 feet
+False Life,PHB,1st,Action,Necromancy,Self
+Far Step,XGE,5th,Bonus acn.,Conjuration,Self
+Fast Friends,AI,3rd,Action,Enchantment,30 feet
+Fear,PHB,3rd,Action,Illusion,Self (30-foot cone)
+Feather Fall,PHB,1st,Reaction,Transmutation,60 feet
+Feeblemind,PHB,8th,Action,Enchantment,150 feet
+Feign Death,PHB,3rd,Action,Necromancy,Touch
+Find Familiar,PHB,1st,1 hour,Conjuration,10 feet
+Find Greater Steed,XGE,4th,10 minutes,Conjuration,30 feet
+Find Steed,PHB,2nd,10 minutes,Conjuration,30 feet
+Find Traps,PHB,2nd,Action,Divination,120 feet
+Find the Path,PHB,6th,1 minute,Divination,Self
+Finger of Death,PHB,7th,Action,Necromancy,60 feet
+Fire Bolt,PHB,Cantrip,Action,Evocation,120 feet
+Fire Shield,PHB,4th,Action,Evocation,Self
+Fire Storm,PHB,7th,Action,Evocation,150 feet
+Fireball,PHB,3rd,Action,Evocation,150 feet
+Flame Arrows,XGE,3rd,Action,Transmutation,Touch
+Flame Blade,PHB,2nd,Bonus acn.,Evocation,Self
+Flame Strike,PHB,5th,Action,Evocation,60 feet
+Flaming Sphere,PHB,2nd,Action,Conjuration,60 feet
+Flesh to Stone,PHB,6th,Action,Transmutation,60 feet
+Flock of Familiars,LLK,2nd,1 minute,Conjuration,Touch
+Fly,PHB,3rd,Action,Transmutation,Touch
+Fog Cloud,PHB,1st,Action,Conjuration,120 feet
+Forbiddance,PHB,6th,10 minutes,Abjuration,Touch
+Forcecage,PHB,7th,Action,Evocation,100 feet
+Foresight,PHB,9th,1 minute,Divination,Touch
+Freedom of Movement,PHB,4th,Action,Abjuration,Touch
+Friends,PHB,Cantrip,Action,Enchantment,Self
+Frostbite,XGE,Cantrip,Action,Evocation,60 feet
+Galder's Speedy Courier,LLK,4th,Action,Conjuration,10 feet
+Galder's Tower,LLK,3rd,10 minutes,Conjuration,30 feet
+Gaseous Form,PHB,3rd,Action,Transmutation,Touch
+Gate,PHB,9th,Action,Conjuration,60 feet
+Geas,PHB,5th,1 minute,Enchantment,60 feet
+Gentle Repose,PHB,2nd,Action,Necromancy,Touch
+Giant Insect,PHB,4th,Action,Transmutation,30 feet
+Gift of Gab,AI,2nd,Reaction,Enchantment,Self
+Glibness,PHB,8th,Action,Transmutation,Self
+Globe of Invulnerability,PHB,6th,Action,Abjuration,Self (10-foot radius)
+Glyph of Warding,PHB,3rd,1 hour,Abjuration,Touch
+Goodberry,PHB,1st,Action,Transmutation,Touch
+Grasping Vine,PHB,4th,Bonus acn.,Conjuration,30 feet
+Grease,PHB,1st,Action,Conjuration,60 feet
+Greater Invisibility,PHB,4th,Action,Illusion,Touch
+Greater Restoration,PHB,5th,Action,Abjuration,Touch
+Green-Flame Blade,SCAG,Cantrip,Action,Evocation,5 feet
+Guardian of Faith,PHB,4th,Action,Conjuration,30 feet
+Guardian of Nature,XGE,4th,Bonus acn.,Transmutation,Self
+Guards and Wards,PHB,6th,10 minutes,Abjuration,Touch
+Guidance,PHB,Cantrip,Action,Divination,Touch
+Guiding Bolt,PHB,1st,Action,Evocation,120 feet
+Gust,XGE,Cantrip,Action,Transmutation,30 feet
+Gust of Wind,PHB,2nd,Action,Evocation,Self (60-foot line)
+Hail of Thorns,PHB,1st,Bonus acn.,Conjuration,Self
+Hallow,PHB,5th,24 hours,Evocation,Touch
+Hallucinatory Terrain,PHB,4th,10 minutes,Illusion,300 feet
+Harm,PHB,6th,Action,Necromancy,60 feet
+Haste,PHB,3rd,Action,Transmutation,30 feet
+Heal,PHB,6th,Action,Evocation,60 feet
+Healing Spirit,XGE,2nd,Bonus acn.,Conjuration,60 feet
+Healing Word,PHB,1st,Bonus acn.,Evocation,60 feet
+Heat Metal,PHB,2nd,Action,Transmutation,60 feet
+Hellish Rebuke,PHB,1st,Reaction,Evocation,60 feet
+Heroes' Feast,PHB,6th,10 minutes,Conjuration,30 feet
+Heroism,PHB,1st,Action,Enchantment,Touch
+Hex,PHB,1st,Bonus acn.,Enchantment,90 feet
+Hold Monster,PHB,5th,Action,Enchantment,90 feet
+Hold Person,PHB,2nd,Action,Enchantment,60 feet
+Holy Aura,PHB,8th,Action,Abjuration,Self
+Holy Weapon,XGE,5th,Bonus acn.,Evocation,Touch
+Hunger of Hadar,PHB,3rd,Action,Conjuration,150 feet
+Hunter's Mark,PHB,1st,Bonus acn.,Divination,90 feet
+Hypnotic Pattern,PHB,3rd,Action,Illusion,120 feet
+Ice Knife,XGE,1st,Action,Conjuration,60 feet
+Ice Storm,PHB,4th,Action,Evocation,300 feet
+Identify,PHB,1st,1 minute,Divination,Touch
+Illusory Dragon,XGE,8th,Action,Illusion,120 feet
+Illusory Script,PHB,1st,1 minute,Illusion,Touch
+Immolation,XGE,5th,Action,Evocation,90 feet
+Imprisonment,PHB,9th,1 minute,Abjuration,30 feet
+Incendiary Cloud,PHB,8th,Action,Conjuration,150 feet
+Incite Greed,AI,3rd,Action,Enchantment,30 feet
+Infernal Calling,XGE,5th,1 minute,Conjuration,90 feet
+Infestation,XGE,Cantrip,Action,Conjuration,30 feet
+Inflict Wounds,PHB,1st,Action,Necromancy,Touch
+Insect Plague,PHB,5th,Action,Conjuration,300 feet
+Investiture of Flame,XGE,6th,Action,Transmutation,Self
+Investiture of Ice,XGE,6th,Action,Transmutation,Self
+Investiture of Stone,XGE,6th,Action,Transmutation,Self
+Investiture of Wind,XGE,6th,Action,Transmutation,Self
+Invisibility,PHB,2nd,Action,Illusion,Touch
+Invulnerability,XGE,9th,Action,Abjuration,Self
+Jim's Glowing Coin,AI,2nd,Action,Enchantment,60 feet
+Jim's Magic Missile,AI,1st,Action,Evocation,120 feet
+Jump,PHB,1st,Action,Transmutation,Touch
+Knock,PHB,2nd,Action,Transmutation,60 feet
+Legend Lore,PHB,5th,10 minutes,Divination,Self
+Leomund's Secret Chest,PHB,4th,Action,Conjuration,Touch
+Leomund's Tiny Hut,PHB,3rd,1 minute,Evocation,Self (10-foot-radius hemisphere)
+Lesser Restoration,PHB,2nd,Action,Abjuration,Touch
+Levitate,PHB,2nd,Action,Transmutation,60 feet
+Life Transference,XGE,3rd,Action,Necromancy,30 feet
+Light,PHB,Cantrip,Action,Evocation,Touch
+Lightning Arrow,PHB,3rd,Bonus acn.,Transmutation,Self
+Lightning Bolt,PHB,3rd,Action,Evocation,Self (100-foot line)
+Lightning Lure,SCAG,Cantrip,Action,Evocation,15 feet
+Locate Animals or Plants,PHB,2nd,Action,Divination,Self
+Locate Creature,PHB,4th,Action,Divination,Self
+Locate Object,PHB,2nd,Action,Divination,Self
+Longstrider,PHB,1st,Action,Transmutation,Touch
+Maddening Darkness,XGE,8th,Action,Evocation,150 feet
+Maelstrom,XGE,5th,Action,Evocation,120 feet
+Mage Armor,PHB,1st,Action,Abjuration,Touch
+Mage Hand,PHB,Cantrip,Action,Conjuration,30 feet
+Magic Circle,PHB,3rd,1 minute,Abjuration,10 feet
+Magic Jar,PHB,6th,1 minute,Necromancy,Self
+Magic Missile,PHB,1st,Action,Evocation,120 feet
+Magic Mouth,PHB,2nd,1 minute,Illusion,30 feet
+Magic Stone,XGE,Cantrip,Bonus acn.,Transmutation,Touch
+Magic Weapon,PHB,2nd,Bonus acn.,Transmutation,Touch
+Major Image,PHB,3rd,Action,Illusion,120 feet
+Mass Cure Wounds,PHB,5th,Action,Evocation,60 feet
+Mass Heal,PHB,9th,Action,Evocation,60 feet
+Mass Healing Word,PHB,3rd,Bonus acn.,Evocation,60 feet
+Mass Polymorph,XGE,9th,Action,Transmutation,120 feet
+Mass Suggestion,PHB,6th,Action,Enchantment,60 feet
+Maximilian's Earthen Grasp,XGE,2nd,Action,Transmutation,30 feet
+Maze,PHB,8th,Action,Conjuration,60 feet
+Meld into Stone,PHB,3rd,Action,Transmutation,Touch
+Melf's Acid Arrow,PHB,2nd,Action,Evocation,90 feet
+Melf's Minute Meteors,XGE,3rd,Action,Evocation,Self
+Mending,PHB,Cantrip,1 minute,Transmutation,Touch
+Mental Prison,XGE,6th,Action,Illusion,60 feet
+Message,PHB,Cantrip,Action,Transmutation,120 feet
+Meteor Swarm,PHB,9th,Action,Evocation,1 mile
+Mighty Fortress,XGE,8th,1 minute,Conjuration,1 mile
+Mind Blank,PHB,8th,Action,Abjuration,Touch
+Mind Spike,XGE,2nd,Action,Divination,60 feet
+Minor Illusion,PHB,Cantrip,Action,Illusion,30 feet
+Mirage Arcane,PHB,7th,10 minutes,Illusion,Sight
+Mirror Image,PHB,2nd,Action,Illusion,Self
+Mislead,PHB,5th,Action,Illusion,Self
+Misty Step,PHB,2nd,Bonus acn.,Conjuration,Self
+Modify Memory,PHB,5th,Action,Enchantment,30 feet
+Mold Earth,XGE,Cantrip,Action,Transmutation,30 feet
+Moonbeam,PHB,2nd,Action,Evocation,120 feet
+Mordenkainen's Faithful Hound,PHB,4th,Action,Conjuration,30 feet
+Mordenkainen's Magnificent Mansion,PHB,7th,1 minute,Conjuration,300 feet
+Mordenkainen's Private Sanctum,PHB,4th,10 minutes,Abjuration,120 feet
+Mordenkainen's Sword,PHB,7th,Action,Evocation,60 feet
+Motivational Speech,AI,3rd,1 minute,Enchantment,60 feet
+Move Earth,PHB,6th,Action,Transmutation,120 feet
+Negative Energy Flood,XGE,5th,Action,Necromancy,60 feet
+Nondetection,PHB,3rd,Action,Abjuration,Touch
+Nystul's Magic Aura,PHB,2nd,Action,Illusion,Touch
+Otiluke's Freezing Sphere,PHB,6th,Action,Evocation,300 feet
+Otiluke's Resilient Sphere,PHB,4th,Action,Evocation,30 feet
+Otto's Irresistible Dance,PHB,6th,Action,Enchantment,30 feet
+Pass without Trace,PHB,2nd,Action,Abjuration,Self
+Passwall,PHB,5th,Action,Transmutation,30 feet
+Phantasmal Force,PHB,2nd,Action,Illusion,60 feet
+Phantasmal Killer,PHB,4th,Action,Illusion,120 feet
+Phantom Steed,PHB,3rd,1 minute,Illusion,30 feet
+Planar Ally,PHB,6th,10 minutes,Conjuration,60 feet
+Planar Binding,PHB,5th,1 hour,Abjuration,60 feet
+Plane Shift,PHB,7th,Action,Conjuration,Touch
+Plant Growth,PHB,3rd,Action,Transmutation,150 feet
+Poison Spray,PHB,Cantrip,Action,Conjuration,10 feet
+Polymorph,PHB,4th,Action,Transmutation,60 feet
+Power Word Heal,PHB,9th,Action,Evocation,Touch
+Power Word Kill,PHB,9th,Action,Enchantment,60 feet
+Power Word Pain,XGE,7th,Action,Enchantment,60 feet
+Power Word Stun,PHB,8th,Action,Enchantment,60 feet
+Prayer of Healing,PHB,2nd,10 minutes,Evocation,30 feet
+Prestidigitation,PHB,Cantrip,Action,Transmutation,10 feet
+Primal Savagery,XGE,Cantrip,Action,Transmutation,Self
+Primordial Ward,XGE,6th,Action,Abjuration,Self
+Prismatic Spray,PHB,7th,Action,Evocation,Self (60-foot cone)
+Prismatic Wall,PHB,9th,Action,Abjuration,60 feet
+Produce Flame,PHB,Cantrip,Action,Conjuration,Self
+Programmed Illusion,PHB,6th,Action,Illusion,120 feet
+Project Image,PHB,7th,Action,Illusion,500 miles
+Protection from Energy,PHB,3rd,Action,Abjuration,Touch
+Protection from Evil and Good,PHB,1st,Action,Abjuration,Touch
+Protection from Poison,PHB,2nd,Action,Abjuration,Touch
+Psychic Scream,XGE,9th,Action,Enchantment,90 feet
+Purify Food and Drink,PHB,1st,Action,Transmutation,10 feet
+Pyrotechnics,XGE,2nd,Action,Transmutation,60 feet
+Raise Dead,PHB,5th,1 hour,Necromancy,Touch
+Rary's Telepathic Bond,PHB,5th,Action,Divination,30 feet
+Ray of Enfeeblement,PHB,2nd,Action,Necromancy,60 feet
+Ray of Frost,PHB,Cantrip,Action,Evocation,60 feet
+Ray of Sickness,PHB,1st,Action,Necromancy,60 feet
+Regenerate,PHB,7th,1 minute,Transmutation,Touch
+Reincarnate,PHB,5th,1 hour,Transmutation,Touch
+Remove Curse,PHB,3rd,Action,Abjuration,Touch
+Resistance,PHB,Cantrip,Action,Abjuration,Touch
+Resurrection,PHB,7th,1 hour,Necromancy,Touch
+Reverse Gravity,PHB,7th,Action,Transmutation,100 feet
+Revivify,PHB,3rd,Action,Necromancy,Touch
+Rope Trick,PHB,2nd,Action,Transmutation,Touch
+Sacred Flame,PHB,Cantrip,Action,Evocation,60 feet
+Sanctuary,PHB,1st,Bonus acn.,Abjuration,30 feet
+Scatter,XGE,6th,Action,Conjuration,30 feet
+Scorching Ray,PHB,2nd,Action,Evocation,120 feet
+Scrying,PHB,5th,10 minutes,Divination,Self
+Searing Smite,PHB,1st,Bonus acn.,Evocation,Self
+See Invisibility,PHB,2nd,Action,Divination,Self
+Seeming,PHB,5th,Action,Illusion,30 feet
+Sending,PHB,3rd,Action,Evocation,Unlimited
+Sequester,PHB,7th,Action,Transmutation,Touch
+Shadow Blade,XGE,2nd,Bonus acn.,Illusion,Self
+Shadow of Moil,XGE,4th,Action,Necromancy,Self
+Shape Water,XGE,Cantrip,Action,Transmutation,30 feet
+Shapechange,PHB,9th,Action,Transmutation,Self
+Shatter,PHB,2nd,Action,Evocation,60 feet
+Shield,PHB,1st,Reaction,Abjuration,Self
+Shield of Faith,PHB,1st,Bonus acn.,Abjuration,60 feet
+Shillelagh,PHB,Cantrip,Bonus acn.,Transmutation,Touch
+Shocking Grasp,PHB,Cantrip,Action,Evocation,Touch
+Sickening Radiance,XGE,4th,Action,Evocation,120 feet
+Silence,PHB,2nd,Action,Illusion,120 feet
+Silent Image,PHB,1st,Action,Illusion,60 feet
+Simulacrum,PHB,7th,12 hours,Illusion,Touch
+Skill Empowerment,XGE,5th,Action,Transmutation,Touch
+Skywrite,XGE,2nd,Action,Transmutation,Sight
+Sleep,PHB,1st,Action,Enchantment,90 feet
+Sleet Storm,PHB,3rd,Action,Conjuration,150 feet
+Slow,PHB,3rd,Action,Transmutation,120 feet
+Snare,XGE,1st,1 minute,Abjuration,Touch
+Snilloc's Snowball Swarm,XGE,2nd,Action,Evocation,90 feet
+Soul Cage,XGE,6th,Reaction,Necromancy,60 feet
+Spare the Dying,PHB,Cantrip,Action,Necromancy,Touch
+Speak with Animals,PHB,1st,Action,Divination,Self
+Speak with Dead,PHB,3rd,Action,Necromancy,10 feet
+Speak with Plants,PHB,3rd,Action,Transmutation,Self (30-foot radius)
+Spider Climb,PHB,2nd,Action,Transmutation,Touch
+Spike Growth,PHB,2nd,Action,Transmutation,150 feet
+Spirit Guardians,PHB,3rd,Action,Conjuration,Self (15-foot radius)
+Spiritual Weapon,PHB,2nd,Bonus acn.,Evocation,60 feet
+Staggering Smite,PHB,4th,Bonus acn.,Evocation,Self
+Steel Wind Strike,XGE,5th,Action,Conjuration,30 feet
+Stinking Cloud,PHB,3rd,Action,Conjuration,90 feet
+Stone Shape,PHB,4th,Action,Transmutation,Touch
+Stoneskin,PHB,4th,Action,Abjuration,Touch
+Storm Sphere,XGE,4th,Action,Evocation,150 feet
+Storm of Vengeance,PHB,9th,Action,Conjuration,Sight
+Suggestion,PHB,2nd,Action,Enchantment,30 feet
+Summon Greater Demon,XGE,4th,Action,Conjuration,60 feet
+Summon Lesser Demons,XGE,3rd,Action,Conjuration,60 feet
+Sunbeam,PHB,6th,Action,Evocation,Self (60-foot line)
+Sunburst,PHB,8th,Action,Evocation,150 feet
+Swift Quiver,PHB,5th,Bonus acn.,Transmutation,Touch
+Sword Burst,SCAG,Cantrip,Action,Conjuration,5 feet
+Symbol,PHB,7th,1 minute,Abjuration,Touch
+Synaptic Static,XGE,5th,Action,Enchantment,120 feet
+Tasha's Hideous Laughter,PHB,1st,Action,Enchantment,30 feet
+Telekinesis,PHB,5th,Action,Transmutation,60 feet
+Telepathy,PHB,8th,Action,Evocation,Unlimited
+Teleport,PHB,7th,Action,Conjuration,10 feet
+Teleportation Circle,PHB,5th,1 minute,Conjuration,10 feet
+Temple of the Gods,XGE,7th,1 hour,Conjuration,120 feet
+Tenser's Floating Disk,PHB,1st,Action,Conjuration,30 feet
+Tenser's Transformation,XGE,6th,Action,Transmutation,Self
+Thaumaturgy,PHB,Cantrip,Action,Transmutation,30 feet
+Thorn Whip,PHB,Cantrip,Action,Transmutation,30 feet
+Thunder Step,XGE,3rd,Action,Conjuration,90 feet
+Thunderclap,XGE,Cantrip,Action,Evocation,5 feet
+Thunderous Smite,PHB,1st,Bonus acn.,Evocation,Self
+Thunderwave,PHB,1st,Action,Evocation,Self (15-foot cube)
+Tidal Wave,XGE,3rd,Action,Conjuration,120 feet
+Time Stop,PHB,9th,Action,Transmutation,Self
+Tiny Servant,XGE,3rd,1 minute,Transmutation,Touch
+Toll the Dead,XGE,Cantrip,Action,Necromancy,60 feet
+Tongues,PHB,3rd,Action,Divination,Touch
+Transmute Rock,XGE,5th,Action,Transmutation,120 feet
+Transport via Plants,PHB,6th,Action,Conjuration,10 feet
+Tree Stride,PHB,5th,Action,Conjuration,Self
+True Polymorph,PHB,9th,Action,Transmutation,30 feet
+True Resurrection,PHB,9th,1 hour,Necromancy,Touch
+True Seeing,PHB,6th,Action,Divination,Touch
+True Strike,PHB,Cantrip,Action,Divination,30 feet
+Tsunami,PHB,8th,1 minute,Conjuration,Sight
+Unseen Servant,PHB,1st,Action,Conjuration,60 feet
+Vampiric Touch,PHB,3rd,Action,Necromancy,Self
+Vicious Mockery,PHB,Cantrip,Action,Enchantment,60 feet
+Vitriolic Sphere,XGE,4th,Action,Evocation,150 feet
+Wall of Fire,PHB,4th,Action,Evocation,120 feet
+Wall of Force,PHB,5th,Action,Evocation,120 feet
+Wall of Ice,PHB,6th,Action,Evocation,120 feet
+Wall of Light,XGE,5th,Action,Evocation,120 feet
+Wall of Sand,XGE,3rd,Action,Evocation,90 feet
+Wall of Stone,PHB,5th,Action,Evocation,120 feet
+Wall of Thorns,PHB,6th,Action,Conjuration,120 feet
+Wall of Water,XGE,3rd,Action,Evocation,60 feet
+Warding Bond,PHB,2nd,Action,Abjuration,Touch
+Warding Wind,XGE,2nd,Action,Evocation,Self
+Water Breathing,PHB,3rd,Action,Transmutation,30 feet
+Water Walk,PHB,3rd,Action,Transmutation,30 feet
+Watery Sphere,XGE,4th,Action,Conjuration,90 feet
+Web,PHB,2nd,Action,Conjuration,60 feet
+Weird,PHB,9th,Action,Illusion,120 feet
+Whirlwind,XGE,7th,Action,Evocation,300 feet
+Wind Walk,PHB,6th,1 minute,Transmutation,30 feet
+Wind Wall,PHB,3rd,Action,Evocation,120 feet
+Wish,PHB,9th,Action,Conjuration,Self
+Witch Bolt,PHB,1st,Action,Evocation,30 feet
+Word of Radiance,XGE,Cantrip,Action,Evocation,5 feet
+Word of Recall,PHB,6th,Action,Conjuration,5 feet
+Wrath of Nature,XGE,5th,Action,Evocation,120 feet
+Wrathful Smite,PHB,1st,Bonus acn.,Evocation,Self
+Zephyr Strike,XGE,1st,Bonus acn.,Transmutation,Self
+Zone of Truth,PHB,2nd,Action,Enchantment,60 feet
