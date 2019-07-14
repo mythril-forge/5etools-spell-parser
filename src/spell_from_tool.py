@@ -9,8 +9,13 @@ class ToolSpell(Spell):
 	"ToolSpell()" grabs spell data from 5etools.
 	This data can be found on their github repo.
 	'''
-	def __init__(self, json):
+	def __init__(self, json, json_xtra):
 		super().__init__(json)
+		# this is upsetting, but needed for now.
+		# somehow, the shape is not specified in the json.
+		# example: we need to know certain info about fireball.
+		# fireball is 150ft range, but also 20ft radius AoE.
+		self.xtra = json_xtra
 		# finally, get everything
 		self.get() # very important!
 
@@ -95,7 +100,7 @@ class ToolSpell(Spell):
 		elif mark == 'v':
 			school = 'evocation'
 		else:
-			raise
+			raise Exception(self.name)
 		# apply the school result
 		self.school = school
 
@@ -134,9 +139,9 @@ class ToolSpell(Spell):
 			elif time['unit'] == 'day':
 				self.cast_time['seconds'] = time['number'] * 86400
 			else:
-				raise
+				raise Exception(self.name)
 		else:
-			raise
+			raise Exception(self.name)
 
 	def get_duration(self):
 		
@@ -188,10 +193,95 @@ class ToolSpell(Spell):
 		pass ### TODO
 
 	def get_range(self):
-		pass ### TODO
+		'''
+		origin ranges come in all shapes and sizes.
+		- self
+		- touch
+		- number of feet
+		- unlimited
+		- special
+		'''
+		xtra = self.xtra[self.name]['Range'].lower()
+		xtra_shape = ''.join(re.findall('\(.*?\)', xtra)).strip()
+		xtra_range = re.sub("[\(\[].*?[\)\]]", "", xtra).strip()
+		dirt_shape = self.json['range']
+		# now for the main part of the function
+		if xtra_range == 'self':
+			self.range = 'self'
+		elif xtra_range == 'touch':
+			self.range = 'touch'
+		elif xtra_range == 'unlimited' or xtra_range == 'sight':
+			self.range = 'indefinate'
+		elif xtra_range == 'special':
+			self.range = 'special'
+		elif 'feet' in xtra_range:
+			self.range = int(xtra_range.replace(' feet',''))
+		elif 'miles' in xtra_range:
+			self.range = int(xtra_range.replace(' miles','')) * 5280
+		elif 'mile' in xtra_range:
+			self.range = int(xtra_range.replace(' mile','')) * 5280
+		else:
+			raise Exception(self.name)
 
 	def get_area(self):
-		pass ### TODO
+		'''
+		unfortunately we need to call a secondary api for this.
+		we are using extracted data from elsewhere; "xtra"
+		---
+		areas come in all shapes and sizes.
+		- point
+		- ~~creature~~
+		- sphere
+		- aura
+		- cone
+		- cube
+		- line
+		- wall
+		- cylinder
+		- special
+		'''
+		xtra = self.xtra[self.name]['Range'].lower()
+		xtra_shape = ''.join(re.findall('\(.*?\)', xtra))
+		xtra_range = re.sub("[\(\[].*?[\)\]]", "", xtra)
+		dirt_shape = self.json['range']
+		print(xtra_shape)
+		print(dirt_shape)
+		print()
+		shape = "TODO"
+		if shape == 'point':
+			pass
+		elif shape == 'creature':
+			pass
+		elif shape == 'sphere':
+			self.shape['radius'] = 0
+			pass
+		elif shape == 'aura':
+			self.shape['radius'] = 0
+			pass
+		elif shape == 'cone':
+			self.shape['radius'] = 0
+			pass
+		elif shape == 'cube':
+			self.shape['length'] = 0
+			pass
+		elif shape == 'line':
+			self.shape['length'] = 0
+			self.shape['width'] = 0
+			pass
+		elif shape == 'wall':
+			self.shape['radius'] = 0
+			self.shape['length'] = 0
+			self.shape['width'] = 0
+			self.shape['height'] = 0
+			pass
+		elif shape == 'cylinder':
+			self.shape['radius'] = 0
+			self.shape['height'] = 0
+			pass
+		elif shape == 'special':
+			pass
+		else:
+			raise
 
 	def get_tags(self):
 		self.tags = {

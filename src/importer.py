@@ -1,3 +1,4 @@
+import json
 import requests
 from spell_from_tool import ToolSpell
 
@@ -15,11 +16,17 @@ SOURCE = {
 	"UAThatOldBlackMagic": "spells-ua-tobm.json",
 	"XGE": "spells-xge.json"
 }
-SOURCE_DATA = requests.get(f'{URL}{SOURCE["PHB"]}').json()
 
 if __name__ == '__main__':
 	print(f'getting data from {"".join([URL, SOURCE["PHB"]])}')
+
+	XTRA_DATA = ''
+	with open('spells_area.json', 'r') as file:
+		XTRA_DATA = json.load(file)
+
+	SOURCE_DATA = requests.get(f'{URL}{SOURCE["PHB"]}').json()
+
 	for spell_data in SOURCE_DATA['spell']:
-		Spell = ToolSpell(spell_data)
+		Spell = ToolSpell(spell_data, XTRA_DATA)
 		with open(Spell.path, 'w+') as file:
 			file.write(Spell.markdown)
