@@ -20,7 +20,7 @@ class Spell:
 		self.name = None
 		self.slug = None
 		self.path = None
-		self.TEMP_BOOK = 'phb' # FIXME
+		self.source = None
 		self.level = None
 		self.school = None
 
