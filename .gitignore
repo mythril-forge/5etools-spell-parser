@@ -1,4 +1,14 @@
 .DS_Store
-./phb
-./scag
 __pycache__/
+# Generated Folders
+AI/
+GGR/
+LLK/
+PHB/
+SCAG/
+Stream/
+UAArtificerRevisited/
+UAModernMagic/
+UAStarterSpells/
+UAThatOldBlackMagic/
+XGE/

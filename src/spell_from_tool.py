@@ -9,13 +9,14 @@ class ToolSpell(Spell):
 	"ToolSpell()" grabs spell data from 5etools.
 	This data can be found on their github repo.
 	'''
-	def __init__(self, json, json_xtra):
+	def __init__(self, json, json_extra, source):
 		super().__init__(json)
 		# this is upsetting, but needed for now.
 		# somehow, the shape is not specified in the json.
 		# example: we need to know certain info about fireball.
 		# fireball is 150ft range, but also 20ft radius AoE.
-		self.xtra = json_xtra
+		self.extra = json_extra
+		self.source = source
 		# finally, get everything
 		self.get() # very important!
 
@@ -28,6 +29,7 @@ class ToolSpell(Spell):
 		self.get_name()
 		self.get_slug()
 		self.get_path()
+		self.get_source()
 		self.get_level()
 		self.get_school()
 		self.get_cast_time()
@@ -65,9 +67,13 @@ class ToolSpell(Spell):
 		"os" can help by creating directories.
 		'''
 		# create a directory so python doesn't throw a fit
-		if not os.path.exists(f'./{self.TEMP_BOOK}/'):
-			os.makedirs(f'./{self.TEMP_BOOK}/')
-		self.path = f'./{self.TEMP_BOOK}/{self.slug}.md'
+		if not os.path.exists(f'./{self.source}/'):
+			os.makedirs(f'./{self.source}/')
+		self.path = f'./{self.source}/{self.slug}.md'
+
+	def get_source(self):
+		'''deferred to __init__'''
+		pass
 
 	def get_level(self):
 		'''
@@ -99,6 +105,8 @@ class ToolSpell(Spell):
 			school = 'transmutation'
 		elif mark == 'v':
 			school = 'evocation'
+		elif mark == 'p':
+			school = 'psionic'
 		else:
 			raise Exception(self.name)
 		# apply the school result
@@ -190,109 +198,278 @@ class ToolSpell(Spell):
 			raise self.name
 
 	def get_instances(self):
-		pass ### TODO
+		'''deferred to get_area'''
+		pass
 
 	def get_range(self):
 		'''
 		origin ranges come in all shapes and sizes.
-		- self
-		- touch
-		- number of feet
-		- unlimited
-		- special
 		'''
-		xtra = self.xtra[self.name]['Range'].lower()
-		xtra_shape = ''.join(re.findall('\(.*?\)', xtra)).strip()
-		xtra_range = re.sub("[\(\[].*?[\)\]]", "", xtra).strip()
-		dirty_shape = self.json['range']
+		# [ ] point
+		# [x] self-point
+		# [x] touch-point
+		# [x] sight-point
+		# [x] unlimited
+		# [ ] self-cone
+		# [ ] cube
+		# [ ] radius
+		# [ ] line
+		# [ ] special
+		# [ ] sphere
+		# [ ] hemisphere
+		# [ ] creature
+		# [ ] self-aura
+		# [ ] wall
+		# [ ] cylinder
+		def check_error(data = []):
+			print(self.name)
+			for item in data:
+				print(item)
+			return Exception('!!! unexpected range type !!!')
+
+		# clean data extras from internally collected json.
+		# these extras contains the missing data.
+		extra = self.extra[self.name]['Range'].lower()
+		# refine extra variables.
+		# these data are held as string; they need parsed.
+		# NOTE add good comments!
+		extra_shape = ''.join(re.findall('\(.*?\)', extra))
+		extra_shape = extra_shape.strip()
+		extra_shape = extra_shape.replace('(', '')
+		extra_shape = extra_shape.replace(')', '')
+		extra_shape = extra_shape.split('; ')
+		for index, dimension in enumerate(extra_shape):
+			dimension = dimension.split(' ')
+			if len(dimension) == 3:
+				if dimension[2] == 'sphere':
+					dimension.pop()
+			if len(dimension) == 2:
+				key = dimension[1]
+				val = dimension[0]
+				val = val.split('-')
+				if val[1] == 'inch':
+					val = float(val[0]) / 12
+				elif val[1] == 'foot':
+					val = int(val[0])
+				elif val[1] == 'mile':
+					val = int(val[0]) * 5280
+				else:
+					raise check_error()
+				dimension = {key: val}
+			elif len(dimension) > 3 or len(dimension) < 1:
+				print(dimension)
+				raise check_error()
+			extra_shape[index] = dimension
+		# NOTE add good comments!
+		extra_range = re.sub("[\(\[].*?[\)\]]", "", extra)
+		extra_range = extra_range.strip()
+		extra_range = extra_range.split(' ')
+		# NOTE add good comments!
+		if len(extra_range) > 1:
+			# NOTE add good comments!
+			extra_type = extra_range[1]
+			extra_range = int(extra_range[0])
+			# NOTE add good comments!
+			if extra_type in ['feet','foot']:
+				pass
+			elif extra_type in ['miles','mile']:
+				extra_range = extra_range * 5280
+			else:
+				raise check_error([extra_shape,extra_range,extra_type])
+		else:
+			extra_range = extra_range[0]
+		# NOTE add good comments!
+		if extra_range in ['sight', 'unlimited']:
+			extra_range = 'indefinate'
+		# NOTE add good comments!
+
+		# clean the prime source data from external json.
+		# this prime source is missing data.
+		prime = self.json['range']
+		# refine prime variables.
+		# the object is a bit wonky so it needs cleaning.
+		prime_shape = prime['type']
+		if 'distance' in prime:
+			prime_type = prime['distance']['type']
+			# if there is a distance & point, it is not an AoE.
+			# there is one exception: it could be a wall.
+			if prime_shape == 'point':
+				# feet and miles give a discrete value to range.
+				if prime_type == 'feet':
+					prime_range = prime['distance']['amount']
+				elif prime_type == 'miles':
+					prime_range = prime['distance']['amount'] * 5280
+				# self & touch get no distance. it overwrites range.
+				elif prime_type in ['self', 'touch']:
+					prime_range = prime_type
+				# sight & unlimited are abstracted to "indefinate".
+				elif prime_type in ['sight', 'unlimited']:
+					prime_range = 'indefinate'
+				else:
+					raise check_error()
+			# if there is a radius, it implies an aura.
+			# a range overwrites a description of a shape.
+			elif prime_shape in ['radius', 'sphere', 'hemisphere', 'cone', 'line']:
+				prime_range = 'self'
+			elif prime_shape == 'cube':
+				prime_range = 'self'
+			else:
+				raise check_error()
+		# special is just a sort of catch-all for oddities.
+		elif prime_shape == 'special':
+			prime_range = 'special'
+		else:
+			raise check_error()
+
+		# further cleaning with both extra and prime are needed.
+		# this dynamic will deduce things like aura spells.
+		if extra_range == prime_range == 'self':
+			if prime_shape == 'radius' and extra_shape[0]['radius']:
+				prime_shape = 'aura'
+
+		# if extra_range == 'self' and isinstance(prime_range, int):
+		# 	extra_range = 'self'
+		# 	prime_range = 'self'
+		# further cleaning is needed with certain dynamics.
+		# --- Ranges -----------
+		# XTR: self
+		# PRM: 5
+		# --- Shapes -----------
+		# XTR: 5-foot radius
+		# PRM: point
+		
+
+		print(self.name)
+		print(f'--- FULL ITEM {"-"*len(self.name)}')
+		print(f'XTR: {extra}')
+		print(f'PRM: {prime}')
+		print(f'--- Ranges {"-"*len(self.name)}')
+		print(f'XTR: {extra_range}')
+		print(f'PRM: {prime_range}')
+		print(f'--- Shapes {"-"*len(self.name)}')
+		print(f'XTR: {extra_shape}')
+		print(f'PRM: {prime_shape}')
+		print('——'*len(self.name))
+		assert(extra_range == prime_range)
+
+
+		'''
 		# now for the main part of the function
-		if xtra_range == 'self':
+		if extra_range == 'self':
 			self.range = 'self'
-		elif xtra_range == 'touch':
+		elif extra_range == 'touch':
 			self.range = 'touch'
-		elif xtra_range == 'unlimited' or xtra_range == 'sight':
+		elif extra_range == 'unlimited' or extra_range == 'sight':
 			self.range = 'indefinate'
-		elif xtra_range == 'special':
+		elif extra_range == 'special':
 			self.range = 'special'
-		elif 'feet' in xtra_range:
-			self.range = int(xtra_range.replace(' feet',''))
-		elif 'miles' in xtra_range:
-			self.range = int(xtra_range.replace(' miles','')) * 5280
-		elif 'mile' in xtra_range:
-			self.range = int(xtra_range.replace(' mile','')) * 5280
+		elif 'feet' in extra_range:
+			self.range = int(extra_range.replace(' feet',''))
+		elif 'miles' in extra_range:
+			self.range = int(extra_range.replace(' miles','')) * 5280
+		elif 'mile' in extra_range:
+			self.range = int(extra_range.replace(' mile','')) * 5280
 		else:
 			raise Exception(self.name)
+		'''
 
 	def get_area(self):
 		'''
 		unfortunately we need to call a secondary api for this.
-		we are using extracted data from elsewhere; "xtra"
+		we are using extracted data from elsewhere; "extra"
 		---
 		areas come in all shapes and sizes.
 		- point
-		- ~~creature~~
-		- sphere
-		- aura
 		- cone
 		- cube
+		- radius
 		- line
+		- special
+		- sphere
+		- hemisphere
+		- creature
+		- aura
 		- wall
 		- cylinder
-		- special
 		'''
-		xtra = self.xtra[self.name]['Range'].lower()
-		xtra_shape = ''.join(re.findall('\(.*?\)', xtra)).strip()
-		xtra_range = re.sub("[\(\[].*?[\)\]]", "", xtra).strip()
-		dirty_shape = self.json['range']
-		print()
-		print(xtra_shape)
-		print(xtra_range)
-		print(dirty_shape)
-		print(self.name)
+		'''
+		extra = self.extra[self.name]['Range'].lower()
+		extra_shape = ''.join(re.findall('\(.*?\)', extra)).strip()
+		extra_shape = extra_shape.replace('(', '')
+		extra_shape = extra_shape.replace(')', '')
+		extra_range = re.sub("[\(\[].*?[\)\]]", "", extra).strip()
+		dirty = self.json['range']
+		dirty_range = ''
+		# print()
+		# print(self.name)
+		# print('-'*len(self.name))
+		# print(f'DIRTY 1: {dirty_range}')
+		# print(f'DIRTY 2: {dirty}')
+		# print(f'EXTRA 1: {extra_range}')
+		# print(f'EXTRA 2: {extra_shape}')
 		shape = "TODO"
 
+		has_radius = 'radius' in extra_shape
+		has_width = 'width' in extra_shape
+		has_length = 'cube' in extra_shape or 'line' in extra_shape or 'wall' in extra_shape
+		has_height = 'wall' in extra_shape or 'cylinder' in extra_shape or 'height' in extra_shape
 		# check for point
-		if dirty_shape['type'] == 'point':
-			if dirty_shape['distance']['type'] == 'self':
-				shape = 'point'
-			elif dirty_shape['distance']['type'] == 'touch':
-				shape = 'point'
-			elif dirty_shape['distance']['type'] == 'sight':
-				shape = 'point'
-			elif dirty_shape['distance']['type'] == 'unlimited':
-				shape = 'point'
-			elif dirty_shape['distance']['type'] == 'feet':
-				shape = 'point'
-			elif dirty_shape['distance']['type'] == 'mile':
-				shape = 'point'
-			elif dirty_shape['distance']['type'] == 'miles':
-				shape = 'point'
-			else:
+		if dirty['type'] == 'special':
+			shape = 'special'
+		elif dirty['type'] == 'line':
+			shape = 'line'
+		elif dirty['type'] == 'cube':
+			shape = 'cube'
+		elif 'wall' in extra_shape:
+			shape = 'wall'
+		elif 'cone' in extra_shape:
+			print("CONE")
+			shape = 'cone'
+		elif dirty['type'] == 'point':
+			if 'amount' in dirty['distance']:
+				dirty_range = dirty['distance']['amount']
+			elif has_radius:
+				if has_height and has_width:
+					print("HEIHGT WIDTH POINT!?")
+					raise
+				elif has_height and has_radius:
+					shape='cylinder'
+				else:
+					shape = 'sphere'
+			elif extra_shape:
 				raise
-		elif dirty_shape['type'] == 'radius' or dirty_shape['type'] == 'sphere' or dirty_shape['type'] == 'hemisphere':
-			if xtra_range == 'self':
+			# here we're pretty sure the item is a point.
+			else:
+				if dirty['distance']['type'] == 'self':
+					shape = 'point'
+				elif dirty['distance']['type'] == 'touch':
+					shape = 'point'
+				elif dirty['distance']['type'] == 'sight':
+					shape = 'point'
+				elif dirty['distance']['type'] == 'unlimited':
+					shape = 'point'
+				elif dirty['distance']['type'] == 'feet':
+					shape = 'point'
+				elif dirty['distance']['type'] == 'mile':
+					shape = 'point'
+				elif dirty['distance']['type'] == 'miles':
+					shape = 'point'
+				else:
+					raise
+		elif dirty['type'] == 'radius' or dirty['type'] == 'sphere' or dirty['type'] == 'hemisphere':
+			if extra_range == 'self' or extra_range == 'touch':
 				shape = 'aura'
 			else:
 				raise
-		elif dirty_shape['type'] == 'cone':
-			shape = 'cone'
-		elif dirty_shape['type'] == 'special':
-			shape = 'special'
-		elif dirty_shape['type'] == 'line':
-			shape = 'line'
-		elif dirty_shape['type'] == 'cube':
-			shape = 'cone'
 		else:
 			raise
 
-		# if dirty_shape['type'] == 
-
+		# NOW THAT WE HAVE THE SHAPE WE CAN DECONSTRUCT THINGS
 		# hooray, point is good!
 		if shape == 'point':
 			self.area['shape'] = 'point'
-			self.area['radius'] = 0
 
-		# creature centered
+		# creature-centered aura
 		elif shape == 'creature':
 			self.area['shape'] = 'creature'
 
@@ -302,20 +479,115 @@ class ToolSpell(Spell):
 
 		elif shape == 'aura':
 			self.area['shape'] = 'aura'
-			self.area['radius'] = 0
+			dirty_radius = 0
+			extra_radius = 0
+			# get radius from dirty
+			if dirty['distance']['type'] == 'feet':
+				dirty_radius = dirty['distance']['amount']
+			elif dirty['distance']['type'] == 'miles':
+				dirty_radius = dirty['distance']['amount'] * 5280
+			else:
+				print(f'!{self.name}{dirty} is {shape}: unacceptable data')
+				print(self.name)
+			# get radius from extra
+			if 'foot' in extra_shape:
+				extra_radius = extra_shape.split(' ')[0]
+				extra_radius = extra_shape.split('-')[0]
+				extra_radius = int(extra_radius)
+			elif 'mile' in extra_shape:
+				extra_radius = extra_shape.split(' ')[0]
+				extra_radius = extra_shape.split('-')[0]
+				extra_radius = int(extra_radius) * 5280
+			else:
+				raise
+			if dirty_radius == extra_radius:
+				self.area['radius'] = dirty_radius
+			else:
+				raise
 
 		elif shape == 'cone':
 			self.area['shape'] = 'cone'
-			self.area['radius'] = 0
+			dirty_radius = 0
+			extra_radius = 0
+			# get radius from dirty
+			if dirty['distance']['type'] == 'feet':
+				dirty_radius = dirty['distance']['amount']
+			elif dirty['distance']['type'] == 'miles':
+				dirty_radius = dirty['distance']['amount'] * 5280
+			else:
+				print(f'!{self.name}{dirty} is {shape}: unacceptable data')
+				print(self.name)
+			# get radius from extra
+			if 'foot' in extra_shape:
+				extra_radius = extra_shape.split(' ')[0]
+				extra_radius = extra_shape.split('-')[0]
+				extra_radius = int(extra_radius)
+			elif 'mile' in extra_shape:
+				extra_radius = extra_shape.split(' ')[0]
+				extra_radius = extra_shape.split('-')[0]
+				extra_radius = int(extra_radius) * 5280
+			else:
+				raise
+			if dirty_radius == extra_radius:
+				self.area['radius'] = dirty_radius
+			else:
+				raise
 
 		elif shape == 'cube':
 			self.area['shape'] = 'cube'
-			self.area['length'] = 0
+			dirty_length = 0
+			extra_length = 0
+			# get length from dirty
+			if dirty['distance']['type'] == 'feet':
+				dirty_length = dirty['distance']['amount']
+			elif dirty['distance']['type'] == 'miles':
+				dirty_length = dirty['distance']['amount'] * 5280
+			else:
+				print(f'!{self.name}{dirty} is {shape}: unacceptable data')
+				print(self.name)
+				pass
+			# get length from extra
+			if 'foot' in extra_shape:
+				extra_length = extra_shape.split(' ')[0]
+				extra_length = extra_shape.split('-')[0]
+				extra_length = int(extra_length)
+			elif 'mile' in extra_shape:
+				extra_length = extra_shape.split(' ')[0]
+				extra_length = extra_shape.split('-')[0]
+				extra_length = int(extra_length) * 5280
+			else:
+				raise
+			# if dirty_length == extra_length: ### BROKEN DATA
+			self.area['length'] = dirty_length
+			# else:
+			# 	raise
 
 		elif shape == 'line':
-			self.area['shape'] = 'line'
-			self.area['length'] = 0
-			self.area['width'] = 0
+			# get length from dirty
+			if dirty['distance']['type'] == 'feet':
+				dirty_length = dirty['distance']['amount']
+			elif dirty['distance']['type'] == 'miles':
+				dirty_length = dirty['distance']['amount'] * 5280
+			else:
+				print(f'!{self.name}{dirty} is {shape}: unacceptable data')
+				print(self.name)
+				pass
+			# get length from extra
+			if 'foot' in extra_shape:
+				extra_length = extra_shape.split(' ')[0]
+				extra_length = extra_shape.split('-')[0]
+				extra_length = int(extra_length)
+			elif 'mile' in extra_shape:
+				extra_length = extra_shape.split(' ')[0]
+				extra_length = extra_shape.split('-')[0]
+				extra_length = int(extra_length) * 5280
+			else:
+				raise
+			# if dirty_length == extra_length: ### BROKEN DATA
+			self.area['length'] = dirty_length
+			self.area['width'] = 5
+			# else:
+			# 	raise
 
 		elif shape == 'wall':
 			self.area['shape'] = 'wall'
@@ -334,6 +606,7 @@ class ToolSpell(Spell):
 
 		else:
 			raise
+	'''
 
 	def get_tags(self):
 		self.tags = {
@@ -343,17 +616,22 @@ class ToolSpell(Spell):
 			'concentration': False,
 			'ritual': False
 		}
-		if 'v' in self.json['components']:
-			self.tags['verbal'] = True
-		if 's' in self.json['components']:
-			self.tags['somatic'] = True
-		if 'm' in self.json['components']:
-			self.tags['material'] = True
-		if 'concentration' in self.json['duration'][0]:
-			self.tags['concentration'] = True
-		if 'meta' in self.json:
-			if 'ritual' in self.json['meta']:
-				self.tags['ritual'] = True
+		if 'components' in self.json:
+			if 'v' in self.json['components']:
+				self.tags['verbal'] = True
+			if 's' in self.json['components']:
+				self.tags['somatic'] = True
+			if 'm' in self.json['components']:
+				self.tags['material'] = True
+			if 'concentration' in self.json['duration'][0]:
+				self.tags['concentration'] = True
+			if 'meta' in self.json:
+				if 'ritual' in self.json['meta']:
+					self.tags['ritual'] = True
+		elif self.school == 'psionic':
+			pass
+		else:
+			raise
 
 	def get_components(self):
 		pass ### TODO

@@ -17,16 +17,25 @@ SOURCE = {
 	"XGE": "spells-xge.json"
 }
 
-if __name__ == '__main__':
-	print(f'getting data from {"".join([URL, SOURCE["PHB"]])}')
+def parse_book(book_abbr, DATA_EXTRA):
+	book_sfx = SOURCE[book_abbr]
+	book_src = ''.join([URL,book_sfx])
+	print()
+	print('+'*len(f'getting data from {book_src} ...'))
+	print(f'getting data from {book_src} ...')
+	DATA_PRIME = requests.get(f'{book_src}').json()
 
-	XTRA_DATA = ''
-	with open('spells_area.json', 'r') as file:
-		XTRA_DATA = json.load(file)
-
-	SOURCE_DATA = requests.get(f'{URL}{SOURCE["PHB"]}').json()
-
-	for spell_data in SOURCE_DATA['spell']:
-		Spell = ToolSpell(spell_data, XTRA_DATA)
+	for spell_data in DATA_PRIME['spell']:
+		# extra_data = DATA_EXTRA[spell_data['name']]
+		# print(extra_data)
+		Spell = ToolSpell(spell_data, DATA_EXTRA, book_abbr)
 		with open(Spell.path, 'w+') as file:
 			file.write(Spell.markdown)
+
+if __name__ == '__main__':
+	DATA_EXTRA = ''
+	with open('spells_area.json', 'r') as file:
+		DATA_EXTRA = json.load(file)
+	
+	for book_abbr in SOURCE:
+		parse_book(book_abbr, DATA_EXTRA)
