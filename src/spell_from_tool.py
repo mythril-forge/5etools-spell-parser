@@ -227,6 +227,8 @@ class ToolSpell(Spell):
 				print(item)
 			return Exception('!!! unexpected range type !!!')
 
+
+
 		# clean data extras from internally collected json.
 		# these extras contains the missing data.
 		extra = self.extra[self.name]['Range'].lower()
@@ -238,28 +240,32 @@ class ToolSpell(Spell):
 		extra_shape = extra_shape.replace('(', '')
 		extra_shape = extra_shape.replace(')', '')
 		extra_shape = extra_shape.split('; ')
+		extra_shape_dict = {}
 		for index, dimension in enumerate(extra_shape):
+			# the dimension array
 			dimension = dimension.split(' ')
 			if len(dimension) == 3:
-				if dimension[2] == 'sphere':
+				if dimension[2] in ['sphere','hemisphere']:
 					dimension.pop()
 			if len(dimension) == 2:
 				key = dimension[1]
 				val = dimension[0]
 				val = val.split('-')
-				if val[1] == 'inch':
+				if val[1] in ['inch','inches']:
 					val = float(val[0]) / 12
 				elif val[1] == 'foot':
 					val = int(val[0])
 				elif val[1] == 'mile':
 					val = int(val[0]) * 5280
 				else:
-					raise check_error()
-				dimension = {key: val}
+					raise check_error([dimension])
+				extra_shape_dict[key] = val
 			elif len(dimension) > 3 or len(dimension) < 1:
 				print(dimension)
 				raise check_error()
-			extra_shape[index] = dimension
+		# NOTE add good comments!
+		extra_shape = extra_shape_dict
+		del extra_shape_dict
 		# NOTE add good comments!
 		extra_range = re.sub("[\(\[].*?[\)\]]", "", extra)
 		extra_range = extra_range.strip()
@@ -281,8 +287,10 @@ class ToolSpell(Spell):
 		# NOTE add good comments!
 		if extra_range in ['sight', 'unlimited']:
 			extra_range = 'indefinate'
-		# NOTE add good comments!
 
+
+
+		# NOTE add good comments!
 		# clean the prime source data from external json.
 		# this prime source is missing data.
 		prime = self.json['range']
@@ -320,58 +328,100 @@ class ToolSpell(Spell):
 			prime_range = 'special'
 		else:
 			raise check_error()
+		# NOTE add good comments!
+		# extra_range == 'self'
+		# prime_range == 5
+		# extra_shape == {radius 5}
+		# prime_shape == 'point'
+
+
 
 		# further cleaning with both extra and prime are needed.
 		# this dynamic will deduce things like aura spells.
-		if extra_range == prime_range == 'self':
-			if prime_shape == 'radius' and extra_shape[0]['radius']:
-				prime_shape = 'aura'
+		if prime_range == extra_range and isinstance(prime_range, int):
+			if False:
+				pass
+			elif extra_shape.get('sphere'):
+				prime_shape = extra_shape
+			elif extra_shape.get('radius'):
+				prime_shape = extra_shape
+			elif extra_shape.get('cube'):
+				prime_shape = extra_shape
+			elif extra_shape.get('wall'):
+				prime_shape = extra_shape
+			elif extra_shape == {} and prime_shape == 'point':
+				extra_shape = 'point'
+		elif prime_range == extra_range == 'self':
+			if False:
+				pass
+			elif prime_shape == 'radius':
+				prime_shape = extra_shape
+			elif prime_shape == 'sphere':
+				prime_shape = extra_shape
+			elif prime_shape == 'hemisphere':
+				prime_shape = extra_shape
+			elif prime_shape == 'cone':
+				prime_shape = extra_shape
+			elif prime_shape == 'cube':
+				prime_shape = extra_shape
+			elif prime_shape == 'line':
+				prime_shape = extra_shape
+			elif extra_shape.get('radius'):
+				prime_shape = extra_shape
+			elif extra_shape.get('cone'):
+				prime_shape = extra_shape
+			elif extra_shape == {} and prime_shape == 'point':
+				prime_shape = 'self'
+				extra_shape = 'self'
+		elif prime_range == extra_range == 'touch':
+			if False:
+				pass
+			elif extra_shape == {}:
+				prime_shape = 'point'
+				extra_shape = 'point'
+			elif extra_shape.get('radius'):
+				prime_shape = extra_shape
+			elif extra_shape.get('cube'):
+				prime_shape = extra_shape
+		elif prime_range == extra_range == 'point':
+			print('point')
+		elif prime_range == extra_range == 'indefinate':
+			if False:
+				pass
+			elif extra_shape.get('wall'):
+				prime_shape = extra_shape
+			elif extra_shape.get('radius'):
+				prime_shape = extra_shape
+			elif extra_shape == {}:
+				prime_shape = 'point'
+				extra_shape = 'point'
+		elif prime_range == extra_range == prime_shape == 'special':
+			extra_shape = 'special'
+		elif prime_range != extra_range:
+			if False:
+				pass
+			elif extra_shape.get('radius') == prime_range and prime_shape =='point':
+				prime_shape = extra_shape
+				prime_range = extra_range
+			elif extra_shape.get('line') == prime_range and prime_shape =='point':
+				prime_shape = extra_shape
+				prime_range = extra_range
 
-		# if extra_range == 'self' and isinstance(prime_range, int):
-		# 	extra_range = 'self'
-		# 	prime_range = 'self'
-		# further cleaning is needed with certain dynamics.
-		# --- Ranges -----------
-		# XTR: self
-		# PRM: 5
-		# --- Shapes -----------
-		# XTR: 5-foot radius
-		# PRM: point
-		
 
-		print(self.name)
-		print(f'--- FULL ITEM {"-"*len(self.name)}')
-		print(f'XTR: {extra}')
-		print(f'PRM: {prime}')
-		print(f'--- Ranges {"-"*len(self.name)}')
-		print(f'XTR: {extra_range}')
-		print(f'PRM: {prime_range}')
-		print(f'--- Shapes {"-"*len(self.name)}')
-		print(f'XTR: {extra_shape}')
-		print(f'PRM: {prime_shape}')
-		print('——'*len(self.name))
+
+		# print(self.name)
+		# print(f'--- FULL ITEM {"-"*len(self.name)}')
+		# print(f'XTR: {extra}')
+		# print(f'PRM: {prime}')
+		# print(f'--- Ranges {"-"*len(self.name)}')
+		# print(f'XTR: {extra_range}')
+		# print(f'PRM: {prime_range}')
+		# print(f'--- Shapes {"-"*len(self.name)}')
+		# print(f'XTR: {extra_shape}')
+		# print(f'PRM: {prime_shape}')
+		# print('——'*len(self.name))
 		assert(extra_range == prime_range)
-
-
-		'''
-		# now for the main part of the function
-		if extra_range == 'self':
-			self.range = 'self'
-		elif extra_range == 'touch':
-			self.range = 'touch'
-		elif extra_range == 'unlimited' or extra_range == 'sight':
-			self.range = 'indefinate'
-		elif extra_range == 'special':
-			self.range = 'special'
-		elif 'feet' in extra_range:
-			self.range = int(extra_range.replace(' feet',''))
-		elif 'miles' in extra_range:
-			self.range = int(extra_range.replace(' miles','')) * 5280
-		elif 'mile' in extra_range:
-			self.range = int(extra_range.replace(' mile','')) * 5280
-		else:
-			raise Exception(self.name)
-		'''
+		assert(extra_shape == prime_shape)
 
 	def get_area(self):
 		'''
