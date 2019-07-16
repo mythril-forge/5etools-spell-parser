@@ -466,6 +466,8 @@ class ToolSpell(Spell):
 				self.tags['somatic'] = True
 			if 'm' in self.json['components']:
 				self.tags['material'] = True
+			# if 'r' in self.json['components']:
+			# 	raise FIXME
 			if 'concentration' in self.json['duration'][0]:
 				self.tags['concentration'] = True
 			if 'meta' in self.json:
@@ -477,7 +479,14 @@ class ToolSpell(Spell):
 			raise
 
 	def get_components(self):
-		pass ### TODO
+		if self.tags['material'] == True:
+			material = self.json['components'].get('m')
+			if not isinstance(material, str):
+				self.components['material'] = material['text']
+			else:
+				self.components['material'] = material
+		else:
+			pass
 
 	def get_info(self):
 		pass ### TODO
@@ -486,4 +495,11 @@ class ToolSpell(Spell):
 		pass ### TODO
 
 	def get_markdown(self):
-		self.markdown = 'atleast it works'
+		self.markdown = f'''# {self.name}
+LEVEL: {self.level}
+SCHOOL: {self.school}
+TAGS: {self.tags}
+COMPONENTS: {self.components}
+RANGE: {self.range}
+AREA: {self.area}
+'''
