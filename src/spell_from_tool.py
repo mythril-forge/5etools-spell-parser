@@ -488,18 +488,202 @@ class ToolSpell(Spell):
 		else:
 			pass
 
+	def clean_info(self, info):
+		# work around
+		info = re.sub(r'animated object \(','',info)
+		info = re.sub(r'\)\|phb\|.*?}','}',info)
+		info = re.sub(r'1d20.*?\|','',info)
+		# general case
+		info = re.sub(r'}','',info) # can't use (?<={@.*? .*?)}
+		info = re.sub(r'{@.*? ','',info)
+		return info
+
 	def get_info(self):
-		pass ### TODO
+		# print(self.json)
+		result = ''
+		for entry in self.json['entries']:
+			if isinstance(entry,str):
+				result += '\n\n'
+				result += entry
+				# print(result)
+
+			else:
+				if entry['type'] == 'quote':
+					result += '\n'
+					for sub_entry in entry['entries']:
+						result += '\n'
+						result += '> '
+						result += sub_entry
+					result += '\n> \n> &mdash;'
+					result += entry['by']
+					# print(result)
+
+				elif entry['type'] == 'list':
+					for item in entry['items']:
+						result += '\n'
+						result += '- '
+						result += item
+					# print(result)
+
+				elif entry['type'] == 'entries':
+					result += '\n\n### '
+					result += entry['name']
+					first = True
+					for sub_entry in entry['entries']:
+						if first:
+							first = False
+						else:
+							result += '\n'
+						result +='\n'
+						
+						if isinstance(sub_entry,dict):
+							if sub_entry['type'] == 'list':
+								for item in sub_entry['items']:
+									result += '\n'
+									result += '- '
+									result += item
+						else:
+							result += sub_entry
+					# print(result)
+
+				elif entry['type'] == 'table':
+					# print(entry['rows'])
+					if entry.get('caption'):
+						result += '\n\n#### '
+						result += entry['caption']
+					result += '\n\n|'
+					for col in entry['colLabels']:
+						result += ' '
+						result += col
+						result += ' |'
+					result += '\n|'
+					for col in entry['colLabels']:
+						result += ' '
+						result += '---'
+						result += ' |'
+					for row in entry['rows']:
+						result += '\n|'
+						for data in row:
+							if isinstance(data, dict):
+								if data.get('type') == 'cell':
+									if data['roll'].get('exact'):
+										result += ' '
+										result += str(data['roll']['exact'])
+										result += ' |'
+									elif data['roll'].get('min') and data['roll'].get('max'):
+										result += ' '
+										result += str(data['roll']['min'])
+										result += '&mdash;'
+										result += str(data['roll']['max'])
+										result += ' |'
+							else:
+								if not isinstance(data, str):
+									raise Exception(data)
+								data = self.clean_info(data)
+								result += ' '
+								result += data
+								result += ' |'
+					result += '\n\n'
+				else:
+					# print(entry)
+					raise
+				pass
+
+		if self.json.get('entriesHigherLevel'):
+			for entry in self.json.get('entriesHigherLevel'):
+				if isinstance(entry,str):
+					result += '\n\n'
+					result += entry
+					# print(result)
+
+				else:
+					if entry['type'] == 'quote':
+						result += '\n'
+						for sub_entry in entry['entries']:
+							result += '\n'
+							result += '> '
+							result += sub_entry
+						result += '\n> \n> &mdash;'
+						result += entry['by']
+						# print(result)
+
+					elif entry['type'] == 'list':
+						for item in entry['items']:
+							result += '\n'
+							result += '- '
+							result += item
+						# print(result)
+
+					elif entry['type'] == 'entries':
+						result += '\n\n### '
+						result += entry['name']
+						first = True
+						for sub_entry in entry['entries']:
+							if first:
+								first = False
+							else:
+								result += '\n'
+							result +='\n'
+							
+							if isinstance(sub_entry,dict):
+								if sub_entry['type'] == 'list':
+									for item in sub_entry['items']:
+										result += '\n'
+										result += '- '
+										result += item
+							else:
+								result += sub_entry
+						# print(result)
+
+					elif entry['type'] == 'table':
+						# print(entry['rows'])
+						if entry.get('caption'):
+							result += '\n\n#### '
+							result += entry['caption']
+						result += '\n\n|'
+						for col in entry['colLabels']:
+							result += ' '
+							result += col
+							result += ' |'
+						result += '\n|'
+						for col in entry['colLabels']:
+							result += ' '
+							result += '---'
+							result += ' |'
+						for row in entry['rows']:
+							result += '\n|'
+							for data in row:
+								if isinstance(data, dict):
+									if data.get('type') == 'cell':
+										if data['roll'].get('exact'):
+											result += ' '
+											result += str(data['roll']['exact'])
+											result += ' |'
+										elif data['roll'].get('min') and data['roll'].get('max'):
+											result += ' '
+											result += str(data['roll']['min'])
+											result += '&mdash;'
+											result += str(data['roll']['max'])
+											result += ' |'
+								else:
+									if not isinstance(data, str):
+										raise Exception(data)
+									data = self.clean_info(data)
+									result += ' '
+									result += data
+									result += ' |'
+						result += '\n\n'
+					else:
+						# print(entry)
+						raise
+					pass
+
+		self.info = self.clean_info(result).strip()
+		self.info = re.sub(r'\n\n+', '\n\n', self.info)
 
 	def get_access(self):
 		pass ### TODO
 
 	def get_markdown(self):
 		self.markdown = f'''# {self.name}
-LEVEL: {self.level}
-SCHOOL: {self.school}
-TAGS: {self.tags}
-COMPONENTS: {self.components}
-RANGE: {self.range}
-AREA: {self.area}
-'''
+{self.info}'''
