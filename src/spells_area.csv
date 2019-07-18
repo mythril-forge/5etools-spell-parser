@@ -1,0 +1,513 @@
+Name,Source,Level,Casting Time,Range,Components,Instances
+Abi-Dalzim's Horrid Wilting,XGE,8th,Action,150 feet (30-foot cube),"V, S, M (a bit of sponge)",1
+Absorb Elements,XGE,1st,Reaction,Self,S,1
+Acid Splash,PHB,Cantrip,Action,60 feet,"V, S",1
+Aganazzar's Scorcher,XGE,2nd,Action,Self (30-foot line),"V, S, M (a red dragon's scale)",1
+Aid,PHB,2nd,Action,30 feet,"V, S, M (a tiny strip of white cloth)",6
+Alarm,PHB,1st,1 minute,30 feet (20-foot cube),"V, S, M (a tiny bell and a piece of fine silver wire)",1
+Alter Self,PHB,2nd,Action,Self,"V, S",1
+Animal Friendship,PHB,1st,Action,30 feet,"V, S, M (a morsel of food)",1
+Animal Messenger,PHB,2nd,Action,30 feet,"V, S, M (a morsel of food)",1
+Animal Shapes,PHB,8th,Action,30 feet,"V, S",1
+Animate Dead,PHB,3rd,1 minute,10 feet,"V, S, M (a drop of blood, a piece of flesh, and a pinch of bone dust)",1
+Animate Objects,PHB,5th,Action,120 feet,"V, S",10
+Antilife Shell,PHB,5th,Action,Self (10-foot radius),"V, S",1
+Antimagic Field,PHB,8th,Action,Self (10-foot radius),"V, S, M (a pinch of powdered iron or iron filings)",1
+Antipathy/Sympathy,PHB,8th,1 hour,60 feet (200-foot cube),"V, S, M (either a lump of alum soaked in vinegar for the antipathy effect or a drop of honey for the sympathy effect)",1
+Arcane Eye,PHB,4th,Action,30 feet,"V, S, M (a bit of bat fur)",1
+Arcane Gate,PHB,6th,Action,500 feet,"V, S",1
+Arcane Hacking (UA),UAMM,2nd,Action,Self,"V, S, M (hacking tools)",1
+Arcane Lock,PHB,2nd,Action,Touch,"V, S, M (gold dust worth at least 25 gp, which the spell consumes)",1
+Arcane Weapon,UAAR,1st,Bonus acn.,Self,"V, S",1
+Armor of Agathys,PHB,1st,Action,Self,"V, S, M (a cup of water)",1
+Arms of Hadar,PHB,1st,Action,Self (10-foot radius),"V, S",1
+Astral Projection,PHB,9th,1 hour,10 feet,"V, S, M (for each creature you affect with this spell, you must provide one jacinth worth at least 1,000 gp and one ornately carved bar of silver worth at least 100 gp, all of which the spell consumes)",9
+Augury,PHB,2nd,1 minute,Self,"V, S, M (specially marked sticks, bones, or similar tokens worth at least 25 gp)",1
+Aura of Life,PHB,4th,Action,Self (30-foot radius),V,1
+Aura of Purity,PHB,4th,Action,Self (30-foot radius),V,1
+Aura of Vitality,PHB,3rd,Action,Self (30-foot radius),V,1
+Awaken,PHB,5th,8 hours,Touch,"V, S, M (an agate worth at least 1,000 gp, which the spell consumes)",1
+Bane,PHB,1st,Action,30 feet,"V, S, M (a drop of blood)",3
+Banishing Smite,PHB,5th,Bonus acn.,Self,V,1
+Banishment,PHB,4th,Action,60 feet,"V, S, M (an item distasteful to the target)",1
+Barkskin,PHB,2nd,Action,Touch,"V, S, M (a handful of oak bark)",1
+Beacon of Hope,PHB,3rd,Action,30 feet,"V, S",1
+Beast Bond,XGE,1st,Action,Touch,"V, S, M (a bit of fur wrapped in a cloth)",1
+Beast Sense,PHB,2nd,Action,Touch,S,1
+Bestow Curse,PHB,3rd,Action,Touch,"V, S",1
+Bigby's Hand,PHB,5th,Action,120 feet,"V, S, M (an eggshell and a snakeskin glove)",1
+Blade Barrier,PHB,6th,Action,90 feet (100-foot wall; 20-foot height; 5-foot width),"V, S",1
+Blade Ward,PHB,Cantrip,Action,Self,"V, S",1
+Bless,PHB,1st,Action,30 feet,"V, S, M (a sprinkling of holy water)",3
+Blight,PHB,4th,Action,30 feet,"V, S",1
+Blinding Smite,PHB,3rd,Bonus acn.,Self,V,1
+Blindness/Deafness,PHB,2nd,Action,30 feet,V,1
+Blink,PHB,3rd,Action,Self,"V, S",1
+Blur,PHB,2nd,Action,Self,V,1
+Bones of the Earth,XGE,6th,Action,120 feet,"V, S",6
+Booming Blade,SCAG,Cantrip,Action,5 feet,"V, M (a weapon)",1
+Branding Smite,PHB,2nd,Bonus acn.,Self,V,1
+Burning Hands,PHB,1st,Action,Self (15-foot cone),"V, S",1
+Call Lightning,PHB,3rd,Action,120 feet,"V, S",1
+Calm Emotions,PHB,2nd,Action,60 feet (20-foot radius),"V, S",1
+Catapult,XGE,1st,Action,60 feet,S,1
+Catnap,XGE,3rd,Action,30 feet,"S, M (a pinch of sand)",3
+Cause Fear,XGE,1st,Action,60 feet,V,1
+Cause Fear (UA),UASS,1st,Action,60 feet,"V, S",1
+Ceremony,XGE,1st,1 hour,Touch,"V, S, M (25 gp worth of powdered silver, which the spell consumes)",1
+Ceremony (UA),UASS,1st,1 hour,Touch,"V, S, M (25 gp worth of powdered silver)",1
+Chain Lightning,PHB,6th,Action,150 feet,"V, S, M (a bit of fur; a piece of amber, glass, or a crystal rod; and three silver pins)",4
+Chaos Bolt,XGE,1st,Action,120 feet,"V, S",1
+Chaos Bolt (UA),UASS,1st,Action,120 feet,"V, S",1
+Charm Monster,XGE,4th,Action,30 feet,"V, S",1
+Charm Person,PHB,1st,Action,30 feet,"V, S",1
+Chill Touch,PHB,Cantrip,Action,120 feet,"V, S",1
+Chromatic Orb,PHB,1st,Action,90 feet,"V, S, M (a diamond worth at least 50 gp)",1
+Circle of Death,PHB,6th,Action,150 feet (60-foot radius),"V, S, M (the powder of a crushed black pearl worth at least 500 gp)",1
+Circle of Power,PHB,5th,Action,Self (30-foot radius),V,1
+Clairvoyance,PHB,3rd,10 minutes,1 mile,"V, S, M (a focus worth at least 100 gp, either a jeweled horn for hearing or a glass eye for seeing)",1
+Clone,PHB,8th,1 hour,Touch,"V, S, M (a diamond worth at least 1,000 gp and at least 1 cubic inch of flesh of the creature that is to be cloned, which the spell consumes, and a vessel worth at least 2,000 gp that has a sealable lid and is large enough to hold a Medium creature, such as a huge urn, coffin, mud-filled cyst in the ground, or crystal container filled with salt water)",1
+Cloud of Daggers,PHB,2nd,Action,60 feet (5-foot cube),"V, S, M (a sliver of glass)",1
+Cloudkill,PHB,5th,Action,120 feet (20-foot radius),"V, S",1
+Color Spray,PHB,1st,Action,Self (15-foot cone),"V, S, M (a pinch of powder or sand that is colored red, yellow, and blue)",1
+Command,PHB,1st,Action,60 feet,V,1
+Commune,PHB,5th,1 minute,Self,"V, S, M (incense and a vial of holy or unholy water)",1
+Commune with City (UA),UAMM,5th,1 minute,Self,"V, S",1
+Commune with Nature,PHB,5th,1 minute,Self,"V, S",1
+Compelled Duel,PHB,1st,Bonus acn.,30 feet,V,1
+Comprehend Languages,PHB,1st,Action,Self,"V, S, M (a pinch of soot and salt)",1
+Compulsion,PHB,4th,Action,30 feet,"V, S",1
+Cone of Cold,PHB,5th,Action,Self (60-foot cone),"V, S, M (a small crystal or glass cone)",1
+Confusion,PHB,4th,Action,90 feet (10-foot radius),"V, S, M (three nut shells)",1
+Conjure Animals,PHB,3rd,Action,60 feet,"V, S",1
+Conjure Barlgura (UA),UAOBM,4th,Action,60 feet,"V, S",1
+Conjure Barrage,PHB,3rd,Action,Self (60-foot cone),"V, S, M (one piece of ammunition or a thrown weapon)",1
+Conjure Celestial,PHB,7th,1 minute,90 feet,"V, S",1
+Conjure Elemental,PHB,5th,1 minute,90 feet,"V, S, M (burning incense for air, soft clay for earth, sulfur and phosphorus for fire, or water and sand for water)",1
+Conjure Fey,PHB,6th,1 minute,90 feet,"V, S",1
+Conjure Hezrou (UA),UAOBM,7th,Action,60 feet,"V, S, M (food worth at least 100 gp, which the spell consumes)",1
+Conjure Knowbot (UA),UAMM,4th,Action,Touch,"V, S",1
+Conjure Lesser Demon (UA),UAOBM,3rd,Action,60 feet,"V, S, M (a vial of blood from an intelligent humanoid killed within the past 24 hours)",1
+Conjure Minor Elementals,PHB,4th,1 minute,90 feet,"V, S",1
+Conjure Shadow Demon (UA),UAOBM,4th,Action,60 feet,"V, S, M (a vial of blood from an intelligent humanoid killed within the past 24 hours)",1
+Conjure Volley,PHB,5th,Action,150 feet (40-foot radius; 20-foot height),"V, S, M (one piece of ammunition or one thrown weapon)",1
+Conjure Vrock (UA),UAOBM,5th,Action,60 feet,"V, S, M (a gem worth at least 100 gp, which the spell consumes)",1
+Conjure Woodland Beings,PHB,4th,Action,60 feet,"V, S, M (one holly berry per creature summoned)",1
+Contact Other Plane,PHB,5th,1 minute,Self,V,1
+Contagion,PHB,5th,Action,Touch,"V, S",1
+Contingency,PHB,6th,10 minutes,Self,"V, S, M (a statuette of yourself carved from ivory and decorated with gems worth at least 1,500 gp)",1
+Continual Flame,PHB,2nd,Action,Touch,"V, S, M (ruby dust worth 50 gp, which the spell consumes)",1
+Control Flames,XGE,Cantrip,Action,60 feet (5-foot cube),S,1
+Control Water,PHB,4th,Action,300 feet,"V, S, M (a drop of water and a pinch of dust)",1
+Control Weather,PHB,8th,10 minutes,Self (5-mile radius),"V, S, M (burning incense and bits of earth and wood mixed in water)",1
+Control Winds,XGE,5th,Action,300 feet (100-foot cube),"V, S",1
+Cordon of Arrows,PHB,2nd,Action,5 feet (30-foot radius),"V, S, M (four or more arrows or bolts)",1
+Counterspell,PHB,3rd,Reaction,60 feet,S,1
+Create Bonfire,XGE,Cantrip,Action,60 feet (5-foot cube),"V, S",1
+Create Food and Water,PHB,3rd,Action,30 feet,"V, S",1
+Create Homunculus,XGE,6th,1 hour,Touch,"V, S, M (clay, ash, and mandrake root, all of which the spell consumes, and a jewel-encrusted dagger worth at least 1,000 gp)",1
+Create Undead,PHB,6th,1 minute,10 feet,"V, S, M (one clay pot filled with grave dirt, one clay pot filled with brackish water, and one 150 gp black onyx stone for each corpse)",1
+Create or Destroy Water,PHB,1st,Action,30 feet (30-foot cube),"V, S, M (a drop of water if creating water or a few grains of sand if destroying it)",1
+Creation,PHB,5th,1 minute,30 feet,"V, S, M (a tiny piece of matter of the same type of the item you plan to create)",1
+Crown of Madness,PHB,2nd,Action,120 feet,"V, S",1
+Crown of Stars,XGE,7th,Action,Self,"V, S",1
+Crusader's Mantle,PHB,3rd,Action,Self (30-foot radius),V,1
+Cure Wounds,PHB,1st,Action,Touch,"V, S",1
+Dancing Lights,PHB,Cantrip,Action,120 feet,"V, S, M (a bit of phosphorus or wychwood, or a glowworm)",1
+Danse Macabre,XGE,5th,Action,60 feet,"V, S",1
+Darkness,PHB,2nd,Action,60 feet (15-foot radius),"V, M (bat fur and a drop of pitch or piece of coal)",1
+Darkvision,PHB,2nd,Action,Touch,"V, S, M (either a pinch of dried carrot or an agate)",1
+Dawn,XGE,5th,Action,60 feet (30-foot radius; 40-foot height),"V, S, M (a sunburst pendant worth at least 100 gp)",1
+Daylight,PHB,3rd,Action,60 feet (60-foot radius),"V, S",1
+Death Ward,PHB,4th,Action,Touch,"V, S",1
+Delayed Blast Fireball,PHB,7th,Action,150 feet (20-foot radius),"V, S, M (a tiny ball of bat guano and sulfur)",1
+Demiplane,PHB,8th,Action,60 feet,S,1
+Destructive Wave,PHB,5th,Action,Self (30-foot radius),V,1
+Detect Evil and Good,PHB,1st,Action,Self,"V, S",1
+Detect Magic,PHB,1st,Action,Self,"V, S",1
+Detect Poison and Disease,PHB,1st,Action,Self,"V, S, M (a yew leaf)",1
+Detect Thoughts,PHB,2nd,Action,Self,"V, S, M (a copper piece)",1
+Digital Phantom (UA),UAMM,2nd,Action,Self,"V, S, M (a small piece of copper wire)",1
+Dimension Door,PHB,4th,Action,500 feet,V,1
+Disguise Self,PHB,1st,Action,Self,"V, S",1
+Disintegrate,PHB,6th,Action,60 feet,"V, S, M (a lodestone and a pinch of dust)",1
+Dispel Evil and Good,PHB,5th,Action,Self,"V, S, M (holy water or powdered silver and iron)",1
+Dispel Magic,PHB,3rd,Action,120 feet,"V, S",1
+Dissonant Whispers,PHB,1st,Action,60 feet,V,1
+Distort Value,AI,1st,1 minute,Touch,V,1
+Divination,PHB,4th,Action,Self,"V, S, M (incense and a sacrificial offering appropriate to your religion, together worth at least 25 gp, which the spell consumes)",1
+Divine Favor,PHB,1st,Bonus acn.,Self,"V, S",1
+Divine Word,PHB,7th,Bonus acn.,30 feet,V,1
+Dominate Beast,PHB,4th,Action,60 feet,"V, S",1
+Dominate Monster,PHB,8th,Action,60 feet,"V, S",1
+Dominate Person,PHB,5th,Action,60 feet,"V, S",1
+Dragon's Breath,XGE,2nd,Bonus acn.,Touch,"V, S, M (a hot pepper)",1
+Drawmij's Instant Summons,PHB,6th,1 minute,Touch,"V, S, M (a sapphire worth 1,000 gp)",1
+Dream,PHB,5th,1 minute,Special,"V, S, M (a handful of sand, a dab of ink, and a writing quill plucked from a sleeping bird)",1
+Druid Grove,XGE,6th,10 minutes,Touch (90-foot cube),"V, S, M (mistletoe, which the spell consumes, that was harvested with a golden sickle under the light of a full moon)",1
+Druidcraft,PHB,Cantrip,Action,30 feet,"V, S",1
+Dust Devil,XGE,2nd,Action,60 feet,"V, S, M (a pinch of dust)",1
+Earth Tremor,XGE,1st,Action,Self (10-foot radius),"V, S",1
+Earthbind,XGE,2nd,Action,300 feet,V,1
+Earthquake,PHB,8th,Action,500 feet (100-foot radius),"V, S, M (a pinch of dirt, a piece of rock, and a lump of clay)",1
+Eldritch Blast,PHB,Cantrip,Action,120 feet,"V, S",1
+Elemental Bane,XGE,4th,Action,90 feet,"V, S",1
+Elemental Weapon,PHB,3rd,Action,Touch,"V, S",1
+Encode Thoughts,GGR,Cantrip,Action,Self,S,1
+Enemies Abound,XGE,3rd,Action,120 feet,"V, S",1
+Enervation,XGE,5th,Action,60 feet,"V, S",1
+Enhance Ability,PHB,2nd,Action,Touch,"V, S, M (fur or a feather from a beast)",1
+Enlarge/Reduce,PHB,2nd,Action,30 feet,"V, S, M (a pinch of powdered iron)",1
+Ensnaring Strike,PHB,1st,Bonus acn.,Self,V,1
+Entangle,PHB,1st,Action,90 feet (20-foot cube),"V, S",1
+Enter Mindscape,Stream,Cantrip,Bonus acn.,Self (60-foot cone),None,1
+Enthrall,PHB,2nd,Action,60 feet,"V, S",1
+Erupting Earth,XGE,3rd,Action,120 feet (20-foot cube),"V, S, M (a piece of obsidian)",1
+Etherealness,PHB,7th,Action,Self,"V, S",1
+Evard's Black Tentacles,PHB,4th,Action,90 feet (20-foot cube),"V, S, M (a piece of tentacle from a giant octopus or a giant squid)",1
+Expeditious Retreat,PHB,1st,Bonus acn.,Self,"V, S",1
+Eyebite,PHB,6th,Action,Self,"V, S",1
+Fabricate,PHB,4th,10 minutes,120 feet,"V, S",1
+Faerie Fire,PHB,1st,Action,60 feet (20-foot cube),V,1
+False Life,PHB,1st,Action,Self,"V, S, M (a small amount of alcohol or distilled spirits)",1
+Far Step,XGE,5th,Bonus acn.,Self,V,1
+Fast Friends,AI,3rd,Action,30 feet,V,1
+Fear,PHB,3rd,Action,Self (30-foot cone),"V, S, M (a white feather or the heart of a hen)",1
+Feather Fall,PHB,1st,Reaction,60 feet,"V, M (a small feather or a piece of down)",5
+Feeblemind,PHB,8th,Action,150 feet,"V, S, M (a handful of clay, crystal, glass, or mineral spheres)",1
+Feign Death,PHB,3rd,Action,Touch,"V, S, M (a pinch of graveyard dirt)",1
+Find Familiar,PHB,1st,1 hour,10 feet,"V, S, M (10 gp worth of charcoal, incense, and herbs that must be consumed by fire in a brass brazier)",1
+Find Greater Steed,XGE,4th,10 minutes,30 feet,"V, S",1
+Find Steed,PHB,2nd,10 minutes,30 feet,"V, S",1
+Find Traps,PHB,2nd,Action,120 feet,"V, S",1
+Find Vehicle (UA),UAMM,2nd,10 minutes,30 feet,"V, S",1
+Find the Path,PHB,6th,1 minute,Self,"V, S, M (a set of divinatory tools—such as bones, ivory sticks, cards, teeth, or carved runes—worth 100 gp and an object from the location you wish to find)",1
+Finger of Death,PHB,7th,Action,60 feet,"V, S",1
+Fire Bolt,PHB,Cantrip,Action,120 feet,"V, S",1
+Fire Shield,PHB,4th,Action,Self,"V, S, M (a bit of phosphorus or a firefly)",1
+Fire Storm,PHB,7th,Action,150 feet (10-foot cube),"V, S",1
+Fireball,PHB,3rd,Action,150 feet (20-foot radius),"V, S, M (a tiny ball of bat guano and sulfur)",1
+Flame Arrows,XGE,3rd,Action,Touch,"V, S",1
+Flame Blade,PHB,2nd,Bonus acn.,Self,"V, S, M (leaf of sumac)",1
+Flame Strike,PHB,5th,Action,60 feet (10-foot radius; 40-foot height),"V, S, M (pinch of sulfur)",1
+Flaming Sphere,PHB,2nd,Action,60 feet (5-foot radius),"V, S, M (a bit of tallow, a pinch of brimstone, and a dusting of powdered iron)",1
+Flesh to Stone,PHB,6th,Action,60 feet,"V, S, M (a pinch of lime, water, and earth)",1
+Flock of Familiars,LLK,2nd,1 minute,Touch,"V, S",1
+Fly,PHB,3rd,Action,Touch,"V, S, M (a wing feather from any bird)",1
+Fog Cloud,PHB,1st,Action,120 feet (20-foot radius),"V, S",1
+Forbiddance,PHB,6th,10 minutes,Touch,"V, S, M (a sprinkling of holy water, rare incense, and powdered ruby worth at least 1,000 gp)",1
+Forcecage,PHB,7th,Action,100 feet (20-foot cube),"V, S, M (ruby dust worth 1,500 gp)",1
+Foresight,PHB,9th,1 minute,Touch,"V, S, M (a hummingbird feather)",1
+Freedom of Movement,PHB,4th,Action,Touch,"V, S, M (a leather strap, bound around the arm or a similar appendage)",1
+Friends,PHB,Cantrip,Action,Self,"S, M (a small amount of makeup applied to the face as this spell is cast)",1
+Frostbite,XGE,Cantrip,Action,60 feet,"V, S",1
+Galder's Speedy Courier,LLK,4th,Action,10 feet,"V, S, M (25 gold pieces, or mineral goods of equivalent value, which the spell consumes)",1
+Galder's Tower,LLK,3rd,10 minutes,30 feet,"V, S, M (a fragment of stone, wood, or other building material)",1
+Gaseous Form,PHB,3rd,Action,Touch,"V, S, M (a bit of gauze and a wisp of smoke)",1
+Gate,PHB,9th,Action,60 feet,"V, S, M (a diamond worth at least 5,000 gp)",1
+Geas,PHB,5th,1 minute,60 feet,V,1
+Gentle Repose,PHB,2nd,Action,Touch,"V, S, M (a pinch of salt and one copper piece placed on each of the corpse's eyes, which must remain there for the duration)",1
+Giant Insect,PHB,4th,Action,30 feet,"V, S",1
+Gift of Gab,AI,2nd,Reaction,Self,"V, S, R (2 gp)",1
+Glibness,PHB,8th,Action,Self,V,1
+Globe of Invulnerability,PHB,6th,Action,Self (10-foot radius),"V, S, M (a glass or crystal bead that shatters when the spell ends)",1
+Glyph of Warding,PHB,3rd,1 hour,Touch (5-foot radius sphere),"V, S, M (incense and powdered diamond worth at least 200 gp, which the spell consumes)",1
+Goodberry,PHB,1st,Action,Touch,"V, S, M (a sprig of mistletoe)",1
+Grasping Vine,PHB,4th,Bonus acn.,30 feet,"V, S",1
+Grease,PHB,1st,Action,60 feet (10-foot cube),"V, S, M (a bit of pork rind or butter)",1
+Greater Invisibility,PHB,4th,Action,Touch,"V, S",1
+Greater Restoration,PHB,5th,Action,Touch,"V, S, M (diamond dust worth at least 100 gp, which the spell consumes)",1
+Green-Flame Blade,SCAG,Cantrip,Action,5 feet,"V, M (a weapon)",1
+Guardian of Faith,PHB,4th,Action,30 feet,V,1
+Guardian of Nature,XGE,4th,Bonus acn.,Self,V,1
+Guards and Wards,PHB,6th,10 minutes,Touch (50-foot cube),"V, S, M (burning incense, a small measure of brimstone and oil, a knotted string, a small amount of umber hulk blood, and a small silver rod worth at least 10 gp)",1
+Guidance,PHB,Cantrip,Action,Touch,"V, S",1
+Guiding Bolt,PHB,1st,Action,120 feet,"V, S",1
+Guiding Hand (UA),UASS,1st,1 minute,5 feet,"V, S",1
+Gust,XGE,Cantrip,Action,30 feet,"V, S",1
+Gust of Wind,PHB,2nd,Action,Self (60-foot line),"V, S, M (a legume seed)",1
+Hail of Thorns,PHB,1st,Bonus acn.,Self,V,1
+Hallow,PHB,5th,24 hours,Touch,"V, S, M (herbs, oils, and incense worth at least 1,000 gp, which the spell consumes)",1
+Hallucinatory Terrain,PHB,4th,10 minutes,300 feet (150-foot cube),"V, S, M (a stone, a twig, and a bit of green plant)",1
+Hand of Radiance (UA),UASS,Cantrip,Action,Self (5-foot radius),"V, S",1
+Harm,PHB,6th,Action,60 feet,"V, S",1
+Haste,PHB,3rd,Action,30 feet,"V, S, M (a shaving of licorice root)",1
+Haywire (UA),UAMM,3rd,Action,90 feet (10-foot radius),"V, S",1
+Heal,PHB,6th,Action,60 feet,"V, S",1
+Healing Elixir (UA),UASS,1st,1 minute,Self,"V, S, M (alchemist's supplies)",1
+Healing Spirit,XGE,2nd,Bonus acn.,60 feet,"V, S",1
+Healing Word,PHB,1st,Bonus acn.,60 feet,V,1
+Heat Metal,PHB,2nd,Action,60 feet,"V, S, M (a piece of iron and a flame)",1
+Hellish Rebuke,PHB,1st,Reaction,60 feet,"V, S",1
+Heroes' Feast,PHB,6th,10 minutes,30 feet,"V, S, M (a gem-encrusted bowl worth at least 1,000 gp, which the spell consumes)",12
+Heroism,PHB,1st,Action,Touch,"V, S",1
+Hex,PHB,1st,Bonus acn.,90 feet,"V, S, M (the petrified eye of a newt)",1
+Hold Monster,PHB,5th,Action,90 feet,"V, S, M (a small, straight piece of iron)",1
+Hold Person,PHB,2nd,Action,60 feet,"V, S, M (a small, straight piece of iron)",1
+Holy Aura,PHB,8th,Action,Self (30-foot radius),"V, S, M (a tiny reliquary worth at least 1,000 gp containing a sacred relic, such as a scrap of cloth from a saint's robe or a piece of parchment from a religious text)",1
+Holy Weapon,XGE,5th,Bonus acn.,Touch,"V, S",1
+Hunger of Hadar,PHB,3rd,Action,150 feet (20-foot radius),"V, S, M (a pickled octopus tentacle)",1
+Hunter's Mark,PHB,1st,Bonus acn.,90 feet,V,1
+Hypnotic Pattern,PHB,3rd,Action,120 feet (30-foot cube),"S, M (a glowing stick of incense or a crystal vial filled with phosphorescent material)",1
+Ice Knife,XGE,1st,Action,60 feet,"S, M (a drop of water or piece of ice)",1
+Ice Storm,PHB,4th,Action,300 feet (20-foot radius; 40-foot height),"V, S, M (a pinch of dust and a few drops of water)",1
+Identify,PHB,1st,1 minute,Touch,"V, S, M (a pearl worth at least 100 gp and an owl feather)",1
+Illusory Dragon,XGE,8th,Action,120 feet,S,1
+Illusory Script,PHB,1st,1 minute,Touch,"S, M (a lead-based ink worth at least 10 gp, which the spell consumes)",1
+Immolation,XGE,5th,Action,90 feet,V,1
+Imprisonment,PHB,9th,1 minute,30 feet,"V, S, M (a vellum depiction or a carved statuette in the likeness of the target, and a special component that varies according to the version of the spell you choose, worth at least 500 gp per Hit Die of the target)",1
+Incendiary Cloud,PHB,8th,Action,150 feet (20-foot radius),"V, S",1
+Incite Greed,AI,3rd,Action,30 feet,"V, S, M (a gem worth at least 50 gp)",1
+Infallible Relay (UA),UAMM,1st,1 minute,Self,"V, S, M (a mobile phone)",1
+Infernal Calling,XGE,5th,1 minute,90 feet,"V, S, M (a ruby worth at least 999 gp)",1
+Infestation,XGE,Cantrip,Action,30 feet,"V, S, M (a living flea)",1
+Infestation (UA),UASS,Cantrip,Action,30 feet,"V, S, M (a living flea)",1
+Inflict Wounds,PHB,1st,Action,Touch,"V, S",1
+Insect Plague,PHB,5th,Action,300 feet (20-foot radius),"V, S, M (a few grains of sugar, some kernels of grain, and a smear of fat)",1
+Investiture of Flame,XGE,6th,Action,Self,"V, S",1
+Investiture of Ice,XGE,6th,Action,Self,"V, S",1
+Investiture of Stone,XGE,6th,Action,Self,"V, S",1
+Investiture of Wind,XGE,6th,Action,Self,"V, S",1
+Invisibility,PHB,2nd,Action,Touch,"V, S, M (an eyelash encased in gum arabic)",1
+Invisibility to Cameras (UA),UAMM,3rd,Action,10 feet,"V, S, M (a scrap of black paper)",4
+Invulnerability,XGE,9th,Action,Self,"V, S, M (a small piece of adamantine worth at least 500 gp, which the spell consumes)",1
+Jim's Glowing Coin,AI,2nd,Action,60 feet,"S, M (a coin), R (2 gp)",1
+Jim's Magic Missile,AI,1st,Action,120 feet,"V, S, R (1 gp)",3
+Jump,PHB,1st,Action,Touch,"V, S, M (a grasshopper's hind leg)",1
+Knock,PHB,2nd,Action,60 feet,V,1
+Legend Lore,PHB,5th,10 minutes,Self,"V, S, M (incense worth at least 250 gp, which the spell consumes, and four ivory strips worth at least 50 gp each)",1
+Leomund's Secret Chest,PHB,4th,Action,Touch,"V, S, M (an exquisite chest, 3 feet by 2 feet by 2 feet, constructed from rare materials worth at least 5,000 gp, and a Tiny replica made from the same materials worth at least 50 gp)",1
+Leomund's Tiny Hut,PHB,3rd,1 minute,Self (10-foot-radius),"V, S, M (a small crystal bead)",1
+Lesser Restoration,PHB,2nd,Action,Touch,"V, S",1
+Levitate,PHB,2nd,Action,60 feet,"V, S, M (either a small leather loop or a piece of golden wire bent into a cup shape with a long shank on one end)",1
+Life Transference,XGE,3rd,Action,30 feet,"V, S",1
+Light,PHB,Cantrip,Action,Touch,"V, M (a firefly or phosphorescent moss)",1
+Lightning Arrow,PHB,3rd,Bonus acn.,Self,"V, S",1
+Lightning Bolt,PHB,3rd,Action,Self (100-foot line),"V, S, M (a bit of fur and a rod of amber, crystal, or glass)",1
+Lightning Lure,SCAG,Cantrip,Action,15 feet,V,1
+Locate Animals or Plants,PHB,2nd,Action,Self,"V, S, M (a bit of fur from a bloodhound)",1
+Locate Creature,PHB,4th,Action,Self,"V, S, M (a bit of fur from a bloodhound)",1
+Locate Object,PHB,2nd,Action,Self,"V, S, M (a forked twig)",1
+Longstrider,PHB,1st,Action,Touch,"V, S, M (a pinch of dirt)",1
+Maddening Darkness,XGE,8th,Action,150 feet (60-foot radius),"V, M (a drop of pitch mixed with a drop of mercury)",1
+Maelstrom,XGE,5th,Action,120 feet (30-foot radius),"V, S, M (paper or leaf in the shape of a funnel)",1
+Mage Armor,PHB,1st,Action,Touch,"V, S, M (a piece of cured leather)",1
+Mage Hand,PHB,Cantrip,Action,30 feet,"V, S",1
+Magic Circle,PHB,3rd,1 minute,10 feet (10-foot radius; 20-foot height),"V, S, M (holy water or powdered silver and iron worth at least 100 gp, which the spell consumes)",1
+Magic Jar,PHB,6th,1 minute,Self,"V, S, M (a gem, crystal, reliquary, or some other ornamental container worth at least 500 gp)",1
+Magic Missile,PHB,1st,Action,120 feet,"V, S",3
+Magic Mouth,PHB,2nd,1 minute,30 feet,"V, S, M (a small bit of honeycomb and jade dust worth at least 10 gp, which the spell consumes)",1
+Magic Stone,XGE,Cantrip,Bonus acn.,Touch,"V, S",1
+Magic Weapon,PHB,2nd,Bonus acn.,Touch,"V, S",1
+Major Image,PHB,3rd,Action,120 feet,"V, S, M (a bit of fleece)",1
+Mass Cure Wounds,PHB,5th,Action,60 feet (30-foot radius),"V, S",6
+Mass Heal,PHB,9th,Action,60 feet,"V, S",1
+Mass Healing Word,PHB,3rd,Bonus acn.,60 feet,V,6
+Mass Polymorph,XGE,9th,Action,120 feet,"V, S, M (a caterpillar cocoon)",10
+Mass Suggestion,PHB,6th,Action,60 feet,"V, M (a snake's tongue and either a bit of honeycomb or a drop of sweet oil)",12
+Maximilian's Earthen Grasp,XGE,2nd,Action,30 feet,"V, S, M (a miniature hand sculpted from clay)",1
+Maze,PHB,8th,Action,60 feet,"V, S",1
+Meld into Stone,PHB,3rd,Action,Touch,"V, S",1
+Melf's Acid Arrow,PHB,2nd,Action,90 feet,"V, S, M (powdered rhubarb leaf and an adder's stomach)",1
+Melf's Minute Meteors,XGE,3rd,Action,Self,"V, S, M (niter, sulfur, and pine tar formed into a bead)",1
+Mending,PHB,Cantrip,1 minute,Touch,"V, S, M (two lodestones)",1
+Mental Prison,XGE,6th,Action,60 feet,S,1
+Message,PHB,Cantrip,Action,120 feet,"V, S, M (a short piece of copper wire)",1
+Meteor Swarm,PHB,9th,Action,1 mile (40-foot radius),"V, S",1
+Mighty Fortress,XGE,8th,1 minute,1 mile,"V, S, M (a diamond worth at least 500 gp, which the spell consumes)",1
+Mind Blank,PHB,8th,Action,Touch,"V, S",1
+Mind Fist,Stream,Cantrip,Action,60 feet,None,1
+Mind Spike,XGE,2nd,Action,60 feet,S,1
+Mind Strike,Stream,Cantrip,Action,60 feet,None,1
+Minor Illusion,PHB,Cantrip,Action,30 feet,"S, M (a bit of fleece)",1
+Mirage Arcane,PHB,7th,10 minutes,Sight,"V, S",1
+Mirror Image,PHB,2nd,Action,Self,"V, S",1
+Mislead,PHB,5th,Action,Self,S,1
+Misty Step,PHB,2nd,Bonus acn.,Self,V,1
+Modify Memory,PHB,5th,Action,30 feet,"V, S",1
+Mold Earth,XGE,Cantrip,Action,30 feet (5-foot cube),S,1
+Moonbeam,PHB,2nd,Action,120 feet (5-foot radius; 40-foot height),"V, S, M (several seeds of any moonseed plant and a piece of opalescent feldspar)",1
+Mordenkainen's Faithful Hound,PHB,4th,Action,30 feet,"V, S, M (a tiny silver whistle, a piece of bone, and a thread)",1
+Mordenkainen's Magnificent Mansion,PHB,7th,1 minute,300 feet,"V, S, M (a miniature portal carved from ivory, a small piece of polished marble, and a tiny silver spoon, each item worth at least 5 gp)",1
+Mordenkainen's Private Sanctum,PHB,4th,10 minutes,120 feet,"V, S, M (a thin sheet of lead, a piece of opaque glass, a wad of cotton or cloth, and powdered chrysolite)",1
+Mordenkainen's Sword,PHB,7th,Action,60 feet,"V, S, M (a miniature platinum sword with a grip and pommel of copper and zinc, worth 250 gp)",1
+Motivational Speech,AI,3rd,1 minute,60 feet,V,5
+Move Earth,PHB,6th,Action,120 feet (40-foot cube),"V, S, M (an iron blade and a small bag containing a mixture of soils—clay, loam, and sand)",1
+Negative Energy Flood,XGE,5th,Action,60 feet,"V, M (a broken bone and a square of black silk)",1
+Nondetection,PHB,3rd,Action,Touch,"V, S, M (a pinch of diamond dust worth 25 gp sprinkled over the target, which the spell consumes)",1
+Nystul's Magic Aura,PHB,2nd,Action,Touch,"V, S, M (a small square of silk)",1
+On/Off (UA),UAMM,Cantrip,Action,60 feet,"V, S",1
+Otiluke's Freezing Sphere,PHB,6th,Action,300 feet (60-foot radius),"V, S, M (a small crystal sphere)",1
+Otiluke's Resilient Sphere,PHB,4th,Action,30 feet,"V, S, M (a hemispherical piece of clear crystal and a matching hemispherical piece of gum arabic)",1
+Otto's Irresistible Dance,PHB,6th,Action,30 feet,V,1
+Pass without Trace,PHB,2nd,Action,Self,"V, S, M (ashes from a burned leaf of mistletoe and a sprig of spruce)",1
+Passwall,PHB,5th,Action,30 feet,"V, S, M (a pinch of sesame seeds)",1
+Phantasmal Force,PHB,2nd,Action,60 feet,"V, S, M (a bit of fleece)",1
+Phantasmal Killer,PHB,4th,Action,120 feet,"V, S",1
+Phantom Steed,PHB,3rd,1 minute,30 feet,"V, S",1
+Planar Ally,PHB,6th,10 minutes,60 feet,"V, S",1
+Planar Binding,PHB,5th,1 hour,60 feet,"V, S, M (a jewel worth at least 1,000 gp, which the spell consumes)",1
+Plane Shift,PHB,7th,Action,Touch,"V, S, M (a forked, metal rod worth at least 250 gp, attuned to a particular plane of existence)",9
+Plant Growth,PHB,3rd,Action,150 feet,"V, S",1
+Poison Spray,PHB,Cantrip,Action,10 feet,"V, S",1
+Polymorph,PHB,4th,Action,60 feet,"V, S, M (a caterpillar cocoon)",1
+Power Word Heal,PHB,9th,Action,Touch,"V, S",1
+Power Word Kill,PHB,9th,Action,60 feet,V,1
+Power Word Pain,XGE,7th,Action,60 feet,V,1
+Power Word Stun,PHB,8th,Action,60 feet,V,1
+Prayer of Healing,PHB,2nd,10 minutes,30 feet,V,6
+Prestidigitation,PHB,Cantrip,Action,10 feet,"V, S",1
+Primal Savagery,XGE,Cantrip,Action,Self,S,1
+Primal Savagery (UA),UASS,Cantrip,Action,Self,S,1
+Primordial Ward,XGE,6th,Action,Self,"V, S",1
+Prismatic Spray,PHB,7th,Action,Self (60-foot cone),"V, S",1
+Prismatic Wall,PHB,9th,Action,60 feet (90-foot wall; 30-foot height; 1-inch width),"V, S",1
+Produce Flame,PHB,Cantrip,Action,Self,"V, S",1
+Programmed Illusion,PHB,6th,Action,120 feet,"V, S, M (a bit of fleece and jade dust worth at least 25 gp)",1
+Project Image,PHB,7th,Action,500 miles,"V, S, M (a small replica of you made from materials worth at least 5 gp)",1
+Protection from Ballistics (UA),UAMM,3rd,Action,Touch,"V, S, M (a shell casing)",1
+Protection from Energy,PHB,3rd,Action,Touch,"V, S",1
+Protection from Evil and Good,PHB,1st,Action,Touch,"V, S, M (holy water or powdered silver and iron, which the spell consumes)",1
+Protection from Poison,PHB,2nd,Action,Touch,"V, S",1
+Psychic Scream,XGE,9th,Action,90 feet,S,10
+Psychic Step,Stream,Cantrip,Action,60 feet,None,1
+Puppet (UA),UASS,1st,Action,120 feet,S,1
+Purify Food and Drink,PHB,1st,Action,10 feet (5-foot radius),"V, S",1
+Pyrotechnics,XGE,2nd,Action,60 feet (5-foot cube),"V, S",1
+Raise Dead,PHB,5th,1 hour,Touch,"V, S, M (a diamond worth at least 500 gp, which the spell consumes)",1
+Rary's Telepathic Bond,PHB,5th,Action,30 feet,"V, S, M (pieces of eggshell from two different kinds of creatures)",8
+Ray of Enfeeblement,PHB,2nd,Action,60 feet,"V, S",1
+Ray of Frost,PHB,Cantrip,Action,60 feet,"V, S",1
+Ray of Sickness,PHB,1st,Action,60 feet,"V, S",1
+Regenerate,PHB,7th,1 minute,Touch,"V, S, M (a prayer wheel and holy water)",1
+Reincarnate,PHB,5th,1 hour,Touch,"V, S, M (rare oils and unguents worth at least 1,000 gp, which the spell consumes)",1
+Remote Access (UA),UAMM,1st,Action,120 feet,"V, S",1
+Remove Curse,PHB,3rd,Action,Touch,"V, S",1
+Resistance,PHB,Cantrip,Action,Touch,"V, S, M (a miniature cloak)",1
+Resurrection,PHB,7th,1 hour,Touch,"V, S, M (a diamond worth at least 1,000 gp, which the spell consumes)",1
+Reverse Gravity,PHB,7th,Action,100 feet (50-foot radius; 100-foot height),"V, S, M (a lodestone and iron filings)",1
+Revivify,PHB,3rd,Action,Touch,"V, S, M (diamonds worth 300 gp, which the spell consumes)",1
+Rope Trick,PHB,2nd,Action,Touch,"V, S, M (powdered corn extract and a twisted loop of parchment)",1
+Sacred Flame,PHB,Cantrip,Action,60 feet,"V, S",1
+Sanctuary,PHB,1st,Bonus acn.,30 feet,"V, S, M (a small silver mirror)",1
+Scatter,XGE,6th,Action,30 feet,V,5
+Scorching Ray,PHB,2nd,Action,120 feet,"V, S",3
+Scrying,PHB,5th,10 minutes,Self,"V, S, M (a focus worth at least 1,000 gp, such as a crystal ball, a silver mirror, or a font filled with holy water)",1
+Searing Smite,PHB,1st,Bonus acn.,Self,V,1
+See Invisibility,PHB,2nd,Action,Self,"V, S, M (a pinch of Talc and a small sprinkling of powdered silver)",1
+Seeming,PHB,5th,Action,30 feet,"V, S",1
+Sending,PHB,3rd,Action,Unlimited,"V, S, M (a short piece of fine copper wire)",1
+Sense Emotion (UA),UASS,1st,Action,Self,"V, S",1
+Sequester,PHB,7th,Action,Touch,"V, S, M (a powder composed of diamond, emerald, ruby, and sapphire dust worth at least 5,000 gp, which the spell consumes)",1
+Shadow Blade,XGE,2nd,Bonus acn.,Self,"V, S",1
+Shadow of Moil,XGE,4th,Action,Self,"V, S, M (an undead eyeball encased in a gem worth at least 150 gp)",1
+Shape Water,XGE,Cantrip,Action,30 feet (5-foot cube),S,1
+Shapechange,PHB,9th,Action,Self,"V, S, M (a jade circlet worth at least 1,500 gp, which you must place on your head before you cast the spell)",1
+Shatter,PHB,2nd,Action,60 feet (10-foot radius),"V, S, M (a chip of mica)",1
+Shield,PHB,1st,Reaction,Self,"V, S",1
+Shield of Faith,PHB,1st,Bonus acn.,60 feet,"V, S, M (a small parchment with a bit of holy text written on it)",1
+Shillelagh,PHB,Cantrip,Bonus acn.,Touch,"V, S, M (mistletoe, a shamrock leaf, and a club or quarterstaff)",1
+Shocking Grasp,PHB,Cantrip,Action,Touch,"V, S",1
+Shutdown (UA),UAMM,5th,Action,120 feet,"V, S",1
+Sickening Radiance,XGE,4th,Action,120 feet (30-foot radius),"V, S",1
+Silence,PHB,2nd,Action,120 feet (20-foot radius),"V, S",1
+Silent Image,PHB,1st,Action,60 feet,"V, S, M (a bit of fleece)",1
+Simulacrum,PHB,7th,12 hours,Touch,"V, S, M (snow or ice in quantities sufficient to made a life-size copy of the duplicated creature; some hair, fingernail clippings, or other piece of that creature's body placed inside the snow or ice; and powdered ruby worth 1,500 gp, sprinkled over the duplicate and consumed by the spell)",1
+Skill Empowerment,XGE,5th,Action,Touch,"V, S",1
+Skywrite,XGE,2nd,Action,Sight,"V, S",1
+Sleep,PHB,1st,Action,90 feet (20-foot radius),"V, S, M (a pinch of fine sand, rose petals, or a cricket)",1
+Sleet Storm,PHB,3rd,Action,150 feet (40-foot radius; 20-foot height),"V, S, M (a pinch of dust and a few drops of water)",1
+Slow,PHB,3rd,Action,120 feet (40-foot cube),"V, S, M (a drop of molasses)",6
+Snare,XGE,1st,1 minute,Touch,"V, S, M (25 feet of rope, which the spell consumes)",1
+Snare (UA),UASS,1st,1 minute,Touch,"V, S, M (30 feet of cord or rope, which is consumed by the spell)",1
+Snilloc's Snowball Swarm,XGE,2nd,Action,90 feet (5-foot radius),"V, S, M (a piece of ice or a small white rock chip)",1
+Soul Cage,XGE,6th,Reaction,60 feet,"V, S, M (a tiny silver cage worth 100 gp)",1
+Spare the Dying,PHB,Cantrip,Action,Touch,"V, S",1
+Speak with Animals,PHB,1st,Action,Self,"V, S",1
+Speak with Dead,PHB,3rd,Action,10 feet,"V, S, M (burning incense)",1
+Speak with Plants,PHB,3rd,Action,Self (30-foot radius),"V, S",1
+Spider Climb,PHB,2nd,Action,Touch,"V, S, M (a drop of bitumen and a spider)",1
+Spike Growth,PHB,2nd,Action,150 feet (20-foot radius),"V, S, M (seven sharp thorns or seven small twigs, each sharpened to a point)",1
+Spirit Guardians,PHB,3rd,Action,Self (15-foot radius),"V, S, M (a holy symbol)",1
+Spiritual Weapon,PHB,2nd,Bonus acn.,60 feet,"V, S",1
+Staggering Smite,PHB,4th,Bonus acn.,Self,V,1
+Steel Wind Strike,XGE,5th,Action,30 feet,"S, M (a melee weapon worth at least 1 sp)",5
+Stinking Cloud,PHB,3rd,Action,90 feet (20-foot radius),"V, S, M (a rotten egg or several skunk cabbage leaves)",1
+Stone Shape,PHB,4th,Action,Touch,"V, S, M (soft clay, which must be worked into roughly the desired shape of the stone object)",1
+Stoneskin,PHB,4th,Action,Touch,"V, S, M (diamond dust worth 100 gp, which the spell consumes)",1
+Storm Sphere,XGE,4th,Action,150 feet (20-foot radius),"V, S",1
+Storm of Vengeance,PHB,9th,Action,Sight (360-foot radius; 1-mile height),"V, S",1
+Sudden Awakening (UA),UASS,1st,Bonus acn.,10 feet,V,1
+Suggestion,PHB,2nd,Action,30 feet,"V, M (a snake's tongue and either a bit of honeycomb or a drop of sweet oil)",1
+Summon Greater Demon,XGE,4th,Action,60 feet,"V, S, M (a vial of blood from a humanoid killed within the past 24 hours)",1
+Summon Lesser Demons,XGE,3rd,Action,60 feet,"V, S, M (a vial of blood from a humanoid killed within the past 24 hours)",1
+Sunbeam,PHB,6th,Action,Self (60-foot line),"V, S, M (a magnifying glass)",1
+Sunburst,PHB,8th,Action,150 feet (60-foot radius),"V, S, M (fire and a piece of sunstone)",1
+Swift Quiver,PHB,5th,Bonus acn.,Touch,"V, S, M (a quiver containing at least one piece of ammunition)",1
+Sword Burst,SCAG,Cantrip,Action,Self (5-foot radius),V,1
+Symbol,PHB,7th,1 minute,Touch (5-foot radius sphere),"V, S, M (mercury, phosphorus, and powdered diamond and opal with a total value of at least 1,000 gp, which the spell consumes)",1
+Synaptic Static,XGE,5th,Action,120 feet (20-foot radius),"V, S",1
+Synchronicity (UA),UAMM,4th,Action,Touch,"V, S",1
+System Backdoor (UA),UAMM,4th,1 minute,Self,"V, S, M (hacking tools)",1
+Tasha's Hideous Laughter,PHB,1st,Action,30 feet,"V, S, M (tiny tarts and a feather that is waved in the air)",1
+Telekinesis,PHB,5th,Action,60 feet,"V, S",1
+Telepathy,PHB,8th,Action,Unlimited,"V, S, M (a pair of linked silver rings)",1
+Teleport,PHB,7th,Action,10 feet,V,1
+Teleportation Circle,PHB,5th,1 minute,10 feet,"V, M (rare chalks and inks infused with precious gems worth 50 gp, which the spell consumes)",1
+Temple of the Gods,XGE,7th,1 hour,120 feet,"V, S, M (a holy symbol worth at least 5 gp)",1
+Tenser's Floating Disk,PHB,1st,Action,30 feet,"V, S, M (a drop of mercury)",1
+Tenser's Transformation,XGE,6th,Action,Self,"V, S, M (a few hairs from a bull)",1
+Thaumaturgy,PHB,Cantrip,Action,30 feet,V,1
+Thorn Whip,PHB,Cantrip,Action,30 feet,"V, S, M (the stem of a plant with thorns)",1
+Thunder Step,XGE,3rd,Action,90 feet,V,1
+Thunderclap,XGE,Cantrip,Action,Self (5-foot radius),S,1
+Thunderous Smite,PHB,1st,Bonus acn.,Self,V,1
+Thunderwave,PHB,1st,Action,Self (15-foot cube),"V, S",1
+Tidal Wave,XGE,3rd,Action,120 feet (30-foot wall; 10-foot height; 10-foot width),"V, S, M (a drop of water)",1
+Time Stop,PHB,9th,Action,Self,V,1
+Tiny Servant,XGE,3rd,1 minute,Touch,"V, S",1
+Toll the Dead,XGE,Cantrip,Action,60 feet,"V, S",1
+Toll the Dead (UA),UASS,Cantrip,Action,60 feet,"V, S",1
+Tongues,PHB,3rd,Action,Touch,"V, M (a small clay model of a ziggurat)",1
+Transmute Rock,XGE,5th,Action,120 feet (40-foot cube),"V, S, M (clay and water)",1
+Transport via Plants,PHB,6th,Action,10 feet,"V, S",1
+Tree Stride,PHB,5th,Action,Self,"V, S",1
+True Polymorph,PHB,9th,Action,30 feet,"V, S, M (a drop of mercury, a dollop of gum arabic, and a wisp of smoke)",1
+True Resurrection,PHB,9th,1 hour,Touch,"V, S, M (a sprinkle of holy water and diamonds worth at least 25,000 gp, which the spell consumes)",1
+True Seeing,PHB,6th,Action,Touch,"V, S, M (an ointment for the eyes that costs 25 gp; is made from mushroom powder, saffron, and fat; and is consumed by the spell)",1
+True Strike,PHB,Cantrip,Action,30 feet,S,1
+Tsunami,PHB,8th,1 minute,Sight (300-foot wall; 300-foot height; 50-foot width),"V, S",1
+Unearthly Chorus (UA),UASS,1st,Action,Self (30-foot radius),V,1
+Unseen Servant,PHB,1st,Action,60 feet,"V, S, M (a piece of string and a bit of wood)",1
+Vampiric Touch,PHB,3rd,Action,Self,"V, S",1
+Vicious Mockery,PHB,Cantrip,Action,60 feet,V,1
+Virtue (UA),UASS,Cantrip,Action,Touch,"V, S",1
+Vitriolic Sphere,XGE,4th,Action,150 feet (20-foot sphere),"V, S, M (a drop of giant slug bile)",1
+Wall of Fire,PHB,4th,Action,120 feet (60-foot wall; 20-foot height; 1-foot width),"V, S, M (a small piece of phosphorus)",1
+Wall of Force,PHB,5th,Action,120 feet (100-foot wall; 10-foot height; 0.25-inch width),"V, S, M (a pinch of powder made by crushing a clear gemstone)",1
+Wall of Ice,PHB,6th,Action,120 feet (100-foot wall; 10-foot height; 1-foot width),"V, S, M (a small piece of quartz)",1
+Wall of Light,XGE,5th,Action,120 feet (60-foot wall; 10-foot height; 5-foot width),"V, S, M (a hand mirror)",1
+Wall of Sand,XGE,3rd,Action,90 feet (30-foot wall; 10-foot height; 10-foot width),"V, S, M (a handful of sand)",1
+Wall of Stone,PHB,5th,Action,120 feet (100-foot wall; 10-foot height; 6-inch width),"V, S, M (a small block of granite)",1
+Wall of Thorns,PHB,6th,Action,120 feet (60-foot wall; 20-foot height; 5-foot width),"V, S, M (a handful of thorns)",1
+Wall of Water,XGE,3rd,Action,60 feet (60-foot wall; 20-foot height; 6-inches width),"V, S, M (a drop of water)",1
+Warding Bond,PHB,2nd,Action,Touch,"V, S, M (a pair of platinum rings worth at least 50 gp each, which you and the target must wear for the duration)",1
+Warding Wind,XGE,2nd,Action,Self,V,1
+Water Breathing,PHB,3rd,Action,30 feet,"V, S, M (a short reed or piece of straw)",10
+Water Walk,PHB,3rd,Action,30 feet,"V, S, M (a piece of cork)",10
+Watery Sphere,XGE,4th,Action,90 feet (5-foot radius),"V, S, M (a droplet of water)",1
+Web,PHB,2nd,Action,60 feet (20-foot cube),"V, S, M (a bit of spiderweb)",1
+Weird,PHB,9th,Action,120 feet (30-foot radius),"V, S",1
+Whirlwind,XGE,7th,Action,300 feet (10-foot radius; 30-foot height),"V, M (a piece of straw)",1
+Wild Cunning (UA),UASS,1st,Action,120 feet,"V, S",1
+Wind Walk,PHB,6th,1 minute,30 feet,"V, S, M (fire and holy water)",10
+Wind Wall,PHB,3rd,Action,120 feet (50-foot wall; 15-foot height; 1-foot width),"V, S, M (a tiny fan and a feather of exotic origin)",1
+Wish,PHB,9th,Action,Self,V,1
+Witch Bolt,PHB,1st,Action,30 feet,"V, S, M (a twig from a tree that has been struck by lightning)",1
+Word of Radiance,XGE,Cantrip,Action,5 feet,"V, M (a holy symbol)",1
+Word of Recall,PHB,6th,Action,5 feet,V,1
+Wrath of Nature,XGE,5th,Action,120 feet (60-foot cube),"V, S",1
+Wrathful Smite,PHB,1st,Bonus acn.,Self,V,1
+Zephyr Strike,XGE,1st,Bonus acn.,Self,V,1
+Zephyr Strike (UA),UASS,1st,Bonus acn.,Self,V,1
+Zone of Truth,PHB,2nd,Action,60 feet (15-foot radius),"V, S",1
