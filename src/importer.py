@@ -2,18 +2,27 @@
 import requests
 import json
 # project imports
+from library import Library
+from book import Book
 from spell_from_tool import ToolSpell
 
-def verbose_resource(resource):
-	'''
-	Prints resources to console as they are retrieved.
-	'''
-	print()
-	output = f'getting data from {resource} ...'
-	print('+'*len(output))
-	print(output)
+# project settings
+VERBOSE = True
 
-def main(verbose = None):
+def verbose_get(resource):
+	'''
+	This function checks the VERBOSE project setting.
+	It can print resources to console as they are retrieved.
+	Otherwise, it acts the same as requests.get()
+	'''
+	if VERBOSE:
+		output = f'getting data from {resource} ...'
+		print()
+		print('+'*len(output))
+		print(output)
+	return requests.get(resource)
+
+def main():
 	'''
 	Retrieves spellbook data from a particular github project:
 	https://github.com/TheGiddyLimit/TheGiddyLimit.github.io
@@ -24,35 +33,42 @@ def main(verbose = None):
 	# Much of the spell json is found at this url.
 	# Unfortunately, I am still looking for a better resource,
 	# as this data omits things such as a spell's shape.
-	URL='https://raw.githubusercontent.com/TheGiddyLimit' \
+	url='https://raw.githubusercontent.com/TheGiddyLimit' \
 	'/TheGiddyLimit.github.io/master/data/spells/'
 	
 	# == HACK ==
-	# The problem above had some trickle-down effects.
+	# The problem noted above had some trickle-down effects.
 	# A 2nd resource had to be found to fill in missing data.
-	# Wierdly, this data is from 5etools' csv generator.
+	# Wierdly, the extra data is from 5etools' csv generator.
 	with open('spells_area.json', 'r') as file:
-		EXTRA_DATA = json.load(file)
+		ExtraData = json.load(file)
 
 	# The url is not complete without a filename.
 	# Each d&d book is associated with a different filename.
 	# The reference chosen has a json object for these books.
-	SOURCES = ''.join([URL,'index.json'])
-	SOURCES = requests.get(SOURCES).json()
+	SourceData = verbose_get(url + 'index.json').json()
 
-	for book in SOURCES:
-		resource = ''.join([URL,SOURCES[book]])
+	# A sanctum will be made to store parsed tome objects.
+	Sanctum = Library()
+	for book in SourceData:
+		# Every book is associated with a filename.
+		# This filname can be used to find the url.
+		BookData = verbose_get(url + SourceData[book]).json()
 
-		if verbose:
-			verbose_resource(resource)
+		# A tome will be made to store parsed spell objects.
+		Tome = Book()
+		for SpellData in BookData['spell']:
 
-		PRIME_DATA = requests.get(resource).json()
-
-		for spell_data in PRIME_DATA['spell']:
-			Spell = ToolSpell(spell_data, EXTRA_DATA, book)
-
+			# The spell object is a way of tracking parsed data.
+			Spell = ToolSpell(SpellData, ExtraData, book)
 			with open(Spell.path, 'w+') as file:
 				file.write(Spell.markdown)
+			# Add spell to the tome.
+			Tome.add(Spell)
+		# Add tome to the sanctum.
+		Sanctum.add(Tome)
+	# Sanctum holds all the arcane information you could need.
+	return Sanctum
 
 if __name__ == '__main__':
 	main()
