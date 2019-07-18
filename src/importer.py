@@ -1,41 +1,58 @@
-import json
+# python packages
 import requests
+import json
+# project imports
 from spell_from_tool import ToolSpell
 
-URL='https://raw.githubusercontent.com/TheGiddyLimit/TheGiddyLimit.github.io/master/data/spells/'
-SOURCE = {
-	"AI": "spells-ai.json",
-	"GGR": "spells-ggr.json",
-	"LLK": "spells-llk.json",
-	"PHB": "spells-phb.json",
-	"SCAG": "spells-scag.json",
-	"Stream": "spells-stream.json",
-	"UAArtificerRevisited": "spells-ua-ar.json",
-	"UAModernMagic": "spells-ua-mm.json",
-	"UAStarterSpells": "spells-ua-ss.json",
-	"UAThatOldBlackMagic": "spells-ua-tobm.json",
-	"XGE": "spells-xge.json"
-}
-
-def parse_book(book_abbr, DATA_EXTRA):
-	book_sfx = SOURCE[book_abbr]
-	book_src = ''.join([URL,book_sfx])
+def verbose_resource(resource):
+	'''
+	Prints resources to console as they are retrieved.
+	'''
 	print()
-	print('+'*len(f'getting data from {book_src} ...'))
-	print(f'getting data from {book_src} ...')
-	DATA_PRIME = requests.get(f'{book_src}').json()
+	output = f'getting data from {resource} ...'
+	print('+'*len(output))
+	print(output)
 
-	for spell_data in DATA_PRIME['spell']:
-		# extra_data = DATA_EXTRA[spell_data['name']]
-		# print(extra_data)
-		Spell = ToolSpell(spell_data, DATA_EXTRA, book_abbr)
-		with open(Spell.path, 'w+') as file:
-			file.write(Spell.markdown)
+def main(verbose = None):
+	'''
+	Retrieves spellbook data from a particular github project:
+	https://github.com/TheGiddyLimit/TheGiddyLimit.github.io
+	Once recieved, the importer scans the spells in each book.
+	A class is assigned for each spell as the data is parsed.
+	'''
+	# == HACK ==
+	# Much of the spell json is found at this url.
+	# Unfortunately, I am still looking for a better resource,
+	# as this data omits things such as a spell's shape.
+	URL='https://raw.githubusercontent.com/TheGiddyLimit' \
+	'/TheGiddyLimit.github.io/master/data/spells/'
+	
+	# == HACK ==
+	# The problem above had some trickle-down effects.
+	# A 2nd resource had to be found to fill in missing data.
+	# Wierdly, this data is from 5etools' csv generator.
+	with open('spells_area.json', 'r') as file:
+		EXTRA_DATA = json.load(file)
+
+	# The url is not complete without a filename.
+	# Each d&d book is associated with a different filename.
+	# The reference chosen has a json object for these books.
+	SOURCES = ''.join([URL,'index.json'])
+	SOURCES = requests.get(SOURCES).json()
+
+	for book in SOURCES:
+		resource = ''.join([URL,SOURCES[book]])
+
+		if verbose:
+			verbose_resource(resource)
+
+		PRIME_DATA = requests.get(resource).json()
+
+		for spell_data in PRIME_DATA['spell']:
+			Spell = ToolSpell(spell_data, EXTRA_DATA, book)
+
+			with open(Spell.path, 'w+') as file:
+				file.write(Spell.markdown)
 
 if __name__ == '__main__':
-	DATA_EXTRA = ''
-	with open('spells_area.json', 'r') as file:
-		DATA_EXTRA = json.load(file)
-	
-	for book_abbr in SOURCE:
-		parse_book(book_abbr, DATA_EXTRA)
+	main()
