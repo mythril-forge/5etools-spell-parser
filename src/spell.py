@@ -76,6 +76,11 @@ class Spell:
 			'subclass': None,
 			'subrace': None,
 		}
+		
+		self.citation = {
+			'book': None,
+			'page': None
+		}
 
 		# generate the outputs!!
 		self.markdown = None

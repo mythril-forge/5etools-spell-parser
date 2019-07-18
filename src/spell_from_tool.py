@@ -41,6 +41,7 @@ class ToolSpell(Spell):
 		self.get_components()
 		self.get_info()
 		self.get_access()
+		self.get_citation()
 		self.get_markdown()
 
 	def get_name(self):
@@ -457,7 +458,8 @@ class ToolSpell(Spell):
 			'somatic': False,
 			'material': False,
 			'concentration': False,
-			'ritual': False
+			'ritual': False,
+			'royalty': False
 		}
 		if 'components' in self.json:
 			if 'v' in self.json['components']:
@@ -466,8 +468,8 @@ class ToolSpell(Spell):
 				self.tags['somatic'] = True
 			if 'm' in self.json['components']:
 				self.tags['material'] = True
-			# if 'r' in self.json['components']:
-			# 	raise FIXME
+			if 'r' in self.json['components']:
+				self.tags['royalty'] = True
 			if 'concentration' in self.json['duration'][0]:
 				self.tags['concentration'] = True
 			if 'meta' in self.json:
@@ -496,6 +498,10 @@ class ToolSpell(Spell):
 		# general case
 		info = re.sub(r'}','',info) # can't use (?<={@.*? .*?)}
 		info = re.sub(r'{@.*? ','',info)
+		info = re.sub(r'\n\n+', '\n\n', info)
+		info = re.sub(r'dretch\|\|', '', info) # jeeze :\
+		info = re.sub(r'\d+d\d+\|\d-\d\|', '', info)
+		info = info.strip()
 		return info
 
 	def get_info(self):
@@ -665,42 +671,39 @@ class ToolSpell(Spell):
 						raise
 					pass
 
-		self.info = self.clean_info(result).strip()
-		self.info = re.sub(r'\n\n+', '\n\n', self.info)
+		self.info = self.clean_info(result)
+
 
 	def get_access(self):
-		pass ### TODO
+		classes = []
+		subclasses = []
+		races = []
+		subraces = []
+		# print(self.json['classes']['fromClassList'])
+		for player_class in self.json['classes'].get('fromClassList'):
+			classes.append(player_class['name'])
+		if self.json['classes'].get('fromSubclass'):
+			for player_subclass in self.json['classes'].get('fromSubclass'):
+				subclass =''
+				subclass += player_subclass['subclass']['name']
+				subclass += ' '
+				subclass += player_subclass['class']['name']
+				subclasses.append(subclass)
 
+		if self.json.get('races'):
+			for entry in self.json['races']:
+				if entry.get('baseName'):
+					subrace = ''
+					subrace += entry['name']
+					subraces.append(subrace)
+				else:
+					race = ''
+					race += entry['name']
 
-	def get_markdown(self):
-		self.markdown = f'''# {self.name}
-
-{nth_number(self.level)}-level {self.school}
-
-casting time: {self.distill_cast_time()}
-
-duration: {self.distill_duration()}
-
-range: {self.distill_range()}
-
-shape: {self.distill_shape()}
-
-tags: {self.distill_tags()}
-
-components: {self.distill_components()}
-
----
-
-{self.info}
-
----
-
-classes:
-
-subclasses:
-
-source:
-'''
+		self.access['class'] = classes
+		self.access['subclass'] = subclasses
+		self.access['race'] = races
+		self.access['subrace'] = subraces
 
 	def distill_cast_time(self):
 		result = ''
@@ -930,12 +933,10 @@ source:
 				number = self.area['width']
 				result += str(number)
 				result += '-foot'
-			elif self.area['width'] % (1/12) == 0:
-				number = int(self.area['width'] * 12)
+			else:
+				number = self.area['width'] * 12
 				result += str(number)
 				result += '-inch'
-			else:
-				raise
 			result += ' wide wall'
 		elif self.area.get('shape') == 'cone':
 			if self.area['radius'] % 5280 == 0:
@@ -1001,15 +1002,145 @@ source:
 			else:
 				raise
 			result += ' high, '
+
+		# CHECK XXX WALLS A BIGGIE
+		elif self.area.get('shape') == 'line':
+			if self.area['length'] % 5280 == 0:
+				number = self.area['length'] // 5280
+				result += str(number)
+				result += '-mile'
+			elif self.area['length'] % 1 == 0:
+				number = self.area['length']
+				result += str(number)
+				result += '-foot'
+			elif self.area['length'] % (1/12) == 0:
+				number = int(self.area['length'] * 12)
+				result += str(number)
+				result += '-inch'
+			else:
+				raise
+			result += ' long, '
+			###
+			if self.area['width'] % 5280 == 0:
+				number = self.area['width'] // 5280
+				result += str(number)
+				result += '-mile'
+			elif self.area['width'] % 1 == 0:
+				number = self.area['width']
+				result += str(number)
+				result += '-foot'
+			elif self.area['width'] * 12 % 1 == 0:
+				number = int(self.area['width'] * 12)
+				result += str(number)
+				result += '-inch'
+			else:
+				raise
+			result += ' wide line'
 		else:
-			print(self.area)
 			raise
 		return result
 
 	def distill_tags(self):
 		result = ''
-		pass
+		result_array = []
+		for tag in self.tags:
+			if self.tags[tag] == True:
+				result_array.append(tag)
+		result = ', '.join(result_array)
+		return result
 
 	def distill_components(self):
 		result = ''
-		pass
+		result += str(self.components['material'])
+		return result
+
+	def distill_classes(self):
+		result = ''
+		result_array = []
+		for player_class in self.access['class']:
+			result_array.append(player_class)
+		result = ', '.join(result_array)
+		return result
+
+	def distill_subclasses(self):
+		result = ''
+		result_array = []
+		for player_class in self.access['subclass']:
+			result_array.append(player_class)
+		if result_array == []:
+			return None
+		result = ', '.join(result_array)
+		return result
+
+	def distill_races(self):
+		result = ''
+		result_array = []
+		for player_race in self.access['race']:
+			result_array.append(player_race)
+		if result_array == []:
+			return None
+		result = ', '.join(result_array)
+		return result
+
+	def distill_subraces(self):
+		result = ''
+		result_array = []
+		for player_subrace in self.access['subrace']:
+			result_array.append(player_subrace)
+		if result_array == []:
+			return None
+		result = ', '.join(result_array)
+		return result
+
+	def get_citation(self):
+		self.citation['book'] = self.json['source']
+		self.citation['page'] = self.json.get('page')
+
+	def distill_citation(self):
+		result = ''
+		result += self.citation['book']
+		if self.citation['page']:
+			result += ', page '
+			result += str(self.citation['page'])
+		return result
+
+	def get_markdown(self):
+		self.markdown = f'''# {self.name}
+
+{nth_number(self.level)}-level {self.school}
+
+casting time: {self.distill_cast_time()}
+
+duration: {self.distill_duration()}
+
+range: {self.distill_range()}
+
+shape: {self.distill_shape()}
+
+&numero; effects: {str(self.instances)}
+
+tags: {self.distill_tags()}
+
+verbal components: None
+
+somatic components: None
+
+material components: {self.distill_components()}
+
+---
+
+## Description
+{self.info}
+
+---
+
+classes: {self.distill_classes()}
+
+subclasses: {self.distill_subclasses()}
+
+races: {self.distill_races()}
+
+subraces: {self.distill_subraces()}
+
+citation: {self.distill_citation()}
+'''
