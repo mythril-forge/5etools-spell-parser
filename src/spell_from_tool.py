@@ -499,13 +499,11 @@ class ToolSpell(Spell):
 		return info
 
 	def get_info(self):
-		# print(self.json)
 		result = ''
 		for entry in self.json['entries']:
 			if isinstance(entry,str):
 				result += '\n\n'
 				result += entry
-				# print(result)
 
 			else:
 				if entry['type'] == 'quote':
@@ -516,14 +514,12 @@ class ToolSpell(Spell):
 						result += sub_entry
 					result += '\n> \n> &mdash;'
 					result += entry['by']
-					# print(result)
 
 				elif entry['type'] == 'list':
 					for item in entry['items']:
 						result += '\n'
 						result += '- '
 						result += item
-					# print(result)
 
 				elif entry['type'] == 'entries':
 					result += '\n\n### '
@@ -544,10 +540,8 @@ class ToolSpell(Spell):
 									result += item
 						else:
 							result += sub_entry
-					# print(result)
 
 				elif entry['type'] == 'table':
-					# print(entry['rows'])
 					if entry.get('caption'):
 						result += '\n\n#### '
 						result += entry['caption']
@@ -585,7 +579,6 @@ class ToolSpell(Spell):
 								result += ' |'
 					result += '\n\n'
 				else:
-					# print(entry)
 					raise
 				pass
 
@@ -594,7 +587,6 @@ class ToolSpell(Spell):
 				if isinstance(entry,str):
 					result += '\n\n'
 					result += entry
-					# print(result)
 
 				else:
 					if entry['type'] == 'quote':
@@ -605,17 +597,15 @@ class ToolSpell(Spell):
 							result += sub_entry
 						result += '\n> \n> &mdash;'
 						result += entry['by']
-						# print(result)
 
 					elif entry['type'] == 'list':
 						for item in entry['items']:
 							result += '\n'
 							result += '- '
 							result += item
-						# print(result)
 
 					elif entry['type'] == 'entries':
-						result += '\n\n### '
+						result += '\n\n## '
 						result += entry['name']
 						first = True
 						for sub_entry in entry['entries']:
@@ -633,10 +623,8 @@ class ToolSpell(Spell):
 										result += item
 							else:
 								result += sub_entry
-						# print(result)
 
 					elif entry['type'] == 'table':
-						# print(entry['rows'])
 						if entry.get('caption'):
 							result += '\n\n#### '
 							result += entry['caption']
@@ -674,7 +662,6 @@ class ToolSpell(Spell):
 									result += ' |'
 						result += '\n\n'
 					else:
-						# print(entry)
 						raise
 					pass
 
@@ -684,6 +671,345 @@ class ToolSpell(Spell):
 	def get_access(self):
 		pass ### TODO
 
+
 	def get_markdown(self):
 		self.markdown = f'''# {self.name}
-{self.info}'''
+
+{nth_number(self.level)}-level {self.school}
+
+casting time: {self.distill_cast_time()}
+
+duration: {self.distill_duration()}
+
+range: {self.distill_range()}
+
+shape: {self.distill_shape()}
+
+tags: {self.distill_tags()}
+
+components: {self.distill_components()}
+
+---
+
+{self.info}
+
+---
+
+classes:
+
+subclasses:
+
+source:
+'''
+
+	def distill_cast_time(self):
+		result = ''
+		if self.cast_time.get('quality') == 'special':
+			result += self.cast_time['quality']
+		elif self.cast_time.get('quality') == 'action':
+			result += self.cast_time['quality']
+		elif self.cast_time.get('quality') == 'bonus action':
+			result += self.cast_time['quality']
+		elif self.cast_time.get('quality') == 'reaction':
+			result += self.cast_time['quality']
+			result += ', '
+			result += self.cast_time['condition']
+		elif self.cast_time.get('seconds'):
+			if self.cast_time['seconds'] % 604800 == 0:
+				number = self.cast_time['seconds'] // 604800
+				result += str(number)
+				if number == 1:
+					result += ' week'
+				else:
+					result += ' weeks'
+			elif self.cast_time['seconds'] % 86400 == 0:
+				number = self.cast_time['seconds'] // 86400
+				result += str(number)
+				if number == 1:
+					result += ' day'
+				else:
+					result += ' days'
+			elif self.cast_time['seconds'] % 3600 == 0:
+				number = self.cast_time['seconds'] // 3600
+				result += str(number)
+				if number == 1:
+					result += ' hour'
+				else:
+					result += ' hours'
+			elif self.cast_time['seconds'] % 60 == 0:
+				number = self.cast_time['seconds'] // 60
+				result += str(number)
+				if number == 1:
+					result += ' minute'
+				else:
+					result += ' minutes'
+			elif self.cast_time['seconds'] % 10 == 0:
+				number = self.cast_time['seconds'] // 10
+				result += str(number)
+				if number == 1:
+					result += ' round'
+				else:
+					result += ' rounds'
+			elif self.cast_time['seconds'] % 1 == 0:
+				number = self.cast_time['seconds']
+				result += str(number)
+				if number == 1:
+					result += ' second'
+				else:
+					result += ' seconds'
+			else:
+				raise
+		else:
+			raise
+		return result
+
+	def distill_range(self):
+		result = ''
+		if self.range in ['self','touch','special','indefinate']:
+			result = self.range
+		elif isinstance(self.range, int):
+			if self.range % 5280 == 0:
+				number = self.range // 5280
+				result += str(number)
+				if number == 1:
+					result += ' mile'
+				else: 
+					result += ' miles'
+			elif self.range % 1 == 0:
+				number = self.range
+				result += str(number)
+				if number == 1:
+					result += ' foot'
+				else: 
+					result += ' feet'
+			elif self.range % (1/12) == 0:
+				number = int(self.range * 12)
+				result += number
+				if number == 1:
+					result += ' inch'
+				else:
+					result += ' inches'
+			else:
+				raise
+		else:
+			raise
+		return result
+		
+	def distill_duration(self):
+		result = ''
+		if self.duration.get('quality') == 'instantaneous':
+			result += self.duration['quality']
+		elif self.duration.get('quality') == 'indefinate':
+			result += self.duration['quality']
+		elif self.duration.get('quality') == 'special':
+			result += self.duration['quality']
+		elif self.duration.get('seconds'):
+			if self.duration['seconds'] % 604800 == 0:
+				number = self.duration['seconds'] // 604800
+				result += str(number)
+				if number == 1:
+					result += ' week'
+				else:
+					result += ' weeks'
+			elif self.duration['seconds'] % 86400 == 0:
+				number = self.duration['seconds'] // 86400
+				result += str(number)
+				if number == 1:
+					result += ' day'
+				else:
+					result += ' days'
+			elif self.duration['seconds'] % 3600 == 0:
+				number = self.duration['seconds'] // 3600
+				result += str(number)
+				if number == 1:
+					result += ' hour'
+				else:
+					result += ' hours'
+			elif self.duration['seconds'] % 60 == 0:
+				number = self.duration['seconds'] // 60
+				result += str(number)
+				if number == 1:
+					result += ' minute'
+				else:
+					result += ' minutes'
+			elif self.duration['seconds'] % 10 == 0:
+				number = self.duration['seconds'] // 10
+				result += str(number)
+				if number == 1:
+					result += ' round'
+				else:
+					result += ' rounds'
+			elif self.duration['seconds'] % 1 == 0:
+				number = self.duration['seconds']
+				result += str(number)
+				if number == 1:
+					result += ' second'
+				else:
+					result += ' seconds'
+			else:
+				raise
+		else:
+			raise
+		return result
+
+	def distill_shape(self):
+		result = ''
+		if not self.area.get('shape'):
+			result += str(None)
+		elif self.area.get('shape') == 'cube':
+			if self.area['length'] % 5280 == 0:
+				number = self.area['length'] // 5280
+				result += str(number)
+				result += '-mile'
+			elif self.area['length'] % 1 == 0:
+				number = self.area['length']
+				result += str(number)
+				result += '-foot'
+			elif self.area['length'] % (1/12) == 0:
+				number = int(self.area['length'] * 12)
+				result += str(number)
+				result += '-inch'
+			else:
+				raise
+			result += ' cube'
+		elif self.area.get('shape') == 'aura':
+			if self.area['radius'] % 5280 == 0:
+				number = self.area['radius'] // 5280
+				result += str(number)
+				result += '-mile'
+			elif self.area['radius'] % 1 == 0:
+				number = self.area['radius']
+				result += str(number)
+				result += '-foot'
+			elif self.area['radius'] % (1/12) == 0:
+				number = int(self.area['radius'] * 12)
+				result += str(number)
+				result += '-inch'
+			else:
+				raise
+			result += ' aura'
+		# CHECK XXX WALLS A BIGGIE
+		elif self.area.get('shape') == 'wall':
+			if self.area['length'] % 5280 == 0:
+				number = self.area['length'] // 5280
+				result += str(number)
+				result += '-mile'
+			elif self.area['length'] % 1 == 0:
+				number = self.area['length']
+				result += str(number)
+				result += '-foot'
+			elif self.area['length'] % (1/12) == 0:
+				number = int(self.area['length'] * 12)
+				result += str(number)
+				result += '-inch'
+			else:
+				raise
+			result += ' long, '
+			###
+			if self.area['height'] % 5280 == 0:
+				number = self.area['height'] // 5280
+				result += str(number)
+				result += '-mile'
+			elif self.area['height'] % 1 == 0:
+				number = self.area['height']
+				result += str(number)
+				result += '-foot'
+			elif self.area['height'] % (1/12) == 0:
+				number = int(self.area['height'] * 12)
+				result += str(number)
+				result += '-inch'
+			else:
+				raise
+			result += ' high, '
+			###
+			if self.area['width'] % 5280 == 0:
+				number = self.area['width'] // 5280
+				result += str(number)
+				result += '-mile'
+			elif self.area['width'] % 1 == 0:
+				number = self.area['width']
+				result += str(number)
+				result += '-foot'
+			elif self.area['width'] % (1/12) == 0:
+				number = int(self.area['width'] * 12)
+				result += str(number)
+				result += '-inch'
+			else:
+				raise
+			result += ' wide wall'
+		elif self.area.get('shape') == 'cone':
+			if self.area['radius'] % 5280 == 0:
+				number = self.area['radius'] // 5280
+				result += str(number)
+				result += '-mile'
+			elif self.area['radius'] % 1 == 0:
+				number = self.area['radius']
+				result += str(number)
+				result += '-foot'
+			elif self.area['radius'] % (1/12) == 0:
+				number = int(self.area['radius'] * 12)
+				result += str(number)
+				result += '-inch'
+			else:
+				raise
+			result += ' cone'
+		elif self.area.get('shape') == 'sphere':
+			if self.area['radius'] % 5280 == 0:
+				number = self.area['radius'] // 5280
+				result += str(number)
+				result += '-mile'
+			elif self.area['radius'] % 1 == 0:
+				number = self.area['radius']
+				result += str(number)
+				result += '-foot'
+			elif self.area['radius'] % (1/12) == 0:
+				number = int(self.area['radius'] * 12)
+				result += str(number)
+				result += '-inch'
+			else:
+				raise
+			result += ' sphere'
+		elif self.area.get('shape') == 'cylinder':
+			if self.area['radius'] % 5280 == 0:
+				number = self.area['radius'] // 5280
+				result += str(number)
+				result += '-mile'
+			elif self.area['radius'] % 1 == 0:
+				number = self.area['radius']
+				result += str(number)
+				result += '-foot'
+			elif self.area['radius'] % (1/12) == 0:
+				number = int(self.area['radius'] * 12)
+				result += str(number)
+				result += '-inch'
+			else:
+				raise
+			result += ' radius'
+			### CONTINUE CYLINDER
+			if self.area['height'] % 5280 == 0:
+				number = self.area['height'] // 5280
+				result += str(number)
+				result += '-mile'
+			elif self.area['height'] % 1 == 0:
+				number = self.area['height']
+				result += str(number)
+				result += '-foot'
+			elif self.area['height'] % (1/12) == 0:
+				number = int(self.area['height'] * 12)
+				result += str(number)
+				result += '-inch'
+			else:
+				raise
+			result += ' high, '
+		else:
+			print(self.area)
+			raise
+		return result
+
+	def distill_tags(self):
+		result = ''
+		pass
+
+	def distill_components(self):
+		result = ''
+		pass
