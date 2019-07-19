@@ -4,8 +4,7 @@ import json
 # project imports
 from library import Library
 from book import Book
-from spell_from_tool import ToolSpell
-
+from spell_from_tool import SpellFromTool
 # project settings
 VERBOSE = True
 
@@ -58,16 +57,16 @@ def main():
 		# A tome will be made to store parsed spell objects.
 		Tome = Book()
 		for SpellData in BookData['spell']:
+			# The arcanum object tracks parsed spell data.
+			# Here the data generates quality properties.
+			# This can later be used to generate markdown or json.
+			Arcanum = SpellFromTool(SpellData, ExtraData)
 
-			# The spell object is a way of tracking parsed data.
-			Spell = ToolSpell(SpellData, ExtraData, book)
-			with open(Spell.path, 'w+') as file:
-				file.write(Spell.markdown)
-			# Add spell to the tome.
+			# Add an arcanum to the tome.
 			Tome.add(Spell)
-		# Add tome to the sanctum.
+		# Add a tome to the sanctum.
 		Sanctum.add(Tome)
-	# Sanctum holds all the arcane information you could need.
+	# Sanctum holds all the wizardly research you could need.
 	return Sanctum
 
 if __name__ == '__main__':
