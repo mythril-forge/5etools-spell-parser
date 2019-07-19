@@ -51,72 +51,46 @@ class SpellFromTool(Spell):
 
 	def get_name(self):
 		'''
-		"get_name()" simply retrieves the name of a spell.
+		Retrieves the name of a spell.
+		TODO: This should ensure only valid characters:
+		a-z;A-Z;0-9; ;-;';&; etc.
 		'''
-		self.name = self.json['name']
-
-	def get_slug(self):
-		'''
-		"get_slug()" uses a package called "slugify".
-		"slugify()" can make our markdown files kabab-case.
-		'''
-		expression = re.compile('([^\s\w/]|_)+')
-		clean_name = expression.sub('', self.name).lower()
-		self.slug = slugify(clean_name)
-
-	def get_path(self):
-		'''
-		"get_path()" generates a filepath for this spell.
-		This is used as the destination of the output.
-		---
-		"get_path()" uses a package called "os".
-		"os" can help by creating directories.
-		'''
-		# create a directory so python doesn't throw a fit
-		if not os.path.exists(f'./{self.source}/'):
-			os.makedirs(f'./{self.source}/')
-		self.path = f'./{self.source}/{self.slug}.md'
-
-	def get_source(self):
-		'''deferred to __init__'''
-		pass
+		self.name = self.spell_json['name']
+		print(self.name) # TODO REMOVE WHEN DONE
 
 	def get_level(self):
 		'''
-		"get_level()" simply retrieves the level of a spell.
+		Retrieves the level of a spell.
+		Note that cantrips are level 0.
 		'''
-		self.level = self.json['level']
+		self.level = self.spell_json['level']
 
 	def get_school(self):
 		'''
 		"get_school()" converts a character into a word.
 		Specifically, it gives one of eight schools of magic.
 		'''
-		mark = self.json['school']
+		mark = self.spell_json['school']
 		mark = mark.lower()
 		# figure out which school the mark is
 		if mark == 'a':
-			school = 'abjuration'
+			self.school = 'abjuration'
 		elif mark == 'c':
-			school = 'conjuration'
+			self.school = 'conjuration'
 		elif mark == 'd':
-			school = 'divination'
+			self.school = 'divination'
 		elif mark == 'e':
-			school = 'enchantment'
+			self.school = 'enchantment'
 		elif mark == 'i':
-			school = 'illusion'
+			self.school = 'illusion'
 		elif mark == 'n':
-			school = 'necromancy'
+			self.school = 'necromancy'
 		elif mark == 't':
-			school = 'transmutation'
+			self.school = 'transmutation'
 		elif mark == 'v':
-			school = 'evocation'
+			self.school = 'evocation'
 		elif mark == 'p':
-			school = 'psionic'
-		else:
-			raise Exception(self.name)
-		# apply the school result
-		self.school = school
+			self.school = 'psionic'
 
 	def get_cast_time(self):
 		'''
@@ -1149,3 +1123,21 @@ subraces: {self.distill_subraces()}
 
 citation: {self.distill_citation()}
 '''
+
+	def get_slug(self):
+		'''
+		Generates a kabab-case spell name for use on the web.
+		"slugify()" can make our markdown files kabab-case.
+		'''
+		result = re.sub(r'([^\s\w/]|_)+', '', self.name)
+		result = result.lower()
+		result = slugify(result)
+		self.slug = slugify(result)
+
+	def get_path(self):
+		'''
+		Generates a markdown filepath for this spell.
+		This is used as the destination of the output.
+		'''
+		# create a directory so python doesn't throw a fit
+		self.path = f'./{self.source}/{self.slug}.md'
