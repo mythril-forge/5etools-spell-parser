@@ -167,43 +167,6 @@ class SpellFromTool(Spell):
 		elif len(self.spell_json['duration']) > 1:
 			self.duration['quality'] = 'special'
 
-	def get_area(self):
-		# clean data extras from internally collected json.
-		# these extras contains the missing data.
-		extra = self.extra_json['Range'].lower()
-		# NOTE add good comments!
-		extra_shape = ''.join(re.findall('\(.*?\)', extra))
-		extra_shape = extra_shape.strip()
-		extra_shape = extra_shape.replace('(', '')
-		extra_shape = extra_shape.replace(')', '')
-		extra_shape = extra_shape.split('; ')
-		extra_shape_dict = {}
-		for index, dimension in enumerate(extra_shape):
-			# the dimension array
-			dimension = dimension.split(' ')
-			if len(dimension) == 3:
-				if dimension[2] in ['sphere','hemisphere']:
-					dimension.pop()
-			if len(dimension) == 2:
-				key = dimension[1]
-				val = dimension[0]
-				val = val.split('-')
-				if val[1] in ['inch','inches']:
-					val = float(val[0]) / 12
-				elif val[1] == 'foot':
-					val = int(val[0])
-				elif val[1] == 'mile':
-					val = int(val[0]) * 5280
-				else:
-					raise check_error([dimension])
-				extra_shape_dict[key] = val
-			elif len(dimension) > 3 or len(dimension) < 1:
-				print(dimension)
-				raise check_error()
-		# NOTE add good comments!
-		extra_shape = extra_shape_dict
-		del extra_shape_dict
-
 	def get_range(self):
 		'''
 		TODO NOTE
@@ -279,6 +242,43 @@ class SpellFromTool(Spell):
 		else:
 			assert(type == self.range['quality'])
 			assert(amount == self.range['distance'])
+
+	def get_area(self):
+		# clean data extras from internally collected json.
+		# these extras contains the missing data.
+		extra = self.extra_json['Range'].lower()
+		# NOTE add good comments!
+		extra_shape = ''.join(re.findall('\(.*?\)', extra))
+		extra_shape = extra_shape.strip()
+		extra_shape = extra_shape.replace('(', '')
+		extra_shape = extra_shape.replace(')', '')
+		extra_shape = extra_shape.split('; ')
+		extra_shape_dict = {}
+		for index, dimension in enumerate(extra_shape):
+			# the dimension array
+			dimension = dimension.split(' ')
+			if len(dimension) == 3:
+				if dimension[2] in ['sphere','hemisphere']:
+					dimension.pop()
+			if len(dimension) == 2:
+				key = dimension[1]
+				val = dimension[0]
+				val = val.split('-')
+				if val[1] in ['inch','inches']:
+					val = float(val[0]) / 12
+				elif val[1] == 'foot':
+					val = int(val[0])
+				elif val[1] == 'mile':
+					val = int(val[0]) * 5280
+				else:
+					raise check_error([dimension])
+				extra_shape_dict[key] = val
+			elif len(dimension) > 3 or len(dimension) < 1:
+				print(dimension)
+				raise check_error()
+		# NOTE add good comments!
+		extra_shape = extra_shape_dict
+		del extra_shape_dict
 
 	def verify_area(self):
 		pass
