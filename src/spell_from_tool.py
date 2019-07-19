@@ -4,23 +4,25 @@ import os
 from slugify import slugify
 from helper import *
 
-class ToolSpell(Spell):
+class SpellFromTool(Spell):
 	'''
-	"ToolSpell()" grabs spell data from 5etools.
-	This data can be found on their github repo.
+	This class gives methods to fill in a Spells attributes.
 	'''
-	def __init__(self, json, json_extra, source):
-		super().__init__(json)
-		# this is upsetting, but needed for now.
-		# somehow, the shape is not specified in the json.
-		# example: we need to know certain info about fireball.
-		# fireball is 150ft range, but also 20ft radius AoE.
-		self.extra = json_extra
-		self.source = source
-		# finally, get everything
-		self.get() # very important!
+	def __init__(self, SpellData, ExtraData):
+		'''
+		Initialization immediately calls upon parsing methods.
+		'''
+		super().__init__()
+		# The json passed in will be useful as attributes.
+		self.spell_json = SpellData
+		self.extra_json = ExtraData
+		# The class runs a series of methods to parse json data.
+		self.parse_data()
+		# Once parsed, these attributes are unneeded clutter.
+		del self.spell_json
+		del self.extra_json
 
-	def get(self):
+	def parse_data(self):
 		'''
 		"get()" calls every "get_*" helper function.
 		This retrieves and cleans all data of a spell,
@@ -34,15 +36,18 @@ class ToolSpell(Spell):
 		self.get_school()
 		self.get_cast_time()
 		self.get_duration()
-		# self.get_instances() # covered by get_range
-		self.get_range()
-		# self.get_area() # covered by get_range
-		self.get_tags()
-		self.get_components()
-		self.get_info()
-		self.get_access()
-		self.get_citation()
-		self.get_markdown()
+		## self.get_instances() # covered by get_range
+		# self.get_range()
+		# # self.get_area() # covered by get_range
+		# self.get_tags()
+		# self.get_components()
+		# self.get_info()
+		# self.get_access()
+		# self.get_citation()
+		# self.get_markdown()
+		self.get_slug()
+		# self.get_path()
+		raise Exception('HOORAY')
 
 	def get_name(self):
 		'''
