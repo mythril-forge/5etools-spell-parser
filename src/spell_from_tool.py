@@ -167,31 +167,10 @@ class SpellFromTool(Spell):
 		elif len(self.spell_json['duration']) > 1:
 				self.duration['quality'] = 'special'
 
-	def get_instances(self):
-		'''deferred to get_range'''
-		pass
-
-	def get_range(self):
-		'''
-		origin ranges come in all shapes and sizes.
-		---
-		HACK: this function is absurdly long.
-		it is in a dire need of refactor.
-		'''
-		def check_error(data = []):
-			print(self.name)
-			for item in data:
-				print(item)
-			return Exception('!!! unexpected range type !!!')
-
-
-
+	def get_area(self):
 		# clean data extras from internally collected json.
 		# these extras contains the missing data.
-		extra = self.extra[self.name]['Range'].lower()
-		self.instances = self.extra[self.name]['Instances']
-		# refine extra variables.
-		# these data are held as string; they need parsed.
+		extra = self.extra_json['Range'].lower()
 		# NOTE add good comments!
 		extra_shape = ''.join(re.findall('\(.*?\)', extra))
 		extra_shape = extra_shape.strip()
@@ -224,76 +203,86 @@ class SpellFromTool(Spell):
 		# NOTE add good comments!
 		extra_shape = extra_shape_dict
 		del extra_shape_dict
-		# NOTE add good comments!
-		extra_range = re.sub("[\(\[].*?[\)\]]", "", extra)
-		extra_range = extra_range.strip()
-		extra_range = extra_range.split(' ')
-		# NOTE add good comments!
-		if len(extra_range) > 1:
-			# NOTE add good comments!
-			extra_type = extra_range[1]
-			extra_range = int(extra_range[0])
-			# NOTE add good comments!
-			if extra_type in ['feet','foot']:
-				pass
-			elif extra_type in ['miles','mile']:
-				extra_range = extra_range * 5280
-			else:
-				raise check_error([extra_shape,extra_range,extra_type])
-		else:
-			extra_range = extra_range[0]
-		# NOTE add good comments!
-		if extra_range in ['sight', 'unlimited']:
-			extra_range = 'indefinate'
 
+	def get_range(self):
+		'''
+		TODO NOTE
+		'''
+		# First clean data extras from the internal json.
+		# These extras contain missing shape data.
+		range_data = self.extra_json['Range']
+		range_data = re.sub(r'\(.*?\)', '', range_data)
+		range_data = range_data.strip()
+		range_data = range_data.lower()
+		range_data = re.split(r'[\s-]+', range_data)
 
+		# Normal results.
+		if len(range_data) == 1:
+			type = range_data[0]
 
-		# NOTE add good comments!
-		# clean the prime source data from external json.
-		# this prime source is missing data.
-		prime = self.json['range']
-		# refine prime variables.
+			# Qualitative results.
+			if type == 'sight' or type == 'unlimited':
+				self.range['quality'] = 'indefinate'
+			elif type == 'self':
+				self.range['quality'] = 'self'
+			elif type == 'touch':
+				self.range['quality'] = 'touch'
+			elif type == 'special':
+				self.range['quality'] = 'special'
+
+		# Quantitative results.
+		elif len(range_data) == 2:
+			amount = int(range_data[0])
+			type = range_data[1]
+			self.range['distance'] = space2num(amount, type)
+		
+		# Special results.
+		elif len(range_data) > 2:
+			self.range['quality'] = 'special'
+
+	def verify_range(self):
+		'''
+		TODO NOTE
+		'''
+		# Clean the range_data sourced from external json.
+		# This range_data source is missing data!
+		range_data = self.spell_json['range']
 		# the object is a bit wonky so it needs cleaning.
-		prime_shape = prime['type']
-		if 'distance' in prime:
-			prime_type = prime['distance']['type']
-			# if there is a distance & point, it is not an AoE.
-			# there is one exception: it could be a wall.
-			if prime_shape == 'point':
-				# feet and miles give a discrete value to range.
-				if prime_type == 'feet':
-					prime_range = prime['distance']['amount']
-				elif prime_type == 'miles':
-					prime_range = prime['distance']['amount'] * 5280
-				# self & touch get no distance. it overwrites range.
-				elif prime_type in ['self', 'touch']:
-					prime_range = prime_type
-				# sight & unlimited are abstracted to "indefinate".
-				elif prime_type in ['sight', 'unlimited']:
-					prime_range = 'indefinate'
-				else:
-					raise check_error()
-			# if there is a radius, it implies an aura.
-			# a range overwrites a description of a shape.
-			elif prime_shape in ['radius', 'sphere', 'hemisphere', 'cone', 'line']:
-				prime_range = 'self'
-			elif prime_shape == 'cube':
-				prime_range = 'self'
-			else:
-				raise check_error()
-		# special is just a sort of catch-all for oddities.
-		elif prime_shape == 'special':
-			prime_range = 'special'
+		type = None
+		amount = None
+		shape = range_data['type']
+		
+		# Normal results.
+		if 'distance' in range_data:
+			type = range_data['distance']['type']
+
+			# Qualitative results.
+			if shape in {'radius', 'sphere', 'hemisphere', 'cone', 'cube', 'line'}:
+				type = 'self'
+			elif type in {'self', 'touch', 'special'}:
+				pass
+			elif type in {'sight', 'unlimited'}:
+				type = 'indefinate'
+
+			# Quantitative results.
+			elif type in singularize_space or type in pluralize_space:
+				amount = range_data['distance']['amount']
+				print(amount)
+				amount = space2num(amount, type)
+				type = None
+
+		# Special results.
+		elif shape == 'special':
+			type = 'special'
+
+		if amount and self.range['quality'] == 'self':
+			pass
 		else:
-			raise check_error()
-		# NOTE add good comments!
-		# extra_range == 'self'
-		# prime_range == 5
-		# extra_shape == {radius 5}
-		# prime_shape == 'point'
+			assert(type == self.range['quality'])
+			assert(amount == self.range['distance'])
 
-
-
+	def verify_area(self):
+		pass
 		# further cleaning with both extra and prime are needed.
 		# this dynamic will deduce things like aura spells.
 		if prime_range == extra_range and isinstance(prime_range, int):
@@ -365,61 +354,11 @@ class SpellFromTool(Spell):
 				prime_shape = extra_shape
 				prime_range = extra_range
 
-
-
-		# finish things out with some assertions
-		assert(extra_range == prime_range)
-		assert(extra_shape == prime_shape)
-		# great! let's get to the data-getter.
-		self.range = prime_range
-		if prime_shape != {} and isinstance(prime_shape,dict):
-			if prime_shape.get('sphere'):
-				self.area['shape'] = 'sphere'
-				self.area['radius'] = prime_shape['sphere']
-			elif prime_shape.get('cube'):
-				self.area['shape'] = 'cube'
-				self.area['length'] = prime_shape['cube']
-			elif prime_shape.get('cone'):
-				self.area['shape'] = 'cone'
-				self.area['radius'] = prime_shape['cone']
-			elif prime_shape.get('line'):
-				self.area['shape'] = 'line'
-				self.area['length'] = prime_shape['line']
-				self.area['width'] = 5
-			elif prime_shape.get('wall'):
-				self.area['shape'] = 'wall'
-				self.area['length'] = prime_shape['wall']
-				self.area['width'] = prime_shape['width']
-				self.area['height'] = prime_shape['height']
-			elif prime_shape.get('height'):
-				self.area['shape'] = 'cylinder'
-				self.area['radius'] = prime_shape['radius']
-				self.area['height'] = prime_shape['height']
-			elif prime_shape.get('radius'):
-				if prime_range == 'self':
-					self.area['shape'] = 'aura'
-				else:
-					self.area['shape'] = 'sphere'
-				self.area['radius'] = prime_shape['radius']
-			else:
-				print(prime_shape)
-				raise Exception(f'\n{prime_shape}\n{prime_range}')
-		else:
-			# pass to keep shape undefined.
-			if prime_shape == {}:
-				pass
-			elif prime_shape == 'point':
-				pass
-			elif prime_shape == 'self':
-				pass
-			elif prime_shape == 'special':
-				pass
-			else:
-				raise Exception(f'\n{prime_shape}\n{prime_range}')
-
-	def get_area(self):
-		'''deferred to get_range'''
-		pass
+	def get_instances(self):
+		'''
+		TODO NOTE
+		'''
+		self.instances = self.extra_json['Instances']
 
 	def get_tags(self):
 		self.tags = {
