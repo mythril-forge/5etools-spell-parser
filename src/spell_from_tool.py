@@ -29,9 +29,6 @@ class SpellFromTool(Spell):
 		which is then stored in this spell object.
 		'''
 		self.get_name()
-		self.get_slug()
-		self.get_path()
-		self.get_source()
 		self.get_level()
 		self.get_school()
 		self.get_cast_time()
@@ -94,45 +91,41 @@ class SpellFromTool(Spell):
 
 	def get_cast_time(self):
 		'''
-		"get_cast_time()" has a few possibilities.
-		Usually, a spell has a quality:
+		Valid data includes:
 		- action
 		- bonus action
 		- reaction
 		- special
-		However, it can also have a duration.
-		If a spell has a duration, its converted to seconds.
+		- discrete (# seconds)
 		'''
-		# check for a special condition
-		if len(self.json['time']) > 1:
-			self.cast_time['quality'] = 'special'
-		# this is a regular condition
-		elif len(self.json['time']) == 1:
-			time = self.json['time'][0]
-			# quality of cast_time
-			if time['unit'] == 'action':
+		# Normal results
+		if len(self.spell_json['time']) == 1:
+			# Deconstruct this large json object
+			cast_time = self.spell_json['time'][0]
+			type = cast_time['unit']
+
+			# Qualitative results
+			if type == 'action':
 				self.cast_time['quality'] = 'action'
-			elif time['unit'] == 'bonus':
+			elif type == 'bonus':
 				self.cast_time['quality'] = 'bonus action'
-			elif time['unit'] == 'reaction':
+			elif type == 'reaction':
+				condition = cast_time['condition']
 				self.cast_time['quality'] = 'reaction'
-				self.cast_time['condition'] = time['condition']
-			# seconds of cast_time
-			elif time['unit'] == 'round':
-				self.cast_time['seconds'] = time['number'] * 10
-			elif time['unit'] == 'minute':
-				self.cast_time['seconds'] = time['number'] * 60
-			elif time['unit'] == 'hour':
-				self.cast_time['seconds'] = time['number'] * 3600
-			elif time['unit'] == 'day':
-				self.cast_time['seconds'] = time['number'] * 86400
-			else:
-				raise Exception(self.name)
-		else:
-			raise Exception(self.name)
+				self.cast_time['condition'] = condition
+			elif type == 'special':
+				self.cast_time['quality'] = 'special'
+
+			# Quantitative results
+			elif type in singularize_time or pluralize_time:
+				amount = cast_time['number']
+				self.cast_time['seconds'] = time2num(amount, type)
+		
+		# Special results
+		elif len(self.spell_json['time']) > 1:
+			self.cast_time['quality'] = 'special'
 
 	def get_duration(self):
-		
 		'''
 		"get_duration()" has a few possibilities.
 		Usually, a spell has a quality:
@@ -143,39 +136,35 @@ class SpellFromTool(Spell):
 		However, it can also have a duration.
 		If a spell has a duration, its converted to seconds.
 		'''
-		# check for a special condition
-		if len(self.json['duration']) > 1:
-			self.duration['quality'] = 'special'
-		# this is a regular condition
-		elif len(self.json['duration']) == 1:
-			duration = self.json['duration'][0]
-			# type is a quality
-			if duration['type'] == 'instant':
+		# Normal results.
+		if len(self.spell_json['duration']) == 1:
+			duration = self.spell_json['time'][0]
+			type = duration['unit']
+
+			# Qualitative results.
+			if type == 'instant':
 				self.duration['quality'] = 'instantaneous'
-			elif duration['type'] == 'permanent':
-				self.duration['quality'] = 'indefinate'
-			elif duration['type'] == 'special':
-				self.duration['quality'] = 'special'
-			# type is timed
-			elif duration['type'] == 'timed':
-				# the json is a bit ugly, but usable.
-				# duration['duration']['type'] exists,
-				# but only if duration['type'] is timed.
-				meta = duration['duration']
-				if meta['type'] == 'round':
-					self.duration['seconds'] = meta['amount'] * 10
-				elif meta['type'] == 'minute':
-					self.duration['seconds'] = meta['amount'] * 60
-				elif meta['type'] == 'hour':
-					self.duration['seconds'] = meta['amount'] * 3600
-				elif meta['type'] == 'day':
-					self.duration['seconds'] = meta['amount'] * 86400
+			elif type == 'permanent':
+				if 'trigger' in duration.get('ends', {}):
+					self.duration['quality'] = 'activated'
 				else:
-					raise Exception(self.name)
-			else:
-				raise self.name
-		else:
-			raise self.name
+				self.duration['quality'] = 'indefinate'
+			elif type == 'special':
+				self.duration['quality'] = 'special'
+
+			# Quantitative results.
+			elif type == 'timed':
+				# The json here is a bit ugly, but usable.
+				# ['duration'][0]['duration']['type'] exists,
+				# but only if ['duration'][0]['type'] is timeds.
+				type = duration['duration']['type']
+				amount = duration['duration']['amount']
+				if type in singularize_time or pluralize_time:
+					self.duration['seconds'] = time2num(amount, type)
+
+		# Special conditions
+		elif len(self.spell_json['duration']) > 1:
+				self.duration['quality'] = 'special'
 
 	def get_instances(self):
 		'''deferred to get_range'''
