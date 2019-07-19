@@ -369,24 +369,22 @@ class SpellFromTool(Spell):
 			'ritual': False,
 			'royalty': False
 		}
-		if 'components' in self.json:
-			if 'v' in self.json['components']:
+		if 'components' in self.spell_json:
+			components = self.spell_json['components']
+			if 'v' in components:
 				self.tags['verbal'] = True
-			if 's' in self.json['components']:
+			if 's' in components:
 				self.tags['somatic'] = True
-			if 'm' in self.json['components']:
+			if 'm' in components:
 				self.tags['material'] = True
-			if 'r' in self.json['components']:
+			if 'r' in components:
 				self.tags['royalty'] = True
-			if 'concentration' in self.json['duration'][0]:
+		
+		if 'concentration' in self.spell_json['duration'][0]:
 				self.tags['concentration'] = True
-			if 'meta' in self.json:
-				if 'ritual' in self.json['meta']:
+		if 'meta' in self.spell_json:
+			if 'ritual' in self.spell_json['meta']:
 					self.tags['ritual'] = True
-		elif self.school == 'psionic':
-			pass
-		else:
-			raise
 
 	def get_components(self):
 		if self.tags['material'] == True:
