@@ -34,7 +34,7 @@ def main():
 	# as this data omits things such as a spell's shape.
 	url='https://raw.githubusercontent.com/TheGiddyLimit' \
 	'/TheGiddyLimit.github.io/master/data/spells/'
-	
+
 	# == HACK ==
 	# The problem noted above had some trickle-down effects.
 	# A 2nd resource had to be found to fill in missing data.
@@ -63,7 +63,7 @@ def main():
 			Arcanum = SpellFromTool(SpellData, ExtraData)
 
 			# Add an arcanum to the tome.
-			Tome.add(Spell)
+			Tome.add(Arcanum)
 		# Add a tome to the sanctum.
 		Sanctum.add(Tome)
 	# Sanctum holds all the wizardly research you could need.

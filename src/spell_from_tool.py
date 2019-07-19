@@ -122,7 +122,7 @@ class SpellFromTool(Spell):
 			elif type in singularize_time or pluralize_time:
 				amount = cast_time['number']
 				self.cast_time['seconds'] = time2num(amount, type)
-		
+
 		# Special results.
 		elif len(self.spell_json['time']) > 1:
 			self.cast_time['quality'] = 'special'
@@ -149,7 +149,7 @@ class SpellFromTool(Spell):
 				if 'trigger' in duration.get('ends', {}):
 					self.duration['quality'] = 'activated'
 				else:
-				self.duration['quality'] = 'indefinate'
+					self.duration['quality'] = 'indefinate'
 			elif type == 'special':
 				self.duration['quality'] = 'special'
 
@@ -165,7 +165,7 @@ class SpellFromTool(Spell):
 
 		# Special results.
 		elif len(self.spell_json['duration']) > 1:
-				self.duration['quality'] = 'special'
+			self.duration['quality'] = 'special'
 
 	def get_area(self):
 		# clean data extras from internally collected json.
@@ -235,7 +235,7 @@ class SpellFromTool(Spell):
 			amount = int(range_data[0])
 			type = range_data[1]
 			self.range['distance'] = space2num(amount, type)
-		
+
 		# Special results.
 		elif len(range_data) > 2:
 			self.range['quality'] = 'special'
@@ -248,16 +248,16 @@ class SpellFromTool(Spell):
 		# This range_data source is missing data!
 		range_data = self.spell_json['range']
 		# the object is a bit wonky so it needs cleaning.
-		type = None
-		amount = None
 		shape = range_data['type']
-		
+		amount = None
+		type = None
+
 		# Normal results.
 		if 'distance' in range_data:
 			type = range_data['distance']['type']
 
 			# Qualitative results.
-			if shape in {'radius', 'sphere', 'hemisphere', 'cone', 'cube', 'line'}:
+			if shape in shape_parameters:
 				type = 'self'
 			elif type in {'self', 'touch', 'special'}:
 				pass
@@ -267,7 +267,6 @@ class SpellFromTool(Spell):
 			# Quantitative results.
 			elif type in singularize_space or type in pluralize_space:
 				amount = range_data['distance']['amount']
-				print(amount)
 				amount = space2num(amount, type)
 				type = None
 
@@ -379,12 +378,12 @@ class SpellFromTool(Spell):
 				self.tags['material'] = True
 			if 'r' in components:
 				self.tags['royalty'] = True
-		
+
 		if 'concentration' in self.spell_json['duration'][0]:
-				self.tags['concentration'] = True
+			self.tags['concentration'] = True
 		if 'meta' in self.spell_json:
 			if 'ritual' in self.spell_json['meta']:
-					self.tags['ritual'] = True
+				self.tags['ritual'] = True
 
 	def get_components(self):
 		if self.tags['material'] == True:
@@ -443,7 +442,7 @@ class SpellFromTool(Spell):
 						else:
 							result += '\n'
 						result +='\n'
-						
+
 						if isinstance(sub_entry,dict):
 							if sub_entry['type'] == 'list':
 								for item in sub_entry['items']:
@@ -526,7 +525,7 @@ class SpellFromTool(Spell):
 							else:
 								result += '\n'
 							result +='\n'
-							
+
 							if isinstance(sub_entry,dict):
 								if sub_entry['type'] == 'list':
 									for item in sub_entry['items']:
@@ -703,7 +702,7 @@ class SpellFromTool(Spell):
 		else:
 			raise
 		return result
-		
+
 	def distill_duration(self):
 		result = ''
 		if self.duration.get('quality') == 'instantaneous':

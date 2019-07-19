@@ -1,5 +1,21 @@
-# Numeric data will be stored as integers where possible.
-# All units are converted to seconds.
+# All spacial units are converted to points.
+# Note, 72 points is an inch.
+# Id rather use inches but fractions of inches are utilized.
+# To keep all data as integers, points are used for data.
+convert_space = {
+	'point': 1,
+	'inch': 72,
+	'foot': 864,
+	'yard': 2592,
+	'mile': 4561920,
+	'points': 1,
+	'inches': 72,
+	'feet': 864,
+	'yards': 2592,
+	'miles': 4561920,
+}
+
+# All temporal units are converted to seconds.
 # Note, month and year have approximate values.
 convert_time = {
 	'second': 1,
@@ -27,7 +43,21 @@ convert_time = {
 }
 
 # We will be converting to & from strings often.
-# A dictionary like this helps figure out plural words.
+# Dictionaries like these help figure out plural words.
+pluralize_space = {
+	'point': 'points',
+	'inch': 'inches',
+	'foot': 'feet',
+	'yard': 'yards',
+	'mile': 'miles',
+}
+singularize_space = {
+	'points': 'point',
+	'inches': 'inch',
+	'feet': 'foot',
+	'yards': 'yard',
+	'miles': 'mile',
+}
 pluralize_time = {
 	'second': 'seconds',
 	'round': 'rounds',
@@ -41,7 +71,6 @@ pluralize_time = {
 	'century': 'centuries',
 	'millennium': 'millennia',
 }
-
 singularize_time = {
 	'seconds': 'second',
 	'rounds': 'round',
@@ -53,8 +82,46 @@ singularize_time = {
 	'years': 'year',
 	'decades': 'decade',
 	'centuries': 'century',
-	'millennia': 'millennium'}
+	'millennia': 'millennium',
+}
+
+def assure_time_unit():
+	pass
 
 def time2num(amount, unit):
-	result = convert_time[unit] * amount
-	return result
+	return convert_time[unit] * amount
+
+def time2str(amount, delimiter=' '):
+	re.split(r'[\s-]+', string)
+	pass
+
+def space2num(amount, unit):
+	return convert_space[unit] * amount
+
+shape_parameters = {
+	'aura': {
+		'radius',
+	},
+	'sphere': {
+		'radius',
+	},
+	'cone': {
+		'radius',
+	},
+	'cylinder': {
+		'radius',
+		'height',
+	},
+	'cube': {
+		'length',
+	},
+	'line': {
+		'length',
+		'width',
+	},
+	'wall': {
+		'length',
+		'width',
+		'height',
+	},
+}

@@ -32,7 +32,6 @@ class Spell:
 		}
 
 		# physical space
-		self.instances = 1
 		self.range = {
 			'quality': None,
 			'distance': None,
@@ -44,6 +43,7 @@ class Spell:
 			'width': None,
 			'height': None,
 		}
+		self.instances = 1
 
 		# boolean summary of tags
 		self.tags = {
@@ -74,7 +74,8 @@ class Spell:
 			'subclasses': None,
 			'subraces': None,
 		}
-		
+
+		# where to find the original version of this spell
 		self.citation = {
 			'book': None,
 			'page': None
