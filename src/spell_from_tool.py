@@ -15,7 +15,7 @@ class SpellFromTool(Spell):
 		super().__init__()
 		# The json passed in will be useful as attributes.
 		self.spell_json = SpellData
-		self.extra_json = ExtraData
+		self.extra_json = ExtraData[SpellData['name']]
 		# The class runs a series of methods to parse json data.
 		self.parse_data()
 		# Once parsed, these attributes are unneeded clutter.
@@ -24,7 +24,7 @@ class SpellFromTool(Spell):
 
 	def parse_data(self):
 		'''
-		"get()" calls every "get_*" helper function.
+		get() calls every get_*() helper function.
 		This retrieves and cleans all data of a spell,
 		which is then stored in this spell object.
 		'''
@@ -33,27 +33,29 @@ class SpellFromTool(Spell):
 		self.get_school()
 		self.get_cast_time()
 		self.get_duration()
-		## self.get_instances() # covered by get_range
-		# self.get_range()
-		# # self.get_area() # covered by get_range
+		self.get_instances() # covered by get_range
+		self.get_range()
+		self.verify_range()
+		# self.get_area() # covered by get_range
 		# self.get_tags()
 		# self.get_components()
 		# self.get_info()
 		# self.get_access()
 		# self.get_citation()
 		# self.get_markdown()
-		self.get_slug()
+		# self.get_slug()
 		# self.get_path()
-		raise Exception('HOORAY')
+		# raise Exception('HOORAY')
 
 	def get_name(self):
 		'''
 		Retrieves the name of a spell.
-		TODO: This should ensure only valid characters:
+		TODO This should ensure only valid characters:
 		a-z;A-Z;0-9; ;-;';&; etc.
 		'''
 		self.name = self.spell_json['name']
-		print(self.name) # TODO REMOVE WHEN DONE
+		# print()
+		# print(self.name) # TODO REMOVE WHEN DONE
 
 	def get_level(self):
 		'''
@@ -64,7 +66,7 @@ class SpellFromTool(Spell):
 
 	def get_school(self):
 		'''
-		"get_school()" converts a character into a word.
+		get_school() converts a character into a word.
 		Specifically, it gives one of eight schools of magic.
 		'''
 		mark = self.spell_json['school']
@@ -98,13 +100,13 @@ class SpellFromTool(Spell):
 		- special
 		- discrete (# seconds)
 		'''
-		# Normal results
+		# Normal results.
 		if len(self.spell_json['time']) == 1:
-			# Deconstruct this large json object
+			# Deconstruct this large json object...
 			cast_time = self.spell_json['time'][0]
 			type = cast_time['unit']
 
-			# Qualitative results
+			# Qualitative results.
 			if type == 'action':
 				self.cast_time['quality'] = 'action'
 			elif type == 'bonus':
@@ -116,30 +118,29 @@ class SpellFromTool(Spell):
 			elif type == 'special':
 				self.cast_time['quality'] = 'special'
 
-			# Quantitative results
+			# Quantitative results.
 			elif type in singularize_time or pluralize_time:
 				amount = cast_time['number']
 				self.cast_time['seconds'] = time2num(amount, type)
 		
-		# Special results
+		# Special results.
 		elif len(self.spell_json['time']) > 1:
 			self.cast_time['quality'] = 'special'
 
 	def get_duration(self):
 		'''
-		"get_duration()" has a few possibilities.
-		Usually, a spell has a quality:
+		Valid data includes:
 		- instantaneous
 		- indefinate
 		- activated
 		- special
-		However, it can also have a duration.
-		If a spell has a duration, its converted to seconds.
+		- discrete (# seconds)
 		'''
 		# Normal results.
 		if len(self.spell_json['duration']) == 1:
-			duration = self.spell_json['time'][0]
-			type = duration['unit']
+			# Deconstruct this large json object...
+			duration = self.spell_json['duration'][0]
+			type = duration['type']
 
 			# Qualitative results.
 			if type == 'instant':
@@ -157,12 +158,12 @@ class SpellFromTool(Spell):
 				# The json here is a bit ugly, but usable.
 				# ['duration'][0]['duration']['type'] exists,
 				# but only if ['duration'][0]['type'] is timeds.
-				type = duration['duration']['type']
 				amount = duration['duration']['amount']
+				type = duration['duration']['type']
 				if type in singularize_time or pluralize_time:
 					self.duration['seconds'] = time2num(amount, type)
 
-		# Special conditions
+		# Special results.
 		elif len(self.spell_json['duration']) > 1:
 				self.duration['quality'] = 'special'
 
@@ -1116,7 +1117,7 @@ citation: {self.distill_citation()}
 	def get_slug(self):
 		'''
 		Generates a kabab-case spell name for use on the web.
-		"slugify()" can make our markdown files kabab-case.
+		slugify() can make our markdown files kabab-case.
 		'''
 		result = re.sub(r'([^\s\w/]|_)+', '', self.name)
 		result = result.lower()
