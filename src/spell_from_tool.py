@@ -66,34 +66,32 @@ class SpellFromTool(Spell):
 
 	def get_school(self):
 		'''
-		get_school() converts a character into a word.
-		Specifically, it gives one of eight schools of magic.
+		The data holds a spell's school as a single character.
+		This converts that character into its full name.
+		Note, we have 8 schools of magic plus psionics.
 		'''
+		# list all potential schools
+		schools = {
+			'a':'abjuration',
+			'c':'conjuration',
+			'd':'divination',
+			'e':'enchantment',
+			'i':'illusion',
+			'n':'necromancy',
+			't':'transmutation',
+			'v':'evocation',
+			'p':'psionic',
+		}
 		mark = self.spell_json['school']
 		mark = mark.lower()
 		# figure out which school the mark is
-		if mark == 'a':
-			self.school = 'abjuration'
-		elif mark == 'c':
-			self.school = 'conjuration'
-		elif mark == 'd':
-			self.school = 'divination'
-		elif mark == 'e':
-			self.school = 'enchantment'
-		elif mark == 'i':
-			self.school = 'illusion'
-		elif mark == 'n':
-			self.school = 'necromancy'
-		elif mark == 't':
-			self.school = 'transmutation'
-		elif mark == 'v':
-			self.school = 'evocation'
-		elif mark == 'p':
-			self.school = 'psionic'
+		self.school = schools[mark]
 
 	def get_instances(self):
 		'''
-		TODO NOTE
+		An instance is a point of origin for a spell's effect.
+		Some spells have more than one instance.
+		For example, scorching ray can target 3 creatures.
 		'''
 		self.instances = self.extra_json['Instances']
 
