@@ -31,21 +31,20 @@ class SpellFromTool(Spell):
 		self.get_name()
 		self.get_level()
 		self.get_school()
+		self.get_instances()
 		self.get_cast_time()
 		self.get_duration()
-		self.get_instances() # covered by get_range
 		self.get_range()
+		self.get_area()
 		self.verify_range()
-		# self.get_area() # covered by get_range
+		# self.verify_area()
 		# self.get_tags()
 		# self.get_components()
 		# self.get_info()
 		# self.get_access()
 		# self.get_citation()
-		# self.get_markdown()
 		# self.get_slug()
 		# self.get_path()
-		# raise Exception('HOORAY')
 
 	def get_name(self):
 		'''
@@ -90,6 +89,12 @@ class SpellFromTool(Spell):
 			self.school = 'evocation'
 		elif mark == 'p':
 			self.school = 'psionic'
+
+	def get_instances(self):
+		'''
+		TODO NOTE
+		'''
+		self.instances = self.extra_json['Instances']
 
 	def get_cast_time(self):
 		'''
@@ -171,8 +176,9 @@ class SpellFromTool(Spell):
 		'''
 		TODO NOTE
 		'''
-		# First clean data extras from the internal json.
+		# First, clean data extras from the internal json.
 		# These extras contain missing shape data.
+		# We rely on these extras for range & shape data.
 		range_data = self.extra_json['Range']
 		range_data = re.sub(r'\(.*?\)', '', range_data)
 		range_data = range_data.strip()
@@ -203,15 +209,58 @@ class SpellFromTool(Spell):
 		elif len(range_data) > 2:
 			self.range['quality'] = 'special'
 
+	def get_area(self):
+		'''
+		TODO
+		'''
+		# these extras contains the missing data.
+		shape_data = self.extra_json['Range']
+		shape_data = shape_data.lower()
+		shape_data = re.findall(r'\(.*?\)', shape_data)
+		shape_data = ''.join(shape_data)
+		shape_data = shape_data.replace('(', '')
+		shape_data = shape_data.replace(')', '')
+		shape_data = shape_data.strip()
+		shape_data = shape_data.split('; ')
+
+		# lets get this loop going!! YEAH!!!
+		shape_dict = {}
+		for index, dimension in enumerate(shape_data):
+			# the dimension array
+			dimension = dimension.split(' ')
+			if len(dimension) == 3:
+
+				# these parts are just not needed
+				if dimension[2] in {'sphere','hemisphere'}:
+					dimension.pop()
+
+			# a dimension of 2 is pretty normal
+			if len(dimension) == 2:
+				measurement = dimension[1]
+				foobar = dimension[0].split('-')
+				amount = float(foobar[0])
+				type = foobar[1]
+
+				# sometimes we have gunked up data like this
+				if measurement in {'cube','wall','line'}:
+					measurement = 'length'
+				elif measurement in {'sphere','cone'}:
+					measurement = 'radius'
+				shape_dict[measurement] = space2num(amount, type)
+
+		for key in self.area:
+			self.area[key] = shape_dict.get(key)
+
 	def verify_range(self):
 		'''
 		TODO NOTE
 		'''
-		# Clean the range_data sourced from external json.
-		# This range_data source is missing data!
+		# Clean data sourced from the main external json.
+		# Note that this source is missing data...
+		# ...but is useful for cross-check data verification.
 		range_data = self.spell_json['range']
-		# the object is a bit wonky so it needs cleaning.
 		shape = range_data['type']
+		# These variables are needed later for assertions.
 		amount = None
 		type = None
 
@@ -237,48 +286,13 @@ class SpellFromTool(Spell):
 		elif shape == 'special':
 			type = 'special'
 
+		# Our json shifts around a self-centered sphere to have
+		# a range of its radius rather than a range of self.
 		if amount and self.range['quality'] == 'self':
 			pass
 		else:
 			assert(type == self.range['quality'])
 			assert(amount == self.range['distance'])
-
-	def get_area(self):
-		# clean data extras from internally collected json.
-		# these extras contains the missing data.
-		extra = self.extra_json['Range'].lower()
-		# NOTE add good comments!
-		extra_shape = ''.join(re.findall('\(.*?\)', extra))
-		extra_shape = extra_shape.strip()
-		extra_shape = extra_shape.replace('(', '')
-		extra_shape = extra_shape.replace(')', '')
-		extra_shape = extra_shape.split('; ')
-		extra_shape_dict = {}
-		for index, dimension in enumerate(extra_shape):
-			# the dimension array
-			dimension = dimension.split(' ')
-			if len(dimension) == 3:
-				if dimension[2] in ['sphere','hemisphere']:
-					dimension.pop()
-			if len(dimension) == 2:
-				key = dimension[1]
-				val = dimension[0]
-				val = val.split('-')
-				if val[1] in ['inch','inches']:
-					val = float(val[0]) / 12
-				elif val[1] == 'foot':
-					val = int(val[0])
-				elif val[1] == 'mile':
-					val = int(val[0]) * 5280
-				else:
-					raise check_error([dimension])
-				extra_shape_dict[key] = val
-			elif len(dimension) > 3 or len(dimension) < 1:
-				print(dimension)
-				raise check_error()
-		# NOTE add good comments!
-		extra_shape = extra_shape_dict
-		del extra_shape_dict
 
 	def verify_area(self):
 		pass
@@ -353,12 +367,6 @@ class SpellFromTool(Spell):
 				prime_shape = extra_shape
 				prime_range = extra_range
 
-	def get_instances(self):
-		'''
-		TODO NOTE
-		'''
-		self.instances = self.extra_json['Instances']
-
 	def get_tags(self):
 		self.tags = {
 			'verbal': False,
@@ -394,6 +402,9 @@ class SpellFromTool(Spell):
 				self.components['material'] = material
 		else:
 			pass
+
+	def get_info(self):
+		raise
 
 	def get_access(self):
 		classes = []
@@ -447,6 +458,3 @@ class SpellFromTool(Spell):
 		'''
 		# create a directory so python doesn't throw a fit
 		self.path = f'./{self.source}/{self.slug}.md'
-
-	def get_markdown(self):
-		raise
