@@ -85,19 +85,8 @@ singularize_time = {
 	'millennia': 'millennium',
 }
 
-def assure_time_unit():
-	pass
-
-def time2num(amount, unit):
-	return int(convert_time[unit] * amount)
-
-def time2str(amount, delimiter=' '):
-	re.split(r'[\s-]+', string)
-	pass
-
-def space2num(amount, unit):
-	return int(convert_space[unit] * amount)
-
+# The shape parameter dictionary will help parse
+# through and validate complex shape data points.
 shape_parameters = {
 	'aura': {
 		'radius',
@@ -125,3 +114,22 @@ shape_parameters = {
 		'height',
 	},
 }
+
+def time2str(amount, delimiter=' '):
+	'''
+	converts an amount of seconds to a readable string.
+	'''
+	re.split(r'[\s-]+', string)
+	pass
+
+def time2num(amount, unit):
+	'''
+	converts any amount of a temporal measurement to seconds.
+	'''
+	return int(convert_time[unit] * amount)
+
+def space2num(amount, unit):
+	'''
+	converts any amount of a spacial measurement to points.
+	'''
+	return int(convert_space[unit] * amount)

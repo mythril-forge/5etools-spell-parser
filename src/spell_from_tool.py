@@ -97,6 +97,10 @@ class SpellFromTool(Spell):
 
 	def get_cast_time(self):
 		'''
+		A json object holds casting time data.
+		In order to extract it, there are a variety of
+		if statements that the program must traverse.
+		---
 		Valid data includes:
 		- action
 		- bonus action
@@ -133,6 +137,10 @@ class SpellFromTool(Spell):
 
 	def get_duration(self):
 		'''
+		A complex json object holds the duration data.
+		In order to extract a duration, there are a variety
+		of if statements that the program must traverse.
+		---
 		Valid data includes:
 		- instantaneous
 		- indefinate
