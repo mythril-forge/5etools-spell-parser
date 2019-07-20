@@ -38,13 +38,13 @@ class SpellFromTool(Spell):
 		self.get_area()
 		self.verify_range()
 		self.verify_area()
-		# self.get_tags()
-		# self.get_components()
+		self.get_tags()
+		self.get_components()
 		# self.get_info()
-		# self.get_access()
-		# self.get_citation()
-		# self.get_slug()
-		# self.get_path()
+		self.get_access()
+		self.get_citation()
+		self.get_slug()
+		self.get_path()
 
 	def get_name(self):
 		'''
@@ -56,7 +56,6 @@ class SpellFromTool(Spell):
 		if re.search(r'[^\w\/\-\'\ \(\)]+', self.name):
 			error = f'spell name is unexpected: {self.name}'
 			raise Exception(error)
-		# print(self.name)
 
 	def get_level(self):
 		'''
@@ -397,7 +396,6 @@ class SpellFromTool(Spell):
 			elif type1 in {'cube', 'line'}:
 				assert(self.area['length'] == amount)
 
-
 	def get_tags(self):
 		self.tags = {
 			'verbal': False,
@@ -426,7 +424,7 @@ class SpellFromTool(Spell):
 
 	def get_components(self):
 		if self.tags['material'] == True:
-			material = self.json['components'].get('m')
+			material = self.spell_json['components'].get('m')
 			if not isinstance(material, str):
 				self.components['material'] = material['text']
 			else:
@@ -442,19 +440,18 @@ class SpellFromTool(Spell):
 		subclasses = []
 		races = []
 		subraces = []
-		# print(self.json['classes']['fromClassList'])
-		for player_class in self.json['classes'].get('fromClassList'):
+		for player_class in self.spell_json['classes'].get('fromClassList'):
 			classes.append(player_class['name'])
-		if self.json['classes'].get('fromSubclass'):
-			for player_subclass in self.json['classes'].get('fromSubclass'):
+		if self.spell_json['classes'].get('fromSubclass'):
+			for player_subclass in self.spell_json['classes'].get('fromSubclass'):
 				subclass =''
 				subclass += player_subclass['subclass']['name']
 				subclass += ' '
 				subclass += player_subclass['class']['name']
 				subclasses.append(subclass)
 
-		if self.json.get('races'):
-			for entry in self.json['races']:
+		if self.spell_json.get('races'):
+			for entry in self.spell_json['races']:
 				if entry.get('baseName'):
 					subrace = ''
 					subrace += entry['name']
@@ -462,15 +459,14 @@ class SpellFromTool(Spell):
 				else:
 					race = ''
 					race += entry['name']
-
 		self.access['class'] = classes
 		self.access['subclass'] = subclasses
 		self.access['race'] = races
 		self.access['subrace'] = subraces
 
 	def get_citation(self):
-		self.citation['book'] = self.json['source']
-		self.citation['page'] = self.json.get('page')
+		self.citation['book'] = self.spell_json['source']
+		self.citation['page'] = self.spell_json.get('page')
 
 	def get_slug(self):
 		'''
@@ -488,4 +484,4 @@ class SpellFromTool(Spell):
 		This is used as the destination of the output.
 		'''
 		# create a directory so python doesn't throw a fit
-		self.path = f'./{self.source}/{self.slug}.md'
+		self.path = f'./{self.spell_json["source"]}/{self.slug}.md'
