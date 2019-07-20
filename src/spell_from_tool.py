@@ -48,13 +48,14 @@ class SpellFromTool(Spell):
 
 	def get_name(self):
 		'''
-		Retrieves the name of a spell.
-		TODO This should ensure only valid characters:
-		a-z;A-Z;0-9; ;-;';&; etc.
+		After retrieving the name of the spell, it is checked
+		for errors before allowing the program to continue.
 		'''
 		self.name = self.spell_json['name']
-		# print()
-		# print(self.name) # TODO REMOVE WHEN DONE
+		# Raise an error if something is wrong with the name.
+		if re.search(r'[^\w\/\-\'\ \(\)]+', self.name):
+			error = f'spell name is unexpected: {self.name}'
+			raise Exception(error)
 
 	def get_level(self):
 		'''

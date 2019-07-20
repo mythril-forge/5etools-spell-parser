@@ -18,6 +18,7 @@ class Spell:
 		self.name = None
 		self.level = None
 		self.school = None
+		self.instances = 1
 
 		# a question of time
 		self.cast_time = {
@@ -43,7 +44,6 @@ class Spell:
 			'width': None,
 			'height': None,
 		}
-		self.instances = 1
 
 		# boolean summary of tags
 		self.tags = {

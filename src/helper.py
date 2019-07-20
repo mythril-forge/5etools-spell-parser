@@ -89,14 +89,14 @@ def assure_time_unit():
 	pass
 
 def time2num(amount, unit):
-	return convert_time[unit] * amount
+	return int(convert_time[unit] * amount)
 
 def time2str(amount, delimiter=' '):
 	re.split(r'[\s-]+', string)
 	pass
 
 def space2num(amount, unit):
-	return convert_space[unit] * amount
+	return int(convert_space[unit] * amount)
 
 shape_parameters = {
 	'aura': {
