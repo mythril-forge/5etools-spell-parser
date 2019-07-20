@@ -37,7 +37,7 @@ class SpellFromTool(Spell):
 		self.get_range()
 		self.get_area()
 		self.verify_range()
-		# self.verify_area()
+		self.verify_area()
 		# self.get_tags()
 		# self.get_components()
 		# self.get_info()
@@ -56,6 +56,7 @@ class SpellFromTool(Spell):
 		if re.search(r'[^\w\/\-\'\ \(\)]+', self.name):
 			error = f'spell name is unexpected: {self.name}'
 			raise Exception(error)
+		# print(self.name)
 
 	def get_level(self):
 		'''
@@ -242,16 +243,19 @@ class SpellFromTool(Spell):
 		shape_data = ''.join(shape_data)
 		shape_data = shape_data.replace('(', '')
 		shape_data = shape_data.replace(')', '')
+		shape_data = shape_data.replace('-radius',' radius')
 		shape_data = shape_data.strip()
 		shape_data = shape_data.split('; ')
 
+		# Needed for later
+		shape = None
 		# This dictionary will store extracted data.
 		shape_dict = {}
 		# Each item in shape_data is scanned.
 		# Note that after splitting the original string,
 		# the resulting data is itself still a string.
 		for index, dimension in enumerate(shape_data):
-			# A "dimension" is a measurement type, for example,
+			# A 'dimension' is a measurement type, for example,
 			# length, width, height, or radius with measurements.
 			dimension = dimension.split(' ')
 			if len(dimension) == 3:
@@ -269,8 +273,10 @@ class SpellFromTool(Spell):
 				type = data[1]
 				# Sometimes we have gunked up data like this.
 				if measurement in {'cube', 'wall', 'line'}:
+					shape = measurement
 					measurement = 'length'
 				elif measurement in {'sphere', 'cone'}:
+					shape = measurement
 					measurement = 'radius'
 				shape_dict[measurement] = space2num(amount, type)
 
@@ -278,9 +284,23 @@ class SpellFromTool(Spell):
 		for key in self.area:
 			self.area[key] = shape_dict.get(key)
 
+		# Shape was unspecified if it was a cylinder or sphere.
+		has_radius = self.area.get('radius')
+		has_height = self.area.get('height')
+		if not shape and has_radius and has_height:
+			shape = 'cylinder'
+		elif not shape and has_radius:
+			shape = 'sphere'
+		self.area['shape'] = shape
+
 	def verify_range(self):
 		'''
-		TODO NOTE
+		We can use external data to cross-check internal data.
+		Although the shape data isn't always in the right place,
+		it can be used to support or verify data.
+		---
+		At the end of this function, assert
+		statements will ensure data integity.
 		'''
 		# Clean data sourced from the main external json.
 		# Note that this source is missing data...
@@ -322,77 +342,61 @@ class SpellFromTool(Spell):
 			assert(amount == self.range['distance'])
 
 	def verify_area(self):
-		pass
+		'''
+		We can use external data to cross-check internal data.
+		Although the AoE data isn't always in the right place,
+		it can be used to support or verify data.
+		---
+		At the end of this function, assert
+		statements will ensure data integity.
+		'''
+		area_data = self.spell_json['range']
+		# type1 and type2 can be units or shapes.
+		type1 = area_data['type']
+		type2 = area_data.get('distance', {}).get('type')
+		distance = area_data.get('distance', {}).get('amount')
+
+		# a few exceptions need to be converted
+		shape_transformations = {
+			'radius': 'sphere',
+			'hemisphere': 'sphere',
+			'sight': 'unlimited',
+		}
+		if type1 in shape_transformations:
+			type1 = shape_transformations[type1]
+
 		# further cleaning with both extra and prime are needed.
 		# this dynamic will deduce things like aura spells.
-		if prime_range == extra_range and isinstance(prime_range, int):
-			if False:
-				pass
-			elif extra_shape.get('sphere'):
-				prime_shape = extra_shape
-			elif extra_shape.get('radius'):
-				prime_shape = extra_shape
-			elif extra_shape.get('cube'):
-				prime_shape = extra_shape
-			elif extra_shape.get('wall'):
-				prime_shape = extra_shape
-			elif extra_shape == {} and prime_shape == 'point':
-				extra_shape = 'point'
-		elif prime_range == extra_range == 'self':
-			if False:
-				pass
-			elif prime_shape == 'radius':
-				prime_shape = extra_shape
-			elif prime_shape == 'sphere':
-				prime_shape = extra_shape
-			elif prime_shape == 'hemisphere':
-				prime_shape = extra_shape
-			elif prime_shape == 'cone':
-				prime_shape = extra_shape
-			elif prime_shape == 'cube':
-				prime_shape = extra_shape
-			elif prime_shape == 'line':
-				prime_shape = extra_shape
-			elif extra_shape.get('radius'):
-				prime_shape = extra_shape
-			elif extra_shape.get('cone'):
-				prime_shape = extra_shape
-			elif extra_shape == {} and prime_shape == 'point':
-				prime_shape = 'self'
-				extra_shape = 'self'
-		elif prime_range == extra_range == 'touch':
-			if False:
-				pass
-			elif extra_shape == {}:
-				prime_shape = 'point'
-				extra_shape = 'point'
-			elif extra_shape.get('radius'):
-				prime_shape = extra_shape
-			elif extra_shape.get('cube'):
-				prime_shape = extra_shape
-		elif prime_range == extra_range == 'point':
-			print('point')
-		elif prime_range == extra_range == 'indefinate':
-			if False:
-				pass
-			elif extra_shape.get('wall'):
-				prime_shape = extra_shape
-			elif extra_shape.get('radius'):
-				prime_shape = extra_shape
-			elif extra_shape == {}:
-				prime_shape = 'point'
-				extra_shape = 'point'
-		elif prime_range == extra_range == prime_shape == 'special':
-			extra_shape = 'special'
-		elif prime_range != extra_range:
-			if False:
-				pass
-			elif extra_shape.get('radius') == prime_range and prime_shape =='point':
-				prime_shape = extra_shape
-				prime_range = extra_range
-			elif extra_shape.get('line') == prime_range and prime_shape =='point':
-				prime_shape = extra_shape
-				prime_range = extra_range
+		if type1 == 'point':
+			if type2 in {'touch', 'self'}:
+				assert(self.range['quality'] == type2)
+				assert(self.range['distance'] == None)
+			elif type2 in {'sight', 'unlimited'}:
+				assert(self.range['quality'] == 'unlimited')
+			elif type2 in convert_space:
+				# Get distance amount from distance and unit.
+				amount = space2num(distance, type2)
+				# Deconstruct these longer boolean calculations...
+				has_sphere = self.area['shape'] == 'sphere'
+				has_line = self.area['shape'] == 'line'
+				has_distance = self.range['distance']
+				# Conditionally assert based on shape type.
+				if has_distance:
+					assert(self.range['distance'] == amount)
+				elif has_sphere:
+					assert(self.area['radius'] == amount)
+				elif has_line:
+					assert(self.area['length'] == amount)
+		elif type1 == 'special':
+			assert(self.range['quality'] == type1)
+			assert(self.range['distance'] == None)
+		elif type1 in shape_parameters:
+			amount = space2num(distance, type2)
+			if type1 in {'sphere', 'cone'}:
+				assert(self.area['radius'] == amount)
+			elif type1 in {'cube', 'line'}:
+				assert(self.area['length'] == amount)
+
 
 	def get_tags(self):
 		self.tags = {
