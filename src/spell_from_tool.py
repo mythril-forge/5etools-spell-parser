@@ -181,7 +181,17 @@ class SpellFromTool(Spell):
 
 	def get_range(self):
 		'''
-		TODO NOTE
+		This uses internal json rather than collected data.
+		The external data is not always correct for range.
+		Rather, the internal json is stored as a string,
+		so this function can parse it into useable data.
+		---
+		Valid data includes:
+		- self
+		- touch
+		- unlimited
+		- special
+		- discrete (# points; 72 in an inch)
 		'''
 		# First, clean data extras from the internal json.
 		# These extras contain missing shape data.
@@ -192,13 +202,13 @@ class SpellFromTool(Spell):
 		range_data = range_data.lower()
 		range_data = re.split(r'[\s-]+', range_data)
 
-		# Normal results.
+		# Typical results.
 		if len(range_data) == 1:
 			type = range_data[0]
 
 			# Qualitative results.
 			if type == 'sight' or type == 'unlimited':
-				self.range['quality'] = 'indefinate'
+				self.range['quality'] = 'unlimited'
 			elif type == 'self':
 				self.range['quality'] = 'self'
 			elif type == 'touch':
@@ -218,9 +228,14 @@ class SpellFromTool(Spell):
 
 	def get_area(self):
 		'''
-		TODO
+		This uses internal json rather than collected data.
+		The external data is not always correct for shape area.
+		Rather, the internal json is stored as a string,
+		so this function can parse it into useable data.
+		---
+		For valid data, see shape_parameter object in helper.py.
 		'''
-		# these extras contains the missing data.
+		# These extras contain the missing data.
 		shape_data = self.extra_json['Range']
 		shape_data = shape_data.lower()
 		shape_data = re.findall(r'\(.*?\)', shape_data)
@@ -230,31 +245,36 @@ class SpellFromTool(Spell):
 		shape_data = shape_data.strip()
 		shape_data = shape_data.split('; ')
 
-		# lets get this loop going!! YEAH!!!
+		# This dictionary will store extracted data.
 		shape_dict = {}
+		# Each item in shape_data is scanned.
+		# Note that after splitting the original string,
+		# the resulting data is itself still a string.
 		for index, dimension in enumerate(shape_data):
-			# the dimension array
+			# A "dimension" is a measurement type, for example,
+			# length, width, height, or radius with measurements.
 			dimension = dimension.split(' ')
 			if len(dimension) == 3:
-
-				# these parts are just not needed
-				if dimension[2] in {'sphere','hemisphere'}:
+				# The third indice of data is extraneous.
+				if dimension[2] in {'sphere', 'hemisphere'}:
 					dimension.pop()
+				else:
+					raise
 
-			# a dimension of 2 is pretty normal
+			# A dimension of 2 is typical.
 			if len(dimension) == 2:
 				measurement = dimension[1]
-				foobar = dimension[0].split('-')
-				amount = float(foobar[0])
-				type = foobar[1]
-
-				# sometimes we have gunked up data like this
-				if measurement in {'cube','wall','line'}:
+				data = dimension[0].split('-')
+				amount = float(data[0])
+				type = data[1]
+				# Sometimes we have gunked up data like this.
+				if measurement in {'cube', 'wall', 'line'}:
 					measurement = 'length'
-				elif measurement in {'sphere','cone'}:
+				elif measurement in {'sphere', 'cone'}:
 					measurement = 'radius'
 				shape_dict[measurement] = space2num(amount, type)
 
+		# Give data to the main parameter.
 		for key in self.area:
 			self.area[key] = shape_dict.get(key)
 
@@ -281,7 +301,7 @@ class SpellFromTool(Spell):
 			elif type in {'self', 'touch', 'special'}:
 				pass
 			elif type in {'sight', 'unlimited'}:
-				type = 'indefinate'
+				type = 'unlimited'
 
 			# Quantitative results.
 			elif type in singularize_space or type in pluralize_space:
