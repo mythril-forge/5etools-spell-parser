@@ -18,7 +18,9 @@ class SpellToMarkdown:
 			f'-level {Spell.school}'
 		)
 		# Casting time is right up there
-		result += f'\n\nCasting Time: {time2str(Spell.range)}'
+		result += (
+			f'\n\nCasting Time: {time2str(Spell.cast_time)}'
+		)
 		# Instances isn't a good name but its what we got
 		result += f'\n\nEffect Instances: {Spell.instances}'
 		# Don't forget to set the markdown...

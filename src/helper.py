@@ -136,9 +136,23 @@ def time2str(amount, delimiter=' '):
 	'''
 	if amount['quality'] != None:
 		return amount['quality']
-	elif amount['distance'] != None:
-		big_unit = 'seconds'
-		return amount['distance']
+	elif amount['seconds'] != None:
+		best_unit = 'seconds'
+		for unit in convert_time:
+			if amount['seconds'] % convert_time[unit] == 0 and amount['seconds'] >= convert_time[unit]:
+				if convert_time[unit] > convert_time[best_unit]:
+					best_unit = unit
+		duration = amount['seconds'] / convert_time[best_unit]
+		if duration <= 1 and delimiter == ' ':
+			best_unit = singularize_time.get(best_unit, best_unit)
+		elif duration > 1 or delimiter != ' ':
+			best_unit = pluralize_time.get(best_unit, best_unit)
+		if duration < 1:
+			raise
+		else:
+			duration = int(duration)
+		result = f'{duration}{delimiter}{best_unit}'
+		return result
 	# print(result)
 	# re.split(r'[\s-]+', string)
 
