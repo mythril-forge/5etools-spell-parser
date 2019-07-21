@@ -3,29 +3,31 @@
 
 2nd-level conjuration
 
-Tags: V, S, M, C 
-
 Casting Time: 1 action
 
 Duration: 1 minute
 
 Range: 60 feet
 
-Shape: sphere
+Shape: sphere *If applicable*
 
-Shape Radius:
+Radius: *If applicable*
 
-Shape Length:
+Length: *If applicable*
 
-Shape Width:
+Width: *If applicable*
 
-Shape Height:
+Height: *If applicable*
 
-Verbal Components:
+Effect Instances: 1
 
-Somatic Components:
+Tags: V, S, M, C 
 
-Material Components: a bit of tallow, a pinch of brimstone, and a dusting of powdered iron
+Verbal Components: *If applicable*
+
+Somatic Components: *If applicable*
+
+Material Components: a bit of tallow, a pinch of brimstone, and a dusting of powdered iron *If applicable*
 
 ---
 
@@ -43,10 +45,10 @@ When you cast this spell using a spell slot of 3rd level or higher, the damage i
 
 Classes: Druid, Wizard
 
-Subclasses: Arcane Trickster Rogue, Celestial Warlock, Eldritch Knight Fighter, Light Cleric, Giant Soul (UA) (Fire) Sorcerer
+Subclasses: Arcane Trickster Rogue, Celestial Warlock, Eldritch Knight Fighter, Light Cleric, Giant Soul (UA) (Fire) Sorcerer *If applicable*
 
 Subclasses (legacy): Celestial (UA) Warlock, Undying Light (UA) Warlock
 
-Backgrounds: Rakdos Cultist
+Backgrounds: Rakdos Cultist *If applicable*
 
-Source: PHB, page 242
+Source: PHB, page 242 *If applicable*

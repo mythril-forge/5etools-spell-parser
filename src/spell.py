@@ -1,7 +1,7 @@
 import re
-import os
 from slugify import slugify
 from helper import *
+from spell_to_markdown import SpellToMarkdown
 
 class Spell:
 	'''
@@ -10,17 +10,12 @@ class Spell:
 	there are foreign properties in this class.
 	The extra properties are left empty for vanilla spells.
 	'''
-	def __init__(self, json):
+	def __init__(self):
 		'''
 		a spell has many fascets
 		'''
-		self.json = json
-
 		# basic data
 		self.name = None
-		self.slug = None
-		self.path = None
-		self.source = None
 		self.level = None
 		self.school = None
 
@@ -37,8 +32,10 @@ class Spell:
 		}
 
 		# physical space
-		self.instances = 1
-		self.range = None
+		self.range = {
+			'quality': None,
+			'distance': None,
+		}
 		self.area = {
 			'shape': None,
 			'radius': None,
@@ -46,6 +43,7 @@ class Spell:
 			'width': None,
 			'height': None,
 		}
+		self.instances = 1
 
 		# boolean summary of tags
 		self.tags = {
@@ -64,58 +62,23 @@ class Spell:
 		}
 
 		# spell information in paragraph form
-		self.info = {
-			'description': None,
-			'higher_levels': None,
-		}
+		self.description = None,
 
 		# which characters can use this spell?
 		self.access = {
-			'class': None,
-			'race': None,
-			'subclass': None,
-			'subrace': None,
+			'classes': None,
+			'races': None,
+			'subclasses': None,
+			'subraces': None,
 		}
-		
+
+		# where to find the original version of this spell
 		self.citation = {
 			'book': None,
 			'page': None
 		}
 
-		# generate the outputs!!
 		self.markdown = None
-		self.tools_json = None
-		self.clean_json = None
 
-	# helper funcitons
-	def tagify(self):
-		result = []
-		if self.tags['verbal']:
-			result.append('V')
-		if self.tags['somatic']:
-			result.append('S')
-		if self.tags['material']:
-			result.append('M')
-		if self.tags['concentration']:
-			result.append('C')
-		if self.tags['ritual']:
-			result.append('R')
-		result =  ', '.join(result)
-		return result
-
-	def castify(self):
-		if self.cast_time['quality']:
-			return self.cast_time['quality']
-		elif self.cast_time['seconds']:
-			return str(self.cast_time['seconds']) + ' seconds'
-		else:
-			raise
-
-	def durify(self):
-		print(self.duration['quality'])
-		if self.duration['quality']:
-			return self.duration['quality']
-		elif self.duration['seconds']:
-			return str(self.duration['seconds']) + ' seconds'
-		else:
-			raise
+	def get_markdown(self):
+		self.markdown = SpellToMarkdown(self).markdown
