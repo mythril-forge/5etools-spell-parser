@@ -53,7 +53,6 @@ def main():
 		# Every book is associated with a filename.
 		# This filname can be used to find the url.
 		BookData = verbose_get(url + SourceData[book]).json()
-
 		# A tome will be made to store parsed spell objects.
 		Tome = Book()
 		for SpellData in BookData['spell']:
@@ -64,6 +63,10 @@ def main():
 
 			# Add an arcanum to the tome.
 			Tome.add(Arcanum)
+			# ...and a tome needs a good title...
+			book_abbr = SourceData[book].replace('spells-', '')
+			book_abbr = book_abbr.replace('.json', '').lower()
+			Tome.add_name(book_abbr)
 		# Add a tome to the sanctum.
 		Sanctum.add(Tome)
 	# Sanctum holds all the wizardly research you could need.

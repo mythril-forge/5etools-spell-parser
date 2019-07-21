@@ -559,7 +559,7 @@ class SpellFromTool(Spell):
 		result = re.sub(r'([^\s\w/]|_)+', '', self.name)
 		result = result.lower()
 		result = slugify(result)
-		self.slug = slugify(result)
+		self.slug = result
 
 	def get_path(self):
 		'''

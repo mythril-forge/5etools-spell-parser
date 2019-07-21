@@ -115,6 +115,21 @@ shape_parameters = {
 	},
 }
 
+book_acronyms = {
+	'ai': 'Acquisitions Incorporated',
+	'ggr': 'Guildmasters\' Guide to Ravnica',
+	'llk': 'Lost Laboratory of Kwalish',
+	'phb': 'Player\'s Handbook',
+	'scag': 'Sword Coast Adventurer\'s Guide',
+	'stream': 'Live Stream',
+	'ua-ar': 'Unearthed Arcana: Artificer Revisited',
+	'ua-mm': 'Unearthed Arcana: Modern Magic',
+	'ua-ss': 'Unearthed Arcana: Starter Spells',
+	'ua-tobm': 'Unearthed Arcana: That Old Black Magic',
+	'xge': 'Xanathar\'s Guide to Everything',
+}
+
+
 def time2str(amount, delimiter=' '):
 	'''
 	converts an amount of seconds to a readable string.

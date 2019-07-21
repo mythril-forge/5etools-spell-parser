@@ -6,4 +6,4 @@ class Library:
 		self.books = {}
 
 	def add(self, Book):
-		pass
+		self.books[Book.acronym] = Book
