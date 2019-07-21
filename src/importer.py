@@ -6,7 +6,7 @@ from library import Library
 from book import Book
 from spell_from_tool import SpellFromTool
 # project settings
-VERBOSE = False
+VERBOSE = True
 
 def verbose_get(resource):
 	'''

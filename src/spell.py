@@ -1,6 +1,7 @@
 import re
 from slugify import slugify
 from helper import *
+from spell_to_markdown import SpellToMarkdown
 
 class Spell:
 	'''
@@ -17,7 +18,6 @@ class Spell:
 		self.name = None
 		self.level = None
 		self.school = None
-		self.instances = 1
 
 		# a question of time
 		self.cast_time = {
@@ -43,6 +43,7 @@ class Spell:
 			'width': None,
 			'height': None,
 		}
+		self.instances = 1
 
 		# boolean summary of tags
 		self.tags = {
@@ -61,10 +62,7 @@ class Spell:
 		}
 
 		# spell information in paragraph form
-		self.info = {
-			'description': None,
-			'higher_levels': None,
-		}
+		self.description = None,
 
 		# which characters can use this spell?
 		self.access = {
@@ -80,6 +78,7 @@ class Spell:
 			'page': None
 		}
 
+		self.markdown = None
+
 	def get_markdown(self):
-		pass
-		# return SpellToMarkdown(self).result
+		self.markdown = SpellToMarkdown(self).result

@@ -46,8 +46,6 @@ class SpellFromTool(Spell):
 		self.get_citation()
 		self.get_slug()
 		self.get_markdown()
-		# create a directory so python doesn't throw a fit
-
 
 	def get_name(self):
 		'''

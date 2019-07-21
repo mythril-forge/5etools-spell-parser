@@ -22,5 +22,5 @@ class Library:
 				Spell = Book.spells[spell_name]
 				filepath = f'./spells/{Book.acronym}/{Spell.slug}.md'
 				if level == None or level == Spell.level:
-				with open(filepath, 'w+') as file:
-					file.write(Spell.description)
+					with open(filepath, 'w+') as file:
+						file.write(Spell.markdown)
