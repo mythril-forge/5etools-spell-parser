@@ -81,4 +81,4 @@ class Spell:
 		self.markdown = None
 
 	def get_markdown(self):
-		self.markdown = SpellToMarkdown(self).result
+		self.markdown = SpellToMarkdown(self).markdown

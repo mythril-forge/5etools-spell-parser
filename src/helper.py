@@ -134,8 +134,13 @@ def time2str(amount, delimiter=' '):
 	'''
 	converts an amount of seconds to a readable string.
 	'''
-	re.split(r'[\s-]+', string)
-	pass
+	if amount['quality'] != None:
+		return amount['quality']
+	elif amount['distance'] != None:
+		big_unit = 'seconds'
+		return amount['distance']
+	# print(result)
+	# re.split(r'[\s-]+', string)
 
 def time2num(amount, unit):
 	'''
