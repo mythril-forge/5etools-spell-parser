@@ -45,7 +45,9 @@ class SpellFromTool(Spell):
 		self.get_access()
 		self.get_citation()
 		self.get_slug()
-		self.get_path()
+		self.get_markdown()
+		# create a directory so python doesn't throw a fit
+
 
 	def get_name(self):
 		'''
@@ -560,11 +562,3 @@ class SpellFromTool(Spell):
 		result = result.lower()
 		result = slugify(result)
 		self.slug = result
-
-	def get_path(self):
-		'''
-		Generates a markdown filepath for this spell.
-		This is used as the destination of the output.
-		'''
-		# create a directory so python doesn't throw a fit
-		self.path = f'./{self.spell_json["source"]}/{self.slug}.md'

@@ -115,6 +115,7 @@ shape_parameters = {
 	},
 }
 
+# these cleaned acronyms could very well be useful later...
 book_acronyms = {
 	'ai': 'Acquisitions Incorporated',
 	'ggr': 'Guildmasters\' Guide to Ravnica',
@@ -128,7 +129,6 @@ book_acronyms = {
 	'ua-tobm': 'Unearthed Arcana: That Old Black Magic',
 	'xge': 'Xanathar\'s Guide to Everything',
 }
-
 
 def time2str(amount, delimiter=' '):
 	'''

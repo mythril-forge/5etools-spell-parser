@@ -1,5 +1,4 @@
 import re
-import os
 from slugify import slugify
 from helper import *
 
@@ -80,3 +79,7 @@ class Spell:
 			'book': None,
 			'page': None
 		}
+
+	def get_markdown(self):
+		pass
+		# return SpellToMarkdown(self).result

@@ -6,7 +6,7 @@ from library import Library
 from book import Book
 from spell_from_tool import SpellFromTool
 # project settings
-VERBOSE = True
+VERBOSE = False
 
 def verbose_get(resource):
 	'''
@@ -73,4 +73,5 @@ def main():
 	return Sanctum
 
 if __name__ == '__main__':
-	main()
+	Sanctum = main()
+	Sanctum.write_to_file()

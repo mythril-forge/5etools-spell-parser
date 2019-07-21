@@ -1,6 +1,8 @@
 class SpellToMarkdown:
-	def __init__():
-		pass
+	def __init__(self, Spell):
+		self.spell = Spell
+
+
 
 def clean_info(self, info):
 	# work around
