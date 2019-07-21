@@ -519,7 +519,6 @@ class SpellFromTool(Spell):
 	def clean_info(self, entry):
 		return entry
 
-		raise
 	def get_access(self):
 		classes = []
 		subclasses = []
@@ -538,16 +537,16 @@ class SpellFromTool(Spell):
 		if self.spell_json.get('races'):
 			for entry in self.spell_json['races']:
 				if entry.get('baseName'):
-					subrace = ''
-					subrace += entry['name']
+					subrace = entry['name']
 					subraces.append(subrace)
 				else:
-					race = ''
-					race += entry['name']
-		self.access['class'] = classes
-		self.access['subclass'] = subclasses
-		self.access['race'] = races
-		self.access['subrace'] = subraces
+					race = entry['name']
+					races.append(race)
+		# add to attributes
+		self.access['classes'] = classes
+		self.access['subclasses'] = subclasses
+		self.access['races'] = races
+		self.access['subraces'] = subraces
 
 	def get_citation(self):
 		self.citation['book'] = self.spell_json['source']

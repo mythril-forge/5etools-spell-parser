@@ -130,6 +130,16 @@ book_acronyms = {
 	'xge': 'Xanathar\'s Guide to Everything',
 }
 
+# the tag symbols help give an overview for the spell
+tag_symbols = {
+	'verbal': 'V',
+	'somatic': 'S',
+	'material': 'M',
+	'concentration': 'C',
+	'ritual': 'R',
+	'royalty': '$'
+}
+
 def time2str(amount, delimiter=' '):
 	'''
 	converts an amount of seconds to a readable string.
@@ -152,8 +162,6 @@ def time2str(amount, delimiter=' '):
 			duration = int(duration)
 		result = f'{duration}{delimiter}{best_unit}'
 		return result
-	# print(result)
-	# re.split(r'[\s-]+', string)
 
 def space2str(distance, delimiter=' '):
 	if distance:
@@ -183,3 +191,16 @@ def space2num(amount, unit):
 	converts any amount of a spacial measurement to points.
 	'''
 	return int(convert_space[unit] * amount)
+
+def nth_number(number):
+	if number < 0 or number > 9:
+		raise Exception(f'stringify number {number}: ' \
+		'out of range')
+	elif number == 1:
+		return '1st'
+	elif number == 2:
+		return '2nd'
+	elif number == 3:
+		return '3rd'
+	else:
+		return f'{str(number)}th'
