@@ -1,3 +1,6 @@
+class SpellToMarkdown:
+	def __init__():
+		pass
 
 def clean_info(self, info):
 	# work around

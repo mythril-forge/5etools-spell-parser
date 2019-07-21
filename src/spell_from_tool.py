@@ -1,4 +1,5 @@
 from spell import Spell
+from spell_to_markdown import SpellToMarkdown
 import re
 import os
 from slugify import slugify
@@ -37,14 +38,14 @@ class SpellFromTool(Spell):
 		self.get_range()
 		self.get_area()
 		self.verify_range()
-		# self.verify_area()
-		# self.get_tags()
-		# self.get_components()
-		# self.get_info()
-		# self.get_access()
-		# self.get_citation()
-		# self.get_slug()
-		# self.get_path()
+		self.verify_area()
+		self.get_tags()
+		self.get_components()
+		self.get_description()
+		self.get_access()
+		self.get_citation()
+		self.get_slug()
+		self.get_path()
 
 	def get_name(self):
 		'''
@@ -181,7 +182,17 @@ class SpellFromTool(Spell):
 
 	def get_range(self):
 		'''
-		TODO NOTE
+		This uses internal json rather than collected data.
+		The external data is not always correct for range.
+		Rather, the internal json is stored as a string,
+		so this function can parse it into useable data.
+		---
+		Valid data includes:
+		- self
+		- touch
+		- unlimited
+		- special
+		- discrete (# points; 72 in an inch)
 		'''
 		# First, clean data extras from the internal json.
 		# These extras contain missing shape data.
@@ -192,13 +203,13 @@ class SpellFromTool(Spell):
 		range_data = range_data.lower()
 		range_data = re.split(r'[\s-]+', range_data)
 
-		# Normal results.
+		# Typical results.
 		if len(range_data) == 1:
 			type = range_data[0]
 
 			# Qualitative results.
 			if type == 'sight' or type == 'unlimited':
-				self.range['quality'] = 'indefinate'
+				self.range['quality'] = 'unlimited'
 			elif type == 'self':
 				self.range['quality'] = 'self'
 			elif type == 'touch':
@@ -218,49 +229,78 @@ class SpellFromTool(Spell):
 
 	def get_area(self):
 		'''
-		TODO
+		This uses internal json rather than collected data.
+		The external data is not always correct for shape area.
+		Rather, the internal json is stored as a string,
+		so this function can parse it into useable data.
+		---
+		For valid data, see shape_parameter object in helper.py.
 		'''
-		# these extras contains the missing data.
+		# These extras contain the missing data.
 		shape_data = self.extra_json['Range']
 		shape_data = shape_data.lower()
 		shape_data = re.findall(r'\(.*?\)', shape_data)
 		shape_data = ''.join(shape_data)
 		shape_data = shape_data.replace('(', '')
 		shape_data = shape_data.replace(')', '')
+		shape_data = shape_data.replace('-radius',' radius')
 		shape_data = shape_data.strip()
 		shape_data = shape_data.split('; ')
 
-		# lets get this loop going!! YEAH!!!
+		# Needed for later
+		shape = None
+		# This dictionary will store extracted data.
 		shape_dict = {}
+		# Each item in shape_data is scanned.
+		# Note that after splitting the original string,
+		# the resulting data is itself still a string.
 		for index, dimension in enumerate(shape_data):
-			# the dimension array
+			# A 'dimension' is a measurement type, for example,
+			# length, width, height, or radius with measurements.
 			dimension = dimension.split(' ')
 			if len(dimension) == 3:
-
-				# these parts are just not needed
-				if dimension[2] in {'sphere','hemisphere'}:
+				# The third indice of data is extraneous.
+				if dimension[2] in {'sphere', 'hemisphere'}:
 					dimension.pop()
+				else:
+					raise
 
-			# a dimension of 2 is pretty normal
+			# A dimension of 2 is typical.
 			if len(dimension) == 2:
 				measurement = dimension[1]
-				foobar = dimension[0].split('-')
-				amount = float(foobar[0])
-				type = foobar[1]
-
-				# sometimes we have gunked up data like this
-				if measurement in {'cube','wall','line'}:
+				data = dimension[0].split('-')
+				amount = float(data[0])
+				type = data[1]
+				# Sometimes we have gunked up data like this.
+				if measurement in {'cube', 'wall', 'line'}:
+					shape = measurement
 					measurement = 'length'
-				elif measurement in {'sphere','cone'}:
+				elif measurement in {'sphere', 'cone'}:
+					shape = measurement
 					measurement = 'radius'
 				shape_dict[measurement] = space2num(amount, type)
 
+		# Give data to the main parameter.
 		for key in self.area:
 			self.area[key] = shape_dict.get(key)
 
+		# Shape was unspecified if it was a cylinder or sphere.
+		has_radius = self.area.get('radius')
+		has_height = self.area.get('height')
+		if not shape and has_radius and has_height:
+			shape = 'cylinder'
+		elif not shape and has_radius:
+			shape = 'sphere'
+		self.area['shape'] = shape
+
 	def verify_range(self):
 		'''
-		TODO NOTE
+		We can use external data to cross-check internal data.
+		Although the shape data isn't always in the right place,
+		it can be used to support or verify data.
+		---
+		At the end of this function, assert
+		statements will ensure data integity.
 		'''
 		# Clean data sourced from the main external json.
 		# Note that this source is missing data...
@@ -281,7 +321,7 @@ class SpellFromTool(Spell):
 			elif type in {'self', 'touch', 'special'}:
 				pass
 			elif type in {'sight', 'unlimited'}:
-				type = 'indefinate'
+				type = 'unlimited'
 
 			# Quantitative results.
 			elif type in singularize_space or type in pluralize_space:
@@ -302,77 +342,60 @@ class SpellFromTool(Spell):
 			assert(amount == self.range['distance'])
 
 	def verify_area(self):
-		pass
+		'''
+		We can use external data to cross-check internal data.
+		Although the AoE data isn't always in the right place,
+		it can be used to support or verify data.
+		---
+		At the end of this function, assert
+		statements will ensure data integity.
+		'''
+		area_data = self.spell_json['range']
+		# type1 and type2 can be units or shapes.
+		type1 = area_data['type']
+		type2 = area_data.get('distance', {}).get('type')
+		distance = area_data.get('distance', {}).get('amount')
+
+		# a few exceptions need to be converted
+		shape_transformations = {
+			'radius': 'sphere',
+			'hemisphere': 'sphere',
+			'sight': 'unlimited',
+		}
+		if type1 in shape_transformations:
+			type1 = shape_transformations[type1]
+
 		# further cleaning with both extra and prime are needed.
 		# this dynamic will deduce things like aura spells.
-		if prime_range == extra_range and isinstance(prime_range, int):
-			if False:
-				pass
-			elif extra_shape.get('sphere'):
-				prime_shape = extra_shape
-			elif extra_shape.get('radius'):
-				prime_shape = extra_shape
-			elif extra_shape.get('cube'):
-				prime_shape = extra_shape
-			elif extra_shape.get('wall'):
-				prime_shape = extra_shape
-			elif extra_shape == {} and prime_shape == 'point':
-				extra_shape = 'point'
-		elif prime_range == extra_range == 'self':
-			if False:
-				pass
-			elif prime_shape == 'radius':
-				prime_shape = extra_shape
-			elif prime_shape == 'sphere':
-				prime_shape = extra_shape
-			elif prime_shape == 'hemisphere':
-				prime_shape = extra_shape
-			elif prime_shape == 'cone':
-				prime_shape = extra_shape
-			elif prime_shape == 'cube':
-				prime_shape = extra_shape
-			elif prime_shape == 'line':
-				prime_shape = extra_shape
-			elif extra_shape.get('radius'):
-				prime_shape = extra_shape
-			elif extra_shape.get('cone'):
-				prime_shape = extra_shape
-			elif extra_shape == {} and prime_shape == 'point':
-				prime_shape = 'self'
-				extra_shape = 'self'
-		elif prime_range == extra_range == 'touch':
-			if False:
-				pass
-			elif extra_shape == {}:
-				prime_shape = 'point'
-				extra_shape = 'point'
-			elif extra_shape.get('radius'):
-				prime_shape = extra_shape
-			elif extra_shape.get('cube'):
-				prime_shape = extra_shape
-		elif prime_range == extra_range == 'point':
-			print('point')
-		elif prime_range == extra_range == 'indefinate':
-			if False:
-				pass
-			elif extra_shape.get('wall'):
-				prime_shape = extra_shape
-			elif extra_shape.get('radius'):
-				prime_shape = extra_shape
-			elif extra_shape == {}:
-				prime_shape = 'point'
-				extra_shape = 'point'
-		elif prime_range == extra_range == prime_shape == 'special':
-			extra_shape = 'special'
-		elif prime_range != extra_range:
-			if False:
-				pass
-			elif extra_shape.get('radius') == prime_range and prime_shape =='point':
-				prime_shape = extra_shape
-				prime_range = extra_range
-			elif extra_shape.get('line') == prime_range and prime_shape =='point':
-				prime_shape = extra_shape
-				prime_range = extra_range
+		if type1 == 'point':
+			if type2 in {'touch', 'self'}:
+				assert(self.range['quality'] == type2)
+				assert(self.range['distance'] == None)
+			elif type2 in {'sight', 'unlimited'}:
+				assert(self.range['quality'] == 'unlimited')
+			elif type2 in convert_space:
+				# Get distance amount from distance and unit.
+				amount = space2num(distance, type2)
+				# Deconstruct these longer boolean calculations...
+				has_sphere = self.area['shape'] == 'sphere'
+				has_line = self.area['shape'] == 'line'
+				has_distance = self.range['distance']
+				# Conditionally assert based on shape type.
+				if has_distance:
+					assert(self.range['distance'] == amount)
+				elif has_sphere:
+					assert(self.area['radius'] == amount)
+				elif has_line:
+					assert(self.area['length'] == amount)
+		elif type1 == 'special':
+			assert(self.range['quality'] == type1)
+			assert(self.range['distance'] == None)
+		elif type1 in shape_parameters:
+			amount = space2num(distance, type2)
+			if type1 in {'sphere', 'cone'}:
+				assert(self.area['radius'] == amount)
+			elif type1 in {'cube', 'line'}:
+				assert(self.area['length'] == amount)
 
 	def get_tags(self):
 		self.tags = {
@@ -402,7 +425,7 @@ class SpellFromTool(Spell):
 
 	def get_components(self):
 		if self.tags['material'] == True:
-			material = self.json['components'].get('m')
+			material = self.spell_json['components'].get('m')
 			if not isinstance(material, str):
 				self.components['material'] = material['text']
 			else:
@@ -410,27 +433,108 @@ class SpellFromTool(Spell):
 		else:
 			pass
 
-	def get_info(self):
-		raise
+	def get_description(self):
+		entries = self.spell_json['entries']
+		entries = self.classify_desc_info(entries)
+		entries = entries.strip()
+		markdown = '## Description\n'
+		markdown += entries
+		if self.spell_json.get('entriesHigherLevels'):
+			higher_levels = self.classify_desc_info(higher)
+			higher_levels = higher_levels.strip()
+			markdown += '\n\n## At Higher Levels\n'
+			markdown += higher_levels
+		self.description = markdown
 
+	def classify_desc_info(self, data):
+		markdown = ''
+		for entry in data:
+			if isinstance(entry, str):
+				markdown += '\n'
+				markdown += entry
+				markdown += '\n'
+
+			elif entry.get('type') == 'entries':
+				markdown += '\n'
+				markdown += '### '
+				markdown += entry['name']
+				markdown += self.classify_desc_info(entry['entries'])
+
+			elif entry.get('type') == 'quote':
+				quote = self.classify_desc_info(entry['entries'])
+				quote = re.sub(r'\n+', '\n', quote)
+				quote = re.sub(r'^(?=\w|.*? )', '> ', quote)
+				quote = re.sub(r'\n(?=\w|.*? )', '\n> ', quote)
+				quote = quote.strip()
+				markdown += '\n'
+				markdown += quote
+				markdown += '\n> &mdash; '
+				markdown += entry['by']
+				markdown += '\n'
+
+			elif entry.get('type') == 'list':
+				md_list = self.classify_desc_info(entry['items'])
+				md_list = re.sub(r'\n+', '\n', md_list)
+				md_list = re.sub(r'^(?=\w|.*? )', '- ', md_list)
+				md_list = re.sub(r'\n(?=\w|.*? )', '\n- ', md_list)
+				md_list = md_list.strip()
+				markdown += md_list
+				markdown += '\n'
+
+			elif entry.get('type') == 'table':
+				labels = self.classify_desc_info(entry['colLabels'])
+				labels = re.sub(r'\n+', '\n', labels)
+				labels = re.sub(r'^(?=\w|.*? )', '| ', labels)
+				labels = re.sub(r'\n(?=\w|.*? )', ' | ', labels)
+				labels = labels.strip()
+				markdown += labels
+				markdown += ' |\n|'
+				# add seperator
+				for col in entry['colLabels']:
+					markdown += '-----|'
+				markdown += '\n'
+				# add details
+				for row in entry['rows']:
+					details = self.classify_desc_info(row)
+					details = re.sub(r'\n+', '\n', details)
+					details = re.sub(r'^(?=\w|.*? )', '| ', details)
+					details = re.sub(r'\n(?=\w|.*? )', ' | ', details)
+					details = details.strip()
+					markdown += details
+					markdown += ' |\n'
+
+			elif entry.get('type') == 'cell':
+				if entry['roll'].get('exact'):
+					roll = str(entry['roll']['exact'])
+				else:
+					roll = str(entry['roll']['min'])
+					roll += '&mdash;'
+					roll += str(entry['roll']['max'])
+				markdown += roll
+		# finally, return our result
+		return markdown
+
+	def clean_info(self, entry):
+		return entry
+
+		raise
 	def get_access(self):
 		classes = []
 		subclasses = []
 		races = []
 		subraces = []
-		# print(self.json['classes']['fromClassList'])
-		for player_class in self.json['classes'].get('fromClassList'):
+		for player_class in self.spell_json['classes'].get('fromClassList'):
 			classes.append(player_class['name'])
-		if self.json['classes'].get('fromSubclass'):
-			for player_subclass in self.json['classes'].get('fromSubclass'):
+		if self.spell_json['classes'].get('fromSubclass'):
+			for player_subclass in self.spell_json['classes'].get('fromSubclass'):
 				subclass =''
 				subclass += player_subclass['subclass']['name']
 				subclass += ' '
 				subclass += player_subclass['class']['name']
 				subclasses.append(subclass)
 
-		if self.json.get('races'):
-			for entry in self.json['races']:
+		if self.spell_json.get('races'):
+			for entry in self.spell_json['races']:
 				if entry.get('baseName'):
 					subrace = ''
 					subrace += entry['name']
@@ -438,15 +542,14 @@ class SpellFromTool(Spell):
 				else:
 					race = ''
 					race += entry['name']
-
 		self.access['class'] = classes
 		self.access['subclass'] = subclasses
 		self.access['race'] = races
 		self.access['subrace'] = subraces
 
 	def get_citation(self):
-		self.citation['book'] = self.json['source']
-		self.citation['page'] = self.json.get('page')
+		self.citation['book'] = self.spell_json['source']
+		self.citation['page'] = self.spell_json.get('page')
 
 	def get_slug(self):
 		'''
@@ -464,4 +567,4 @@ class SpellFromTool(Spell):
 		This is used as the destination of the output.
 		'''
 		# create a directory so python doesn't throw a fit
-		self.path = f'./{self.source}/{self.slug}.md'
+		self.path = f'./{self.spell_json["source"]}/{self.slug}.md'
