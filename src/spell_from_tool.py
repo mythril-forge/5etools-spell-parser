@@ -441,8 +441,9 @@ class SpellFromTool(Spell):
 		entries = entries.strip()
 		markdown = '## Description\n'
 		markdown += entries
-		if self.spell_json.get('entriesHigherLevels'):
-			higher_levels = self.classify_desc_info(higher)
+		if self.spell_json.get('entriesHigherLevel'):
+			higher_levels = self.spell_json['entriesHigherLevel']
+			higher_levels = self.classify_desc_info(higher_levels)
 			higher_levels = higher_levels.strip()
 			markdown += '\n\n## At Higher Levels\n'
 			markdown += higher_levels
@@ -458,8 +459,9 @@ class SpellFromTool(Spell):
 
 			elif entry.get('type') == 'entries':
 				markdown += '\n'
-				markdown += '### '
-				markdown += entry['name']
+				if entry['name'] != 'At Higher Levels':
+					markdown += '### '
+					markdown += entry['name']
 				markdown += self.classify_desc_info(entry['entries'])
 
 			elif entry.get('type') == 'quote':

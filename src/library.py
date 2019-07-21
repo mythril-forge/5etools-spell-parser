@@ -10,13 +10,17 @@ class Library:
 	def add(self, Book):
 		self.books[Book.acronym] = Book
 
-	def write_to_file(self):
+	def write_to_file(self, level = None):
+		# grab all the books
 		for book_title in self.books:
 			Book = self.books[book_title]
-			if not os.path.exists(f'./{Book.acronym}/'):
-				os.makedirs(f'./{Book.acronym}/')
+			# make a folder
+			if not os.path.exists(f'./spells/{Book.acronym}/'):
+				os.makedirs(f'./spells/{Book.acronym}/')
+			# grab all the spells
 			for spell_name in Book.spells:
 				Spell = Book.spells[spell_name]
-				filepath = f'./{Book.acronym}/{Spell.slug}.md'
+				filepath = f'./spells/{Book.acronym}/{Spell.slug}.md'
+				if level == None or level == Spell.level:
 				with open(filepath, 'w+') as file:
 					file.write(Spell.description)
