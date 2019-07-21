@@ -11,13 +11,13 @@ Range: 60 feet
 
 Shape: sphere *If applicable*
 
-Shape Radius: *If applicable*
+Radius: *If applicable*
 
-Shape Length: *If applicable*
+Length: *If applicable*
 
-Shape Width: *If applicable*
+Width: *If applicable*
 
-Shape Height: *If applicable*
+Height: *If applicable*
 
 Effect Instances: 1
 

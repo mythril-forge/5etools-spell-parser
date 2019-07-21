@@ -6,12 +6,12 @@ convert_space = {
 	'point': 1,
 	'inch': 72,
 	'foot': 864,
-	'yard': 2592,
+	# 'yard': 2592,
 	'mile': 4561920,
 	'points': 1,
 	'inches': 72,
 	'feet': 864,
-	'yards': 2592,
+	# 'yards': 2592,
 	'miles': 4561920,
 }
 
@@ -139,22 +139,38 @@ def time2str(amount, delimiter=' '):
 	elif amount['seconds'] != None:
 		best_unit = 'seconds'
 		for unit in convert_time:
-			if amount['seconds'] % convert_time[unit] == 0 and amount['seconds'] >= convert_time[unit]:
+			if amount['seconds'] % convert_time[unit] == 0: # and amount['seconds'] >= convert_time[unit]:
 				if convert_time[unit] > convert_time[best_unit]:
 					best_unit = unit
 		duration = amount['seconds'] / convert_time[best_unit]
-		if duration <= 1 and delimiter == ' ':
-			best_unit = singularize_time.get(best_unit, best_unit)
-		elif duration > 1 or delimiter != ' ':
+		if duration > 1 and delimiter == ' ':
 			best_unit = pluralize_time.get(best_unit, best_unit)
-		if duration < 1:
-			raise
-		else:
+			duration = int(duration)
+		elif duration <= 1 or delimiter != ' ':
+			best_unit = singularize_time.get(best_unit, best_unit)
+		if duration >= 1:
 			duration = int(duration)
 		result = f'{duration}{delimiter}{best_unit}'
 		return result
 	# print(result)
 	# re.split(r'[\s-]+', string)
+
+def space2str(distance, delimiter=' '):
+	if distance:
+		best_unit = 'points'
+		for unit in convert_space:
+			if distance % convert_space[unit] == 0: # and distance >= convert_space[unit]:
+				if convert_space[unit] > convert_space[best_unit]:
+					best_unit = unit
+		distance = distance / convert_space[best_unit]
+		if distance > 1 and delimiter == ' ':
+			best_unit = pluralize_space.get(best_unit, best_unit)
+		elif distance <= 1 or delimiter != ' ':
+			best_unit = singularize_space.get(best_unit, best_unit)
+		if distance >= 1:
+			distance = int(distance)
+		result = f'{distance}{delimiter}{best_unit}'
+		return result
 
 def time2num(amount, unit):
 	'''
