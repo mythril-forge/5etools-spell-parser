@@ -1,4 +1,5 @@
 from helper import *
+from bad_string_parser import *
 
 class SpellToMarkdown:
 	def __init__(self, Spell):
@@ -83,6 +84,7 @@ class SpellToMarkdown:
 		result += f'\n\nSource: {cite}'
 		# Don't forget to set the markdown...
 		result += '\n'
+		result = cleanse_markdown(result)
 		self.markdown = result
 
 	def distill_tags(self, tags):
