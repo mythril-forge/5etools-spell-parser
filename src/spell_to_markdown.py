@@ -24,6 +24,12 @@ class SpellToMarkdown:
 		result += (
 			f'\n\nCasting Time: {time2str(Spell.cast_time)}'
 		)
+		# Duration is easy to grab
+		if Spell.duration['quality']:
+			duration = Spell.duration['quality']
+		else:
+			duration = time2str(Spell.duration)
+		result += f'\n\nDuration: {duration}'
 		# The range is just a number or string.
 		if Spell.range['distance']:
 			measurement = Spell.range['distance']
