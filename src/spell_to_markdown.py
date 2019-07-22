@@ -52,7 +52,7 @@ class SpellToMarkdown:
 		# Spell tags
 		for tag in Spell.tags:
 			if Spell.tags[tag]:
-				tag_list = self.distill_tags(Spell.tags)
+				tag_list = self.distill_tags(Spell.tags).lower()
 				result += f'\n\nTags: {tag_list}'
 				break
 		# Spell components
@@ -69,22 +69,22 @@ class SpellToMarkdown:
 		# Spell class access
 		classes = Spell.access['classes']
 		if classes != []:
-			classes = self.distill_access(classes)
+			classes = self.distill_access(classes).lower()
 			result += f'\n\nClasses: {classes}'
 		subclasses = Spell.access['subclasses']
 		if subclasses != []:
-			subclasses = self.distill_access(subclasses)
+			subclasses = self.distill_access(subclasses).lower()
 			result += f'\n\nSubclasses: {subclasses}'
 		races = Spell.access['races']
 		if races != []:
-			races = self.distill_access(races)
+			races = self.distill_access(races).lower()
 			result += f'\n\nRaces: {races}'
 		subraces = Spell.access['subraces']
 		if subraces != []:
-			subraces = self.distill_access(subraces)
+			subraces = self.distill_access(subraces).lower()
 			result += f'\n\nSubraces: {subraces}'
 		# Finally, add the citation.
-		book = book_transition_temp[Spell.citation['book']]
+		book = book_transition_temp[Spell.citation['book']].upper()
 		page = Spell.citation['page']
 		cite = self.distill_citation(book, page)
 		result += f'\n\nSource: {cite}'
@@ -97,7 +97,7 @@ class SpellToMarkdown:
 		tag_list = []
 		for tag in tags:
 			if tags[tag]:
-				tag_list.append(tag_symbols[tag])
+				tag_list.append(tag)
 		return ', '.join(tag_list)
 
 	def distill_access(self, classes):
