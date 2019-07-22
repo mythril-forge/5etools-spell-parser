@@ -1,4 +1,5 @@
 import os
+import re
 
 class Library:
 	'''
@@ -22,5 +23,7 @@ class Library:
 				Spell = Book.spells[spell_name]
 				filepath = f'./spells/{Book.acronym}/{Spell.slug}.md'
 				if level == None or level == Spell.level:
+					DIRTY = re.findall(r'{@.*?}', Spell.markdown)
+					print(f'{DIRTY},')
 					with open(filepath, 'w+') as file:
 						file.write(Spell.markdown)
