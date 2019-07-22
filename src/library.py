@@ -11,7 +11,7 @@ class Library:
 	def add(self, Book):
 		self.books[Book.acronym] = Book
 
-	def write_to_file(self, level = None):
+	def write_to_file(self, level = 0):
 		# grab all the books
 		for book_title in self.books:
 			Book = self.books[book_title]

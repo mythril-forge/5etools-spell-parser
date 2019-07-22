@@ -78,7 +78,7 @@ class SpellToMarkdown:
 			subraces = self.distill_access(subraces)
 			result += f'\n\nSubraces: {subraces}'
 		# Finally, add the citation.
-		book = Spell.citation['book']
+		book = book_transition_temp[Spell.citation['book']]
 		page = Spell.citation['page']
 		cite = self.distill_citation(book, page)
 		result += f'\n\nSource: {cite}'
