@@ -16,6 +16,7 @@ class Spell:
 		'''
 		# basic data
 		self.name = None
+		self.homebrew = None
 		self.level = None
 		self.school = None
 
