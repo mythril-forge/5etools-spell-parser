@@ -5,6 +5,8 @@ import os
 from slugify import slugify
 from helper import *
 
+
+
 class SpellFromTool(Spell):
 	'''
 	This class gives methods to fill in a Spells attributes.
@@ -22,6 +24,7 @@ class SpellFromTool(Spell):
 		# Once parsed, these attributes are unneeded clutter.
 		del self.spell_json
 		del self.extra_json
+
 
 	def parse_data(self):
 		'''
@@ -47,6 +50,7 @@ class SpellFromTool(Spell):
 		self.get_slug()
 		self.get_markdown()
 
+
 	def get_name(self):
 		'''
 		After retrieving the name of the spell, it is checked
@@ -58,6 +62,7 @@ class SpellFromTool(Spell):
 			error = f'spell name is unexpected: {self.name}'
 			raise Exception(error)
 
+
 	def get_level(self):
 		'''
 		Retrieves the level of a spell.
@@ -65,13 +70,14 @@ class SpellFromTool(Spell):
 		'''
 		self.level = self.spell_json['level']
 
+
 	def get_school(self):
 		'''
 		The data holds a spell's school as a single character.
 		This converts that character into its full name.
 		Note, we have 8 schools of magic plus psionics.
 		'''
-		# list all potential schools
+		# List all potential schools
 		schools = {
 			'a':'abjuration',
 			'c':'conjuration',
@@ -88,6 +94,7 @@ class SpellFromTool(Spell):
 		# figure out which school the mark is
 		self.school = schools[mark]
 
+
 	def get_instances(self):
 		'''
 		An instance is a point of origin for a spell's effect.
@@ -95,6 +102,7 @@ class SpellFromTool(Spell):
 		For example, scorching ray can target 3 creatures.
 		'''
 		self.instances = self.extra_json['Instances']
+
 
 	def get_cast_time(self):
 		'''
@@ -135,6 +143,7 @@ class SpellFromTool(Spell):
 		# Special results.
 		elif len(self.spell_json['time']) > 1:
 			self.cast_time['quality'] = 'special'
+
 
 	def get_duration(self):
 		'''
@@ -179,6 +188,7 @@ class SpellFromTool(Spell):
 		# Special results.
 		elif len(self.spell_json['duration']) > 1:
 			self.duration['quality'] = 'special'
+
 
 	def get_range(self):
 		'''
@@ -226,6 +236,7 @@ class SpellFromTool(Spell):
 		# Special results.
 		elif len(range_data) > 2:
 			self.range['quality'] = 'special'
+
 
 	def get_area(self):
 		'''
@@ -293,6 +304,7 @@ class SpellFromTool(Spell):
 			shape = 'sphere'
 		self.area['shape'] = shape
 
+
 	def verify_range(self):
 		'''
 		We can use external data to cross-check internal data.
@@ -340,6 +352,7 @@ class SpellFromTool(Spell):
 		else:
 			assert(type == self.range['quality'])
 			assert(amount == self.range['distance'])
+
 
 	def verify_area(self):
 		'''
@@ -397,6 +410,7 @@ class SpellFromTool(Spell):
 			elif type1 in {'cube', 'line'}:
 				assert(self.area['length'] == amount)
 
+
 	def get_tags(self):
 		self.tags = {
 			'verbal': False,
@@ -423,6 +437,7 @@ class SpellFromTool(Spell):
 			if 'ritual' in self.spell_json['meta']:
 				self.tags['ritual'] = True
 
+
 	def get_components(self):
 		if self.tags['material'] == True:
 			material = self.spell_json['components'].get('m')
@@ -432,6 +447,7 @@ class SpellFromTool(Spell):
 				self.components['material'] = material
 		else:
 			pass
+
 
 	def get_description(self):
 		entries = self.spell_json['entries']
@@ -446,6 +462,7 @@ class SpellFromTool(Spell):
 			markdown += '\n\n## At Higher Levels\n'
 			markdown += higher_levels
 		self.description = markdown
+
 
 	def classify_desc_info(self, data):
 		markdown = ''
@@ -516,8 +533,10 @@ class SpellFromTool(Spell):
 		# finally, return our result
 		return markdown
 
+
 	def clean_info(self, entry):
 		return entry
+
 
 	def get_access(self):
 		classes = []
@@ -548,9 +567,11 @@ class SpellFromTool(Spell):
 		self.access['races'] = races
 		self.access['subraces'] = subraces
 
+
 	def get_citation(self):
 		self.citation['book'] = self.spell_json['source']
 		self.citation['page'] = self.spell_json.get('page')
+
 
 	def get_slug(self):
 		'''

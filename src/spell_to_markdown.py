@@ -45,7 +45,7 @@ class SpellToMarkdown:
 				measurement = Spell.area[dimension]
 				measurement = space2str(measurement)
 				dimension = dimension.capitalize()
-				result += f'\n\n{dimension}: {measurement}'
+				result += f'\n\n**{dimension}**: {measurement}'
 		# Instances isn't a good name but its what we got
 		if Spell.instances != 1:
 			result += f'\n\n**Effect Instances:** {Spell.instances}'
@@ -87,7 +87,7 @@ class SpellToMarkdown:
 		book = book_transition_temp[Spell.citation['book']].upper()
 		page = Spell.citation['page']
 		cite = self.distill_citation(book, page)
-		result += f'\n\n**Source:** {cite}'
+		result += f'\n\n**Sources:** {cite}'
 		# Don't forget to set the markdown...
 		result += '\n'
 		result = cleanse_markdown(result)

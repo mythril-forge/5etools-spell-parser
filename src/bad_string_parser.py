@@ -1,5 +1,6 @@
 import json
 import re
+from slugify import slugify
 
 def cleanse_markdown(data):
 	while True:
@@ -26,6 +27,9 @@ def remove_metadata(dirty):
 		# || implies or in this json.
 		expr = r'.+\|\|'
 		dirty = re.sub(expr, '', dirty)
+		# italicize conditions
+		# TODO italics or bold??
+		dirty = f'**{dirty}**'
 
 	elif re.search(r'{@creature .+?}', dirty):
 		# remove typing.
@@ -61,7 +65,6 @@ def remove_metadata(dirty):
 		dirty = re.sub(expr, ' &times; ', dirty)
 		expr = r'(?<=\d)[\÷|\/](?=\d)'
 		dirty = re.sub(expr, ' &divide; ', dirty)
-		# TODO
 		# add code ticks to specify a dice roll.
 		dirty = f'`{dirty}`'
 
@@ -122,6 +125,10 @@ def remove_metadata(dirty):
 		# remove typing.
 		expr = r'(?<={@spell\s).+?(?=})'
 		dirty = re.search(expr, dirty).group()
+		# embolden other spell names
+		slug = slugify(dirty)
+		#TODO add markdown link to other spell
+		dirty = f'*[{dirty}](../{slug})*'
 
 	else:
 		raise
