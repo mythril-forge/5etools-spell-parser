@@ -74,6 +74,7 @@ class SpellFromText(Spell):
 				elif re.search(r'^\*\*Range:\*\*\s', line):
 					range = line
 					range = re.sub(r'^\*\*Range:\*\*\s', '', range)
+					range = range.strip()
 					if range in {'self', 'touch', 'unlimited'}:
 						self.range['quality'] = range
 						# TODO fix special conditions
@@ -81,5 +82,74 @@ class SpellFromText(Spell):
 						# TODO fix duration durations
 						pass
 
+				# get shape
+				elif re.search(r'^\*\*Shape:\*\*\s', line):
+					shape = line
+					shape = re.sub(r'^\*\*Shape:\*\*\s', '', shape)
+					shape = shape.strip()
+					print(shape)
+
+				# get radius
+				elif re.search(r'^\*\*Radius:\*\*\s', line):
+					radius = line
+					radius = re.sub(r'^\*\*Radius:\*\*\s', '', radius)
+					radius = radius.strip()
+					print(radius)
+
+				# get length
+				elif re.search(r'^\*\*Length:\*\*\s', line):
+					length = line
+					length = re.sub(r'^\*\*Length:\*\*\s', '', length)
+					length = length.strip()
+					print(length)
+
+				# get width
+				elif re.search(r'^\*\*Width:\*\*\s', line):
+					width = line
+					width = re.sub(r'^\*\*Width:\*\*\s', '', width)
+					width = width.strip()
+					print(width)
+
+				# get height
+				elif re.search(r'^\*\*Height:\*\*\s', line):
+					height = line
+					height = re.sub(r'^\*\*Height:\*\*\s', '', height)
+					height = height.strip()
+					print(height)
+
+				# get tags
+				elif re.search(r'^\*\*Tags:\*\*\s', line):
+					tags = line
+					tags = re.sub(r'^\*\*Tags:\*\*\s', '', tags)
+					tags = tags.strip()
+					tags = tags.split(', ')
+					for tag in self.tags:
+						if tag in tags:
+							self.tags[tag] = True
+						else:
+							self.tags[tag] = False
+
+				# get verbal components
+				elif re.search(r'^\*\*Verbal Components:\*\*\s', line):
+					components = line
+					components = re.sub(r'^\*\*Verbal Components:\*\*\s', '', components)
+					components = components.strip()
+					print(components)
+
+				# get somatic components
+				elif re.search(r'^\*\*Somatic Components:\*\*\s', line):
+					components = line
+					components = re.sub(r'^\*\*Somatic Components:\*\*\s', '', components)
+					components = components.strip()
+					print(components)
+
+				# get material components
+				elif re.search(r'^\*\*Material Components:\*\*\s', line):
+					components = line
+					components = re.sub(r'^\*\*Material Components:\*\*\s', '', components)
+					components = components.strip()
+					print(components)
+
 				else:
-					print(line)
+					print(line.strip())
+					pass

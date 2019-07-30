@@ -45,7 +45,7 @@ class SpellToMarkdown:
 				measurement = Spell.area[dimension]
 				measurement = space2str(measurement)
 				dimension = dimension.capitalize()
-				result += f'\n\n**{dimension}**: {measurement}'
+				result += f'\n\n**{dimension}:** {measurement}'
 		# Instances isn't a good name but its what we got
 		if Spell.instances != 1:
 			result += f'\n\n**Effect Instances:** {Spell.instances}'
