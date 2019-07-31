@@ -130,6 +130,20 @@ book_acronyms = {
 	'xge': 'Xanathar\'s Guide to Everything',
 }
 
+book_transition_temp = {
+	'AI': 'ai',
+	'GGR': 'ggr',
+	'LLK': 'llk',
+	'PHB': 'phb',
+	'SCAG': 'scag',
+	'Stream': 'stream',
+	'UAArtificerRevisited': 'ua-ar',
+	'UAModernMagic': 'ua-mm',
+	'UAStarterSpells': 'ua-ss',
+	'UAThatOldBlackMagic': 'ua-tobm',
+	'XGE': 'xge'
+}
+
 # the tag symbols help give an overview for the spell
 tag_symbols = {
 	'verbal': 'V',

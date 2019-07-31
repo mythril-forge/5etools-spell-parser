@@ -31,7 +31,7 @@ def main():
 	# Much of the spell json is found at this url.
 	# Unfortunately, I am still looking for a better resource,
 	# as this data omits things such as a spell's shape.
-	url='https://raw.githubusercontent.com/TheGiddyLimit' \
+	url = 'https://raw.githubusercontent.com/TheGiddyLimit' \
 	'/TheGiddyLimit.github.io/master/data/spells/'
 
 	# == HACK ==
