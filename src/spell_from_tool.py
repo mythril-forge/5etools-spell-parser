@@ -1,7 +1,7 @@
 from spell import Spell
-from spell_to_markdown import SpellToMarkdown
-import re
+from spell_to_text import SpellToText
 import os
+import re
 from slugify import slugify
 from helper import *
 
@@ -45,7 +45,7 @@ class SpellFromTool(Spell):
 		self.get_access()
 		self.get_citation()
 		self.get_slug()
-		self.get_markdown()
+		self.get_text()
 
 	def get_name(self):
 		'''
@@ -549,8 +549,16 @@ class SpellFromTool(Spell):
 		self.access['subraces'] = subraces
 
 	def get_citation(self):
-		self.citation['book'] = self.spell_json['source']
-		self.citation['page'] = self.spell_json.get('page')
+		# grab variables
+		source = self.spell_json['source']
+		page = self.spell_json.get('page')
+		# create object
+		citation = {
+			'book': self.spell_json['source'],
+			'page': self.spell_json.get('page'),
+		}
+		# throw citation on class
+		self.citations.append(citation)
 
 	def get_slug(self):
 		'''

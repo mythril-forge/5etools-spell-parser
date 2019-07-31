@@ -1,6 +1,6 @@
 from helper import *
 
-class SpellToMarkdown:
+class SpellToText:
 	def __init__(self, Spell):
 		self.spell = Spell
 		self.markdown = None
@@ -77,7 +77,7 @@ class SpellToMarkdown:
 			subraces = self.distill_access(subraces)
 			result += f'\n\nSubraces: {subraces}'
 		# Finally, add the citation.
-		book = Spell.citation['book']
+		book = book_transition_temp[Spell.citations['book']].upper()
 		page = Spell.citation['page']
 		cite = self.distill_citation(book, page)
 		result += f'\n\nSource: {cite}'

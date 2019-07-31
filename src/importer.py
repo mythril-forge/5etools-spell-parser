@@ -16,8 +16,7 @@ def verbose_get(resource):
 	'''
 	if VERBOSE:
 		output = f'getting data from {resource} ...'
-		print()
-		print('+'*len(output))
+		print('\n' + '+'*len(output))
 		print(output)
 	return requests.get(resource)
 
@@ -53,20 +52,22 @@ def main():
 		# Every book is associated with a filename.
 		# This filname can be used to find the url.
 		BookData = verbose_get(url + SourceData[book]).json()
-		# A tome will be made to store parsed spell objects.
+
+		# A tome will be made to store parsed spell objects...
 		Tome = Book()
+		# ...and a tome needs a good title.
+		book_abbr = SourceData[book].replace('spells-', '')
+		book_abbr = book_abbr.replace('.json', '').lower()
+		Tome.add_name(book_abbr)
+
+		# Loop through all the spells from the API
 		for SpellData in BookData['spell']:
 			# The arcanum object tracks parsed spell data.
 			# Here the data generates quality properties.
 			# This can later be used to generate markdown or json.
 			Arcanum = SpellFromTool(SpellData, ExtraData)
-
 			# Add an arcanum to the tome.
 			Tome.add(Arcanum)
-			# ...and a tome needs a good title...
-			book_abbr = SourceData[book].replace('spells-', '')
-			book_abbr = book_abbr.replace('.json', '').lower()
-			Tome.add_name(book_abbr)
 		# Add a tome to the sanctum.
 		Sanctum.add(Tome)
 	# Sanctum holds all the wizardly research you could need.
