@@ -7,10 +7,10 @@ class Book:
 	A book contains many spells in an orderly fashion.
 	'''
 	def __init__(self):
-		self.spells = {}
 		self.name = None
-		self.acronym = None
 		self.slug = None
+		self.acronym = None
+		self.spells = {}
 
 	def add(self, Spell):
 		self.spells[Spell.slug] = Spell

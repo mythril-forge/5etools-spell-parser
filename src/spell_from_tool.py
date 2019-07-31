@@ -53,20 +53,14 @@ class SpellFromTool(Spell):
 
 	def get_name(self):
 		'''
-		After retrieving the name of the spell, it is checked
-		for errors before allowing the program to continue.
+		Retrieve the name of the spell.
 		'''
 		self.name = self.spell_json['name']
-		# Raise an error if something is wrong with the name.
-		if re.search(r'[^\w\/\-\'\ \(\)]+', self.name):
-			error = f'spell name is unexpected: {self.name}'
-			raise Exception(error)
 
 
 	def get_level(self):
 		'''
-		Retrieves the level of a spell.
-		Note that cantrips are level 0.
+		Retrieve the level of a spell.
 		'''
 		self.level = self.spell_json['level']
 
@@ -75,9 +69,12 @@ class SpellFromTool(Spell):
 		'''
 		The data holds a spell's school as a single character.
 		This converts that character into its full name.
-		Note, we have 8 schools of magic plus psionics.
+		Note, we have 8 schools of magic, plus psionics.
 		'''
-		# List all potential schools
+		# Mark is a character representing a school of magic.
+		mark = self.spell_json['school']
+		mark = mark.lower()
+		# This is a dictionary of all the spell schools in 5e.
 		schools = {
 			'a':'abjuration',
 			'c':'conjuration',
@@ -89,9 +86,7 @@ class SpellFromTool(Spell):
 			'v':'evocation',
 			'p':'psionic',
 		}
-		mark = self.spell_json['school']
-		mark = mark.lower()
-		# figure out which school the mark is
+		# Figure out which school the mark points to.
 		self.school = schools[mark]
 
 
@@ -249,6 +244,7 @@ class SpellFromTool(Spell):
 		'''
 		# These extras contain the missing data.
 		shape_data = self.extra_json['Range']
+		# But first, the shape_data needs cleaning.
 		shape_data = shape_data.lower()
 		shape_data = re.findall(r'\(.*?\)', shape_data)
 		shape_data = ''.join(shape_data)
@@ -273,11 +269,10 @@ class SpellFromTool(Spell):
 				# The third indice of data is extraneous.
 				if dimension[2] in {'sphere', 'hemisphere'}:
 					dimension.pop()
-				else:
-					raise
 
 			# A dimension of 2 is typical.
 			if len(dimension) == 2:
+				# Split up the string-data into seperate variables.
 				measurement = dimension[1]
 				data = dimension[0].split('-')
 				amount = float(data[0])
@@ -289,19 +284,22 @@ class SpellFromTool(Spell):
 				elif measurement in {'sphere', 'cone'}:
 					shape = measurement
 					measurement = 'radius'
+				# Gather data based on amount and type.
 				shape_dict[measurement] = space2num(amount, type)
 
 		# Give data to the main parameter.
 		for key in self.area:
 			self.area[key] = shape_dict.get(key)
 
-		# Shape was unspecified if it was a cylinder or sphere.
+		# Shape could still be unspecified by now.
 		has_radius = self.area.get('radius')
 		has_height = self.area.get('height')
 		if not shape and has_radius and has_height:
 			shape = 'cylinder'
 		elif not shape and has_radius:
 			shape = 'sphere'
+
+		# Descripe the area's shape from extracted data.
 		self.area['shape'] = shape
 
 
@@ -389,10 +387,12 @@ class SpellFromTool(Spell):
 			elif type2 in convert_space:
 				# Get distance amount from distance and unit.
 				amount = space2num(distance, type2)
+
 				# Deconstruct these longer boolean calculations...
+				has_distance = self.range['distance']
 				has_sphere = self.area['shape'] == 'sphere'
 				has_line = self.area['shape'] == 'line'
-				has_distance = self.range['distance']
+
 				# Conditionally assert based on shape type.
 				if has_distance:
 					assert(self.range['distance'] == amount)
@@ -412,6 +412,13 @@ class SpellFromTool(Spell):
 
 
 	def get_tags(self):
+		'''
+		Sets the boolean value of each spell tag.
+		Royalty is a wierd one that is still acceptable;
+		it represents an amount of gold consumed,
+		equal to the spell's level.
+		'''
+		# Initialize all tags to false.
 		self.tags = {
 			'verbal': False,
 			'somatic': False,
@@ -420,6 +427,7 @@ class SpellFromTool(Spell):
 			'ritual': False,
 			'royalty': False
 		}
+		# Set basic components
 		if 'components' in self.spell_json:
 			components = self.spell_json['components']
 			if 'v' in components:
@@ -431,6 +439,7 @@ class SpellFromTool(Spell):
 			if 'r' in components:
 				self.tags['royalty'] = True
 
+		# Add concentration and ritual if applicable
 		if 'concentration' in self.spell_json['duration'][0]:
 			self.tags['concentration'] = True
 		if 'meta' in self.spell_json:
@@ -439,6 +448,10 @@ class SpellFromTool(Spell):
 
 
 	def get_components(self):
+		'''
+		Grabs sentances describing a spell's components.
+		'''
+		# Normally, only material components have a phrase.
 		if self.tags['material'] == True:
 			material = self.spell_json['components'].get('m')
 			if not isinstance(material, str):
@@ -450,6 +463,10 @@ class SpellFromTool(Spell):
 
 
 	def get_description(self):
+		'''
+		Gathers the object containing the details
+		of a spell's description, which holds much data.
+		'''
 		entries = self.spell_json['entries']
 		entries = self.classify_desc_info(entries)
 		entries = entries.strip()
@@ -465,6 +482,9 @@ class SpellFromTool(Spell):
 
 
 	def classify_desc_info(self, data):
+		'''
+		Parses entries based on their 'type' for formatting.
+		'''
 		markdown = ''
 		for entry in data:
 			if isinstance(entry, str):
@@ -534,11 +554,10 @@ class SpellFromTool(Spell):
 		return markdown
 
 
-	def clean_info(self, entry):
-		return entry
-
-
 	def get_access(self):
+		'''
+		Declares which classes and races can access this spell.
+		'''
 		classes = []
 		subclasses = []
 		races = []
@@ -569,6 +588,9 @@ class SpellFromTool(Spell):
 
 
 	def get_citation(self):
+		'''
+		Defines the book that this spell can be found in.
+		'''
 		# grab variables
 		source = self.spell_json['source']
 		page = self.spell_json.get('page')

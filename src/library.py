@@ -6,6 +6,7 @@ class Library:
 	A library contains many books in an orderly fashion.
 	'''
 	def __init__(self):
+		self.name = None
 		self.books = {}
 
 	def add(self, Book):
@@ -24,4 +25,4 @@ class Library:
 				filepath = f'./spells/{Spell.slug}.md'
 				if level == None or level == Spell.level:
 					with open(filepath, 'w+') as file:
-						file.write(Spell.markdown)
+						file.write(Spell.get_text())

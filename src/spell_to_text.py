@@ -84,8 +84,8 @@ class SpellToText:
 			subraces = self.distill_access(subraces).lower()
 			result += f'\n\n**Subraces:** {subraces}'
 		# Finally, add the citation.
-		book = book_transition_temp[Spell.citations['book']].upper()
-		page = Spell.citation['page']
+		book = book_transition_temp[Spell.citations[0]['book']].upper()
+		page = Spell.citations[0]['page']
 		cite = self.distill_citation(book, page)
 		result += f'\n\n**Sources:** {cite}'
 		# Don't forget to set the markdown...

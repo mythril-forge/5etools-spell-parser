@@ -30,6 +30,9 @@ class Spell:
 		self.level = None
 		self.school = None
 
+		# high-level metadata
+		self.slug = None
+
 		# temporal metadata
 		self.cast_time = {
 			"quality": None,

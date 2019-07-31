@@ -16,7 +16,6 @@ class SpellFromText(Spell):
 	def get(self):
 		with open(self.path, 'r') as file:
 			lines = file.readlines()
-<<<<<<< HEAD
 			description_active = False
 			for line in lines:
 
@@ -34,11 +33,6 @@ class SpellFromText(Spell):
 					self.description = ''
 
 				elif re.search(r'^#\s.+\n', line):
-=======
-			for line in lines:
-				# get the spell name
-				if re.search(r'^#\s.+\n', line):
->>>>>>> 6d320649f891e5a862da0911b17d4e29c3506b4a
 					name = line
 					name = re.sub(r'^#\s', '', name)
 					name = re.sub(r'\n', '', name)
@@ -107,59 +101,39 @@ class SpellFromText(Spell):
 					shape = line
 					shape = re.sub(r'^\*\*Shape:\*\*\s', '', shape)
 					shape = shape.strip()
-<<<<<<< HEAD
 					self.area['shape'] = shape
-=======
-					print(shape)
->>>>>>> 6d320649f891e5a862da0911b17d4e29c3506b4a
 
 				# get radius
 				elif re.search(r'^\*\*Radius:\*\*\s', line):
 					radius = line
 					radius = re.sub(r'^\*\*Radius:\*\*\s', '', radius)
 					radius = radius.strip()
-<<<<<<< HEAD
 					print('CONVERT FEET STRING TO POINTS')
 					self.area['radius'] = radius
-=======
-					print(radius)
->>>>>>> 6d320649f891e5a862da0911b17d4e29c3506b4a
 
 				# get length
 				elif re.search(r'^\*\*Length:\*\*\s', line):
 					length = line
 					length = re.sub(r'^\*\*Length:\*\*\s', '', length)
 					length = length.strip()
-<<<<<<< HEAD
 					print('CONVERT FEET STRING TO POINTS')
 					self.area['length'] = length
-=======
-					print(length)
->>>>>>> 6d320649f891e5a862da0911b17d4e29c3506b4a
 
 				# get width
 				elif re.search(r'^\*\*Width:\*\*\s', line):
 					width = line
 					width = re.sub(r'^\*\*Width:\*\*\s', '', width)
 					width = width.strip()
-<<<<<<< HEAD
 					print('CONVERT FEET STRING TO POINTS')
 					self.area['width'] = width
-=======
-					print(width)
->>>>>>> 6d320649f891e5a862da0911b17d4e29c3506b4a
 
 				# get height
 				elif re.search(r'^\*\*Height:\*\*\s', line):
 					height = line
 					height = re.sub(r'^\*\*Height:\*\*\s', '', height)
 					height = height.strip()
-<<<<<<< HEAD
 					print('CONVERT FEET STRING TO POINTS')
 					self.area['height'] = height
-=======
-					print(height)
->>>>>>> 6d320649f891e5a862da0911b17d4e29c3506b4a
 
 				# get tags
 				elif re.search(r'^\*\*Tags:\*\*\s', line):
