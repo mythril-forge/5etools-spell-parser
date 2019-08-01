@@ -24,6 +24,10 @@ class SpellToText:
 		result += (
 			f'\n\n**Casting Time:** {time2str(Spell.cast_time)}'
 		)
+		if Spell.cast_time['quality'] == 'reaction':
+			result += (
+				f' ({Spell.cast_time["condition"]})'
+			)
 		# Duration is easy to grab
 		if Spell.duration['quality']:
 			duration = Spell.duration['quality']
