@@ -120,7 +120,6 @@ class SpellFromText(Spell):
 						amount = int(range[0])
 						unit = range[1]
 						range = space2num(amount, unit)
-						# print(range)
 						self.range['distance'] = range
 
 				# get shape

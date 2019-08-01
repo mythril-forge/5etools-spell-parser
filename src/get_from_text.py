@@ -47,4 +47,4 @@ def main():
 if __name__ == '__main__':
 	main()
 	Sanctum = main()
-	Sanctum.write_to_text()
+	Sanctum.write_to_json()

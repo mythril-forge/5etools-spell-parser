@@ -13,7 +13,6 @@ class Library:
 		self.books[Book.acronym] = Book
 
 	def write_to_text(self):
-		print('writing library')
 		# grab all the books
 		if not os.path.exists(f'./spells/'):
 			os.makedirs(f'./spells/')

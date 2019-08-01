@@ -27,7 +27,6 @@ class Book:
 		self.slug = slug
 
 	def write_to_text(self):
-		print('writing book')
 		# make a folder
 		# grab all the spells
 		for spell_name in self.spells:
