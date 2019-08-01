@@ -305,6 +305,8 @@ class SpellFromTool(Spell):
 				type = data[1]
 				# Sometimes we have gunked up data like this.
 				if measurement in {'cube', 'wall', 'line'}:
+					if measurement == 'line':
+						shape_dict['width'] = space2num(5, 'feet')
 					shape = measurement
 					measurement = 'length'
 				elif measurement in {'sphere', 'cone'}:

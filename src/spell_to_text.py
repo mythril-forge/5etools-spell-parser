@@ -4,7 +4,7 @@ from bad_string_parser import *
 class SpellToText:
 	def __init__(self, Spell):
 		self.spell = Spell
-		self.markdown = None
+		self.text = None
 		self.main()
 
 	def main(self):
@@ -68,30 +68,35 @@ class SpellToText:
 		result += '\n\n---'
 		# Spell class access
 		classes = Spell.access['classes']
-		if classes != []:
+		if classes != [] and classes:
 			classes = self.distill_access(classes).lower()
 			result += f'\n\n**Classes:** {classes}'
 		subclasses = Spell.access['subclasses']
-		if subclasses != []:
+		if subclasses != [] and subclasses:
 			subclasses = self.distill_access(subclasses).lower()
 			result += f'\n\n**Subclasses:** {subclasses}'
 		races = Spell.access['races']
-		if races != []:
+		if races != [] and races:
 			races = self.distill_access(races).lower()
 			result += f'\n\n**Races:** {races}'
 		subraces = Spell.access['subraces']
-		if subraces != []:
+		if subraces != [] and subraces:
 			subraces = self.distill_access(subraces).lower()
 			result += f'\n\n**Subraces:** {subraces}'
 		# Finally, add the citation.
-		book = book_transition_temp[Spell.citations[0]['book']].upper()
-		page = Spell.citations[0]['page']
+		book_abbr = Spell.citations[0]['book']
+		if book_transition_temp.get(book_abbr):
+			book = book_transition_temp[book_abbr].upper()
+		else:
+			book = book_abbr
+
+		page = Spell.citations[0].get('page')
 		cite = self.distill_citation(book, page)
 		result += f'\n\n**Sources:** {cite}'
 		# Don't forget to set the markdown...
 		result += '\n'
 		result = cleanse_markdown(result)
-		self.markdown = result
+		self.text = result
 
 	def distill_tags(self, tags):
 		tag_list = []

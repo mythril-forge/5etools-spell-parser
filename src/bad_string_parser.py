@@ -128,10 +128,11 @@ def remove_metadata(dirty):
 		# embolden other spell names
 		slug = slugify(dirty)
 		#TODO add markdown link to other spell
-		dirty = f'*[{dirty}](../{slug})*'
+		dirty = f'[*{dirty}*](./{slug})'
 
 	else:
 		raise
+
 	return dirty
 
 if __name__ == '__main__':

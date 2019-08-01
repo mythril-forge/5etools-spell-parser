@@ -1,5 +1,7 @@
-from spell import *
+from spell import Spell
+from helper import *
 import re
+
 
 class SpellFromText(Spell):
 	'''
@@ -18,7 +20,7 @@ class SpellFromText(Spell):
 			lines = file.readlines()
 			description_active = False
 			for line in lines:
-
+				print(line)
 				# adding description
 				if description_active:
 					if re.search(r'^---', line):
@@ -52,7 +54,7 @@ class SpellFromText(Spell):
 					level = re.search(r'\d', level)
 					level = level.group()
 					level = level.strip()
-					self.level = level
+					self.level = int(level)
 					# set school
 					school = line
 					school = re.sub(r'\*\*\*', '', school)
@@ -89,12 +91,16 @@ class SpellFromText(Spell):
 					range = line
 					range = re.sub(r'^\*\*Range:\*\*\s', '', range)
 					range = range.strip()
-					if range in {'self', 'touch', 'unlimited'}:
+					if range in {'self', 'touch', 'unlimited', 'special'}:
 						self.range['quality'] = range
 						# TODO fix special conditions
 					else:
-						# TODO fix duration durations
-						pass
+						range = range.split(' ')
+						amount = int(range[0])
+						unit = range[1]
+						range = space2num(amount, unit)
+						print(range)
+						self.range['distance'] = range
 
 				# get shape
 				elif re.search(r'^\*\*Shape:\*\*\s', line):
@@ -146,6 +152,14 @@ class SpellFromText(Spell):
 					unit = height[1]
 					height = space2num(amount, unit)
 					self.area['height'] = height
+
+				# get effect instances
+				elif re.search(r'^\*\*Effect Instances:\*\*\s', line):
+					instances = line
+					instances = re.sub(r'^\*\*Effect Instances:\*\*\s', '', instances)
+					instances = instances.strip()
+					instances = int(instances)
+					self.instances = instances
 
 				# get tags
 				elif re.search(r'^\*\*Tags:\*\*\s', line):
@@ -212,7 +226,7 @@ class SpellFromText(Spell):
 					subraces = subraces.split(', ')
 					self.access['subraces'] = subraces
 
-				# get material components
+				# get sources
 				elif re.search(r'^\*\*Sources:\*\*\s', line):
 					sources = line
 					sources = re.sub(r'^\*\*Sources:\*\*\s', '', sources)
@@ -224,7 +238,9 @@ class SpellFromText(Spell):
 						citation = {}
 						citation['book'] = source[0]
 						if len(source) == 2:
-							citation['page'] = source[1]
+							page = source[1]
+							page = re.sub(r'page\s', '', page)
+							citation['page'] = int(page)
 						self.citations.append(citation)
 
 				else:

@@ -25,3 +25,11 @@ class Book:
 		slug = slug.lower()
 		slug = slugify(slug)
 		self.slug = slug
+
+	def write_to_text(self):
+		print('writing book')
+		# make a folder
+		# grab all the spells
+		for spell_name in self.spells:
+			Spell = self.spells[spell_name]
+			Spell.write_to_text()
