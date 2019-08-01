@@ -38,12 +38,12 @@ class Spell:
 		# temporal metadata
 		self.cast_time = {
 			'quality': None,
-			'seconds': None,
+			'timespan': None,
 			'condition': None,
 		}
 		self.duration = {
 			'quality': None,
-			'seconds': None,
+			'timespan': None,
 			'condition': None,
 		}
 

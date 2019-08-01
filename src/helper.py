@@ -160,13 +160,13 @@ def time2str(amount, delimiter=' '):
 	'''
 	if amount['quality'] != None:
 		return amount['quality']
-	elif amount['seconds'] != None:
+	elif amount['timespan'] != None:
 		best_unit = 'seconds'
 		for unit in convert_time:
-			if amount['seconds'] % convert_time[unit] == 0: # and amount['seconds'] >= convert_time[unit]:
+			if amount['timespan'] % convert_time[unit] == 0: # and amount['timespan'] >= convert_time[unit]:
 				if convert_time[unit] > convert_time[best_unit]:
 					best_unit = unit
-		duration = amount['seconds'] / convert_time[best_unit]
+		duration = amount['timespan'] / convert_time[best_unit]
 		if duration > 1 and delimiter == ' ':
 			best_unit = pluralize_time.get(best_unit, best_unit)
 			duration = int(duration)

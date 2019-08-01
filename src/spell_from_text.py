@@ -74,7 +74,7 @@ class SpellFromText(Spell):
 						amount = int(cast_time[0])
 						unit = cast_time[1]
 						cast_time = time2num(amount, unit)
-						self.cast_time['seconds'] = cast_time
+						self.cast_time['timespan'] = cast_time
 
 				# get durations
 				elif re.search(r'^\*\*Duration:\*\*\s', line):
@@ -89,7 +89,7 @@ class SpellFromText(Spell):
 						amount = int(duration[0])
 						unit = duration[1]
 						duration = time2num(amount, unit)
-						self.duration['seconds'] = duration
+						self.duration['timespan'] = duration
 
 				# get ranges
 				elif re.search(r'^\*\*Range:\*\*\s', line):

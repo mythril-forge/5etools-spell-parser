@@ -159,7 +159,7 @@ class SpellFromTool(Spell):
 			# Quantitative results.
 			elif type in singularize_time or pluralize_time:
 				amount = cast_time['number']
-				self.cast_time['seconds'] = time2num(amount, type)
+				self.cast_time['timespan'] = time2num(amount, type)
 
 		# Special results.
 		elif len(self.spell_json['time']) > 1:
@@ -204,7 +204,7 @@ class SpellFromTool(Spell):
 				amount = duration['duration']['amount']
 				type = duration['duration']['type']
 				if type in singularize_time or pluralize_time:
-					self.duration['seconds'] = time2num(amount, type)
+					self.duration['timespan'] = time2num(amount, type)
 
 		# Special results.
 		elif len(self.spell_json['duration']) > 1:
