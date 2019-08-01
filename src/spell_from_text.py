@@ -20,7 +20,6 @@ class SpellFromText(Spell):
 			lines = file.readlines()
 			description_active = False
 			for line in lines:
-				print(line)
 				# adding description
 				if description_active:
 					if re.search(r'^---', line):
@@ -67,24 +66,30 @@ class SpellFromText(Spell):
 					cast_time = line
 					cast_time = re.sub(r'^\*\*Casting Time:\*\*\s', '', cast_time)
 					cast_time = cast_time.strip()
-					if cast_time in {'action', 'bonus action', 'reaction'}:
+					if cast_time in {'action', 'bonus action', 'reaction', 'special'}:
 						self.cast_time['quality'] = cast_time
 						# TODO fix reaction conditions
 					else:
-						# TODO fix duration cast times
-						pass
+						cast_time = cast_time.split(' ')
+						amount = int(cast_time[0])
+						unit = cast_time[1]
+						cast_time = time2num(amount, unit)
+						self.cast_time['seconds'] = cast_time
 
 				# get durations
 				elif re.search(r'^\*\*Duration:\*\*\s', line):
 					duration = line
 					duration = re.sub(r'^\*\*Duration:\*\*\s', '', duration)
 					duration = duration.strip()
-					if duration in {'instantaneous', 'indefinate', 'activated'}:
+					if duration in {'instantaneous', 'indefinate', 'activated', 'special'}:
 						self.duration['quality'] = duration
 						# TODO fix activated conditions
 					else:
-						# TODO fix duration durations
-						pass
+						duration = duration.split(' ')
+						amount = int(duration[0])
+						unit = duration[1]
+						duration = time2num(amount, unit)
+						self.duration['seconds'] = duration
 
 				# get ranges
 				elif re.search(r'^\*\*Range:\*\*\s', line):
@@ -99,7 +104,7 @@ class SpellFromText(Spell):
 						amount = int(range[0])
 						unit = range[1]
 						range = space2num(amount, unit)
-						print(range)
+						# print(range)
 						self.range['distance'] = range
 
 				# get shape

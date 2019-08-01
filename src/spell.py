@@ -37,14 +37,14 @@ class Spell:
 
 		# temporal metadata
 		self.cast_time = {
-			"quality": None,
-			"seconds": None,
-			"condition": None,
+			'quality': None,
+			'seconds': None,
+			'condition': None,
 		}
 		self.duration = {
-			"quality": None,
-			"seconds": None,
-			"condition": None,
+			'quality': None,
+			'seconds': None,
+			'condition': None,
 		}
 
 		# spacial metadata
@@ -106,7 +106,6 @@ class Spell:
 		return SpellToJson(self).json
 
 	def write_to_text(self):
-		print('writing spell')
 		filepath = f'./spells/{self.slug}.md'
 		with open(filepath, 'w+') as file:
 			file.write(self.get_text())
