@@ -31,30 +31,45 @@ class SpellFromTool(Spell):
 		This retrieves and cleans all data of a spell,
 		which is then stored in this spell object.
 		'''
+		# basic spell data
 		self.get_name()
+		self.get_homebrew()
 		self.get_level()
 		self.get_school()
-		self.get_instances()
+		# high-level metadata
+		self.get_slug()
+		self.get_path()
+		# temporal metadata
 		self.get_cast_time()
 		self.get_duration()
+		# spacial metadata
 		self.get_range()
 		self.get_area()
-		self.verify_range()
-		self.verify_area()
+		self.get_instances()
+ 		# boolean metadata
 		self.get_tags()
+		# phrasal metadata
 		self.get_components()
+		# long-form description
 		self.get_description()
+		# declare spell users
 		self.get_access()
+		# sources to find this spell
 		self.get_citation()
-		self.get_slug()
-		self.get_text()
-
 
 	def get_name(self):
 		'''
 		Retrieve the name of the spell.
 		'''
 		self.name = self.spell_json['name']
+
+
+	def get_homebrew(self):
+		'''
+		Check if the spell is a homebrew.
+		In this class object, it will never be homebrew.
+		'''
+		self.homebrew = False
 
 
 	def get_level(self):
@@ -89,13 +104,25 @@ class SpellFromTool(Spell):
 		self.school = schools[mark]
 
 
-	def get_instances(self):
+	def get_slug(self):
 		'''
-		An instance is a point of origin for a spell's effect.
-		Some spells have more than one instance.
-		For example, scorching ray can target 3 creatures.
+		Generates a kabab-case spell name for use on the web.
+		slugify() can make our markdown files kabab-case.
 		'''
-		self.instances = self.extra_json['Instances']
+		slug = re.sub(r'([^\s\w/]|_)+', '', self.name)
+		slug = slug.lower()
+		slug = slugify(slug)
+		self.slug = slug
+
+
+	def get_path(self):
+		'''
+		Path is used internally to know where to put files.
+		'''
+		path = './spells/'
+		path += self.slug
+		path += '.md'
+		self.path = path
 
 
 	def get_cast_time(self):
@@ -410,6 +437,15 @@ class SpellFromTool(Spell):
 				assert(self.area['length'] == amount)
 
 
+	def get_instances(self):
+		'''
+		An instance is a point of origin for a spell's effect.
+		Some spells have more than one instance.
+		For example, scorching ray can target 3 creatures.
+		'''
+		self.instances = self.extra_json['Instances']
+
+
 	def get_tags(self):
 		'''
 		Sets the boolean value of each spell tag.
@@ -600,14 +636,3 @@ class SpellFromTool(Spell):
 		}
 		# throw citation on class
 		self.citations.append(citation)
-
-
-	def get_slug(self):
-		'''
-		Generates a kabab-case spell name for use on the web.
-		slugify() can make our markdown files kabab-case.
-		'''
-		result = re.sub(r'([^\s\w/]|_)+', '', self.name)
-		result = result.lower()
-		result = slugify(result)
-		self.slug = result
