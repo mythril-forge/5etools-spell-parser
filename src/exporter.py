@@ -10,6 +10,7 @@ def main():
 	# A tome will be made to store parsed spell objects.
 	Tome = Book()
 
+	# Loop through all the spells from our directories
 	for dir_data in os.walk('./spells/'):
 		dir_filenames = dir_data[2]
 		for filename in dir_filenames:
@@ -17,8 +18,13 @@ def main():
 			# Here the data generates quality properties.
 			# This can later be used to generate markdown or json.
 			Arcanum = SpellFromText(filename)
+			# Add an arcanum to the tome.
+			Tome.add(Arcanum)
+		# Add a tome to the sanctum.
+	Sanctum.add(Tome)
+	return Sanctum
 
 if __name__ == '__main__':
 	main()
-	# Sanctum = main()
-	# Sanctum.write_to_json()
+	Sanctum = main()
+	Sanctum.write_to_json()

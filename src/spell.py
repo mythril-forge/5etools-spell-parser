@@ -32,6 +32,7 @@ class Spell:
 
 		# high-level metadata
 		self.slug = None
+		self.path = None
 
 		# temporal metadata
 		self.cast_time = {

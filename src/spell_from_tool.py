@@ -1,5 +1,4 @@
 from spell import Spell
-from spell_to_text import SpellToText
 import os
 import re
 from slugify import slugify

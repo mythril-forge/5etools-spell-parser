@@ -108,7 +108,10 @@ class SpellFromText(Spell):
 					radius = line
 					radius = re.sub(r'^\*\*Radius:\*\*\s', '', radius)
 					radius = radius.strip()
-					print('CONVERT FEET STRING TO POINTS')
+					radius = radius.split(' ')
+					amount = int(radius[0])
+					unit = radius[1]
+					radius = space2num(amount, unit)
 					self.area['radius'] = radius
 
 				# get length
@@ -116,7 +119,10 @@ class SpellFromText(Spell):
 					length = line
 					length = re.sub(r'^\*\*Length:\*\*\s', '', length)
 					length = length.strip()
-					print('CONVERT FEET STRING TO POINTS')
+					length = length.split(' ')
+					amount = int(length[0])
+					unit = length[1]
+					length = space2num(amount, unit)
 					self.area['length'] = length
 
 				# get width
@@ -124,7 +130,10 @@ class SpellFromText(Spell):
 					width = line
 					width = re.sub(r'^\*\*Width:\*\*\s', '', width)
 					width = width.strip()
-					print('CONVERT FEET STRING TO POINTS')
+					width = width.split(' ')
+					amount = int(width[0])
+					unit = width[1]
+					width = space2num(amount, unit)
 					self.area['width'] = width
 
 				# get height
@@ -132,7 +141,10 @@ class SpellFromText(Spell):
 					height = line
 					height = re.sub(r'^\*\*Height:\*\*\s', '', height)
 					height = height.strip()
-					print('CONVERT FEET STRING TO POINTS')
+					height = height.split(' ')
+					amount = int(height[0])
+					unit = height[1]
+					height = space2num(amount, unit)
 					self.area['height'] = height
 
 				# get tags
@@ -152,23 +164,23 @@ class SpellFromText(Spell):
 					components = line
 					components = re.sub(r'^\*\*Verbal Components:\*\*\s', '', components)
 					components = components.strip()
-					print(components)
+					self.components['verbal'] = components
 
 				# get somatic components
 				elif re.search(r'^\*\*Somatic Components:\*\*\s', line):
 					components = line
 					components = re.sub(r'^\*\*Somatic Components:\*\*\s', '', components)
 					components = components.strip()
-					print(components)
+					self.components['somatic'] = components
 
 				# get material components
 				elif re.search(r'^\*\*Material Components:\*\*\s', line):
 					components = line
 					components = re.sub(r'^\*\*Material Components:\*\*\s', '', components)
 					components = components.strip()
-					print(components)
+					self.components['material'] = components
 
-				# get material components
+				# get classes
 				elif re.search(r'^\*\*Classes:\*\*\s', line):
 					classes = line
 					classes = re.sub(r'^\*\*Classes:\*\*\s', '', classes)
@@ -176,7 +188,7 @@ class SpellFromText(Spell):
 					classes = classes.split(', ')
 					self.access['classes'] = classes
 
-				# get material components
+				# get subclasses
 				elif re.search(r'^\*\*Subclasses:\*\*\s', line):
 					subclasses = line
 					subclasses = re.sub(r'^\*\*Subclasses:\*\*\s', '', subclasses)
@@ -184,7 +196,7 @@ class SpellFromText(Spell):
 					subclasses = subclasses.split(', ')
 					self.access['subclasses'] = subclasses
 
-				# get material components
+				# get races
 				elif re.search(r'^\*\*Races:\*\*\s', line):
 					races = line
 					races = re.sub(r'^\*\*Races:\*\*\s', '', races)
@@ -192,7 +204,7 @@ class SpellFromText(Spell):
 					races = races.split(', ')
 					self.access['races'] = races
 
-				# get material components
+				# get subraces
 				elif re.search(r'^\*\*Subraces:\*\*\s', line):
 					subraces = line
 					subraces = re.sub(r'^\*\*Subraces:\*\*\s', '', subraces)
@@ -216,7 +228,5 @@ class SpellFromText(Spell):
 						self.citations.append(citation)
 
 				else:
-					print(line.strip())
-					pass
-			else:
-				print(self.description)
+					if line != '\n':
+						print(line.strip())
