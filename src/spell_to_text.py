@@ -24,7 +24,7 @@ class SpellToText:
 		result += (
 			f'\n\n**Casting Time:** {time2str(Spell.cast_time)}'
 		)
-		if Spell.cast_time['quality'] == 'reaction':
+		if Spell.cast_time['quality'] == 'reaction' and Spell.cast_time.get('condition'):
 			result += (
 				f' ({Spell.cast_time["condition"]})'
 			)
@@ -34,6 +34,12 @@ class SpellToText:
 		else:
 			duration = time2str(Spell.duration)
 		result += f'\n\n**Duration:** {duration}'
+		if Spell.duration['quality'] == 'activated' and Spell.duration.get('condition'):
+			result += (
+				f' ({Spell.duration["condition"]})'
+			)
+
+
 		# The range is just a number or string.
 		if Spell.range['distance']:
 			measurement = Spell.range['distance']

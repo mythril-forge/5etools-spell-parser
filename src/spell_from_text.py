@@ -68,7 +68,15 @@ class SpellFromText(Spell):
 					cast_time = cast_time.strip()
 					if cast_time in {'action', 'bonus action', 'reaction', 'special'}:
 						self.cast_time['quality'] = cast_time
-						# TODO fix reaction conditions
+
+					elif 'reaction (' in cast_time:
+						cast_time = cast_time.split(' (')
+						quality = cast_time[0]
+						condition = cast_time[1]
+						condition = re.sub(r'\)$', '', condition)
+						self.cast_time['quality'] = quality
+						self.cast_time['condition'] = condition
+						
 					else:
 						cast_time = cast_time.split(' ')
 						amount = int(cast_time[0])
@@ -83,7 +91,15 @@ class SpellFromText(Spell):
 					duration = duration.strip()
 					if duration in {'instantaneous', 'indefinate', 'activated', 'special'}:
 						self.duration['quality'] = duration
-						# TODO fix activated conditions
+
+					elif 'activated (' in duration:
+						duration = duration.split(' (')
+						quality = duration[0]
+						condition = duration[1]
+						condition = re.sub(r'\)$', '', condition)
+						self.duration['quality'] = quality
+						self.duration['condition'] = condition
+
 					else:
 						duration = duration.split(' ')
 						amount = int(duration[0])
