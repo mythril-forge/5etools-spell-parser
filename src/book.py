@@ -27,8 +27,15 @@ class Book:
 		self.slug = slug
 
 	def write_to_text(self):
-		# make a folder
 		# grab all the spells
-		for spell_name in self.spells:
-			Spell = self.spells[spell_name]
+		for spell_slug in self.spells:
+			Spell = self.spells[spell_slug]
 			Spell.write_to_text()
+
+	def get_json(self):
+		json_data = {}
+		# grab all the spells
+		for spell_slug in self.spells:
+			Spell = self.spells[spell_slug]
+			json_data[spell_slug] = Spell.get_json()
+		return json_data

@@ -3,7 +3,7 @@ import re
 # project imports
 from helper import *
 from spell_to_text import SpellToText
-# from spell_to_json import SpellToJson
+from spell_to_json import SpellToJson
 from book import Book
 from library import Library
 # project settings

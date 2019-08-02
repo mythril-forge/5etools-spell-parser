@@ -3,6 +3,7 @@ from bad_string_parser import *
 
 class SpellToText:
 	def __init__(self, Spell):
+		super().__init__()
 		self.spell = Spell
 		self.text = None
 		self.main()
