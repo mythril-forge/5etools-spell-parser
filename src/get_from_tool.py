@@ -75,4 +75,4 @@ def main():
 
 if __name__ == '__main__':
 	Sanctum = main()
-	Sanctum.write_to_json()
+	Sanctum.write_to_file()
