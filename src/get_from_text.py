@@ -1,8 +1,9 @@
+# python packages
 import os
 # project imports
-from library import Library
-from book import Book
 from spell_from_text import SpellFromText
+from book import Book
+from library import Library
 
 def main():
 	# A sanctum will be made to store parsed tome objects.
@@ -45,6 +46,4 @@ def main():
 	return Sanctum
 
 if __name__ == '__main__':
-	main()
 	Sanctum = main()
-	Sanctum.write_to_json()

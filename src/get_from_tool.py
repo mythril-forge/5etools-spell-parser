@@ -2,9 +2,9 @@
 import requests
 import json
 # project imports
-from library import Library
-from book import Book
 from spell_from_tool import SpellFromTool
+from book import Book
+from library import Library
 # project settings
 VERBOSE = True
 
@@ -66,6 +66,7 @@ def main():
 			# Here the data generates quality properties.
 			# This can later be used to generate markdown or json.
 			Arcanum = SpellFromTool(SpellData, ExtraData)
+
 			# Add an arcanum to the tome.
 			Tome.add(Arcanum)
 		# Add a tome to the sanctum.
@@ -75,4 +76,3 @@ def main():
 
 if __name__ == '__main__':
 	Sanctum = main()
-	Sanctum.write_to_file()

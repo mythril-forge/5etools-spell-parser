@@ -163,7 +163,7 @@ def time2str(amount, delimiter=' '):
 	elif amount['timespan'] != None:
 		best_unit = 'seconds'
 		for unit in convert_time:
-			if amount['timespan'] % convert_time[unit] == 0: # and amount['timespan'] >= convert_time[unit]:
+			if amount['timespan'] % convert_time[unit] == 0:
 				if convert_time[unit] > convert_time[best_unit]:
 					best_unit = unit
 		duration = amount['timespan'] / convert_time[best_unit]
@@ -181,7 +181,7 @@ def space2str(distance, delimiter=' '):
 	if distance:
 		best_unit = 'points'
 		for unit in convert_space:
-			if distance % convert_space[unit] == 0: # and distance >= convert_space[unit]:
+			if distance % convert_space[unit] == 0:
 				if convert_space[unit] > convert_space[best_unit]:
 					best_unit = unit
 		distance = distance / convert_space[best_unit]

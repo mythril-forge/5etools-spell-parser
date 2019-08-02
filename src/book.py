@@ -1,6 +1,8 @@
+# python packages
 import re
 from slugify import slugify
-from helper import *
+# project imports
+pass
 
 class Book:
 	'''
@@ -12,9 +14,7 @@ class Book:
 		self.acronym = None
 		self.spells = {}
 
-	def add(self, Spell):
-		self.spells[Spell.slug] = Spell
-	
+
 	def add_name(self, acronym):
 		# simply add an acronym
 		self.acronym = acronym
@@ -26,16 +26,6 @@ class Book:
 		slug = slugify(slug)
 		self.slug = slug
 
-	def write_to_text(self):
-		# grab all the spells
-		for spell_slug in self.spells:
-			Spell = self.spells[spell_slug]
-			Spell.write_to_text()
 
-	def get_json(self):
-		json_data = {}
-		# grab all the spells
-		for spell_slug in self.spells:
-			Spell = self.spells[spell_slug]
-			json_data[spell_slug] = Spell.get_json()
-		return json_data
+	def add_spell(self, Spell):
+		self.spells[Spell.slug] = Spell

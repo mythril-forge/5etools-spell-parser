@@ -6,8 +6,6 @@ from spell_to_text import SpellToText
 from spell_to_json import SpellToJson
 from book import Book
 from library import Library
-# project settings
-VERBOSE = True
 
 
 
@@ -90,22 +88,3 @@ class Spell:
 
 		# sources to find this spell
 		self.citations = []
-
-
-	def get_text(self):
-		'''
-		Markdown helps DMs create, modify, or publish spells.
-		'''
-		return SpellToText(self).text
-
-
-	def get_json(self):
-		'''
-		This json object is more specific than other apis'.
-		'''
-		return SpellToJson(self).json
-
-	def write_to_text(self):
-		filepath = f'./spells/{self.slug}.md'
-		with open(filepath, 'w+') as file:
-			file.write(self.get_text())
