@@ -13,37 +13,47 @@ def main():
 	# The tome objects will be made later.
 	tome_dict = {}
 
+	# This for-loop identifies files within the spells folder.
 	for dir_data in os.walk('./spells/'):
 		dir_filenames = dir_data[2]
+
 		# Loop through all the spells from our directories.
 		for filename in dir_filenames:
 			# The arcanum object tracks parsed spell data.
 			# Here the data generates qualitative properties.
 			# This can later be used to generate markdown or json.
 			Arcanum = SpellFromText(filename)
-			# Grab the book name.
-			book_abbr = Arcanum.citations[0]['book']
-			book_abbr = book_abbr.lower()
-			# Add the spell to the tome_dict via its main source.
-			if tome_dict.get(book_abbr, None):
-				tome_dict[book_abbr].append(Arcanum)
-			# If the book key doesn't exist yet, create it.
-			else:
-				tome_dict[book_abbr] = [Arcanum]
+			# A spell can be sourced from several books;
+			# therefore a loop is needed to capture all of them.
+			for book_acronym in Arcanum.citations:
+				# The book acronym is most important for now.
+				book_acronym = book_acronym['book']
+				book_acronym = book_acronym.lower()
+				# Add to temporary tome_dict via this acronym.
+				if tome_dict.get(book_acronym, False):
+					tome_dict[book_acronym].append(Arcanum)
+				# If the acronym key doesn't exist yet, create it.
+				else:
+					tome_dict[book_acronym] = [Arcanum]
 
-	for book_abbr in tome_dict:
-		book_abbr = book_abbr.lower()
+	# This dictionary will be used to create book objects.
+	for book_acronym in tome_dict:
 		# A tome will be made to store parsed spell objects...
 		Tome = Book()
 		# ...and a tome needs a good title.
-		Tome.add_name(book_abbr)
-		for Arcanum in tome_dict[book_abbr]:
+		book_acronym = book_acronym.lower()
+		Tome.add_title(book_acronym)
+
+		# These spells can be added to the Tome object at last.
+		for Arcanum in tome_dict[book_acronym]:
 			# Add an arcanum to the tome.
-			Tome.add(Arcanum)
+			Tome.log_spell(Arcanum)
 		# Add a tome to the sanctum.
-		Sanctum.add(Tome)
+		Sanctum.log_book(Tome)
 	# Sanctum holds all the wizardly research you could need.
 	return Sanctum
 
 if __name__ == '__main__':
 	Sanctum = main()
+	text = Sanctum.extract_markdown()
+	print(text)

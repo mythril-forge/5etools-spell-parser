@@ -2,7 +2,7 @@
 import re
 from slugify import slugify
 # project imports
-pass
+from helper import *
 
 class Book:
 	'''
@@ -15,11 +15,11 @@ class Book:
 		self.spells = {}
 
 
-	def add_name(self, acronym):
+	def add_title(self, acronym):
 		# simply add an acronym
 		self.acronym = acronym
 		# also look up the name
-		self.name = book_acronyms[acronym]
+		self.name = book_acronym_dict[acronym]
 		# might as well fix up a slug too
 		slug = re.sub(r'([^\s\w/]|_)+', '', self.name)
 		slug = slug.lower()
@@ -27,5 +27,23 @@ class Book:
 		self.slug = slug
 
 
-	def add_spell(self, Spell):
+	def log_spell(self, Spell):
 		self.spells[Spell.slug] = Spell
+
+
+	def extract_json(self):
+		json_book = {}
+		for slug in self.spells:
+			Spell = self.spells[slug]
+			json_spell = Spell.extract_json()
+			json_book[slug] = json_spell
+		return json_book
+
+
+	def extract_markdown(self):
+		text_book = {}
+		for slug in self.spells:
+			Spell = self.spells[slug]
+			text_spell = Spell.extract_markdown()
+			text_book[slug] = text_spell
+		return text_book

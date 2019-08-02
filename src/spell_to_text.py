@@ -1,5 +1,9 @@
+# python packages
+pass
+# project imports
 from helper import *
 from bad_string_parser import *
+
 
 class SpellToText:
 	def __init__(self, Spell):
@@ -95,11 +99,11 @@ class SpellToText:
 			subraces = self.distill_access(subraces).lower()
 			result += f'\n\n**Subraces:** {subraces}'
 		# Finally, add the citation.
-		book_abbr = Spell.citations[0]['book']
-		if book_transition_temp.get(book_abbr):
-			book = book_transition_temp[book_abbr].upper()
+		acronym = Spell.citations[0]['book']
+		if book_transition_temp.get(acronym):
+			book = book_transition_temp[acronym].upper()
 		else:
-			book = book_abbr
+			book = acronym
 
 		page = Spell.citations[0].get('page')
 		cite = self.distill_citation(book, page)

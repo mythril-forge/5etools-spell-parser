@@ -116,7 +116,7 @@ shape_parameters = {
 }
 
 # these cleaned acronyms could very well be useful later...
-book_acronyms = {
+book_acronym_dict = {
 	'ai': 'Acquisitions Incorporated',
 	'ggr': 'Guildmasters\' Guide to Ravnica',
 	'llk': 'Lost Laboratory of Kwalish',

@@ -1,10 +1,11 @@
-from spell import Spell
+# python packages
 import os
 import re
 from slugify import slugify
+# project imports
 from helper import *
-
-
+from bad_string_parser import *
+from spell import Spell
 
 class SpellFromTool(Spell):
 	'''
@@ -515,6 +516,7 @@ class SpellFromTool(Spell):
 			higher_levels = higher_levels.strip()
 			markdown += '\n\n## At Higher Levels\n'
 			markdown += higher_levels
+		markdown = cleanse_markdown(markdown)
 		self.description = markdown
 
 

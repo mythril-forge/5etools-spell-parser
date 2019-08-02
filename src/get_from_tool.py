@@ -56,11 +56,11 @@ def main():
 		# A tome will be made to store parsed spell objects...
 		Tome = Book()
 		# ...and a tome needs a good title.
-		book_abbr = SourceData[book].replace('spells-', '')
-		book_abbr = book_abbr.replace('.json', '').lower()
-		Tome.add_name(book_abbr)
+		acronym = SourceData[book].replace('spells-', '')
+		acronym = acronym.replace('.json', '').lower()
+		Tome.add_title(acronym)
 
-		# Loop through all the spells from the API
+		# Loop through all the spells from the API.
 		for SpellData in BookData['spell']:
 			# The arcanum object tracks parsed spell data.
 			# Here the data generates quality properties.
@@ -68,11 +68,13 @@ def main():
 			Arcanum = SpellFromTool(SpellData, ExtraData)
 
 			# Add an arcanum to the tome.
-			Tome.add(Arcanum)
+			Tome.log_spell(Arcanum)
 		# Add a tome to the sanctum.
-		Sanctum.add(Tome)
+		Sanctum.log_book(Tome)
 	# Sanctum holds all the wizardly research you could need.
 	return Sanctum
 
 if __name__ == '__main__':
 	Sanctum = main()
+	json = Sanctum.extract_json()
+	print(json)

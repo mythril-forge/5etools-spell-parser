@@ -1,4 +1,3 @@
-
 class SpellToJson:
 	def __init__(self, Spell):
 		super().__init__()
