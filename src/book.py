@@ -40,10 +40,21 @@ class Book:
 		return json_book
 
 
-	def extract_markdown(self):
-		text_book = {}
-		for slug in self.spells:
-			Spell = self.spells[slug]
-			text_spell = Spell.extract_markdown()
-			text_book[slug] = text_spell
-		return text_book
+	def extract_markdown(self, by_level = False):
+		if not by_level:
+			text_book = {}
+			for slug in self.spells:
+				Spell = self.spells[slug]
+				text_spell = Spell.extract_markdown()
+				text_book[slug] = text_spell
+			return text_book
+
+		else:
+			text_level = {}
+			for slug in self.spells:
+				Spell = self.spells[slug]
+				text_spell = Spell.extract_markdown()
+				if not text_level.get(Spell.level):
+					text_level[Spell.level] = {}
+				text_level[Spell.level][slug] = text_spell
+			return text_level

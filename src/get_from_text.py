@@ -23,6 +23,7 @@ def main():
 			# Here the data generates qualitative properties.
 			# This can later be used to generate markdown or json.
 			Arcanum = SpellFromText(filename)
+
 			# A spell can be sourced from several books;
 			# therefore a loop is needed to capture all of them.
 			for book_acronym in Arcanum.citations:
