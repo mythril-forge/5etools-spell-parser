@@ -2543,6 +2543,14 @@
 		"Components": "None",
 		"Instances": 1
 	},
+	"Mind Sliver": {
+		"Source": "UASAW",
+		"Level": "Cantrip",
+		"Casting Time": "Action",
+		"Range": "60 feet",
+		"Components": "V",
+		"Instances": 1
+	},
 	"Mind Spike": {
 		"Source": "XGE",
 		"Level": "2nd",

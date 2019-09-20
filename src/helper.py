@@ -126,6 +126,7 @@ book_acronym_dict = {
 	'ua-ar': 'Unearthed Arcana: Artificer Revisited',
 	'ua-mm': 'Unearthed Arcana: Modern Magic',
 	'ua-ss': 'Unearthed Arcana: Starter Spells',
+	'ua-saw': 'Unearthed Arcana: Sorcerer and Warlock',
 	'ua-tobm': 'Unearthed Arcana: That Old Black Magic',
 	'xge': 'Xanathar\'s Guide to Everything',
 }
