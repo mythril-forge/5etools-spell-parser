@@ -110,7 +110,18 @@ def remove_metadata(dirty):
 		# remove typing.
 		expr = r'(?<={@scaledice\s).+?(?=})'
 		dirty = re.search(expr, dirty).group()
-		# || implies reads-as in this json.
+		# remove all these extra metadata after |
+		expr = r'.+\|'
+		dirty = re.sub(expr, '', dirty)
+		# add code ticks to specify a dice roll.
+		dirty = f'`{dirty}`'
+
+	elif re.search(r'{@sense .+?}', dirty):
+		print(dirty)
+		# remove typing.
+		expr = r'(?<={@sense\s).+?(?=})'
+		dirty = re.search(expr, dirty).group()
+		# remove all these extra metadata after |
 		expr = r'.+\|'
 		dirty = re.sub(expr, '', dirty)
 		# add code ticks to specify a dice roll.
