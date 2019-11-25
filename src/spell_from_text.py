@@ -214,38 +214,6 @@ class SpellFromText(Spell):
 					components = components.strip()
 					self.components['material'] = components
 
-				# get classes
-				elif re.search(r'^\*\*Classes:\*\*\s', line):
-					classes = line
-					classes = re.sub(r'^\*\*Classes:\*\*\s', '', classes)
-					classes = classes.strip()
-					classes = classes.split(', ')
-					self.access['classes'] = classes
-
-				# get subclasses
-				elif re.search(r'^\*\*Subclasses:\*\*\s', line):
-					subclasses = line
-					subclasses = re.sub(r'^\*\*Subclasses:\*\*\s', '', subclasses)
-					subclasses = subclasses.strip()
-					subclasses = subclasses.split(', ')
-					self.access['subclasses'] = subclasses
-
-				# get races
-				elif re.search(r'^\*\*Races:\*\*\s', line):
-					races = line
-					races = re.sub(r'^\*\*Races:\*\*\s', '', races)
-					races = races.strip()
-					races = races.split(', ')
-					self.access['races'] = races
-
-				# get subraces
-				elif re.search(r'^\*\*Subraces:\*\*\s', line):
-					subraces = line
-					subraces = re.sub(r'^\*\*Subraces:\*\*\s', '', subraces)
-					subraces = subraces.strip()
-					subraces = subraces.split(', ')
-					self.access['subraces'] = subraces
-
 				# get sources
 				elif re.search(r'^\*\*Sources:\*\*\s', line):
 					sources = line

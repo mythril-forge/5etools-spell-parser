@@ -53,8 +53,6 @@ class SpellFromTool(Spell):
 		self.get_components()
 		# long-form description
 		self.get_description()
-		# declare spell users
-		self.get_access()
 		# sources to find this spell
 		self.get_citation()
 
@@ -618,39 +616,7 @@ class SpellFromTool(Spell):
 				markdown += addon
 		# finally, return our result
 		return markdown
-
-
-	def get_access(self):
-		'''
-		Declares which classes and races can access this spell.
-		'''
-		classes = []
-		subclasses = []
-		races = []
-		subraces = []
-		for player_class in self.spell_json['classes'].get('fromClassList'):
-			classes.append(player_class['name'])
-		if self.spell_json['classes'].get('fromSubclass'):
-			for player_subclass in self.spell_json['classes'].get('fromSubclass'):
-				subclass =''
-				subclass += player_subclass['subclass']['name']
-				subclass += ' '
-				subclass += player_subclass['class']['name']
-				subclasses.append(subclass)
-
-		if self.spell_json.get('races'):
-			for entry in self.spell_json['races']:
-				if entry.get('baseName'):
-					subrace = entry['name']
-					subraces.append(subrace)
-				else:
-					race = entry['name']
-					races.append(race)
-		# add to attributes
-		self.access['classes'] = classes
-		self.access['subclasses'] = subclasses
-		self.access['races'] = races
-		self.access['subraces'] = subraces
+		
 
 
 	def get_citation(self):

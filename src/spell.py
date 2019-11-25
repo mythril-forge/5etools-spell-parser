@@ -78,14 +78,6 @@ class Spell:
 		# long-form description
 		self.description = None,
 
-		# declare spell users
-		self.access = {
-			'classes': None,
-			'races': None,
-			'subclasses': None,
-			'subraces': None,
-		}
-
 		# sources to find this spell
 		self.citations = []
 

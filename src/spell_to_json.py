@@ -19,6 +19,5 @@ class SpellToJson:
 		SpellData['tags'] = Spell.tags
 		SpellData['components'] = Spell.components
 		SpellData['description'] = Spell.description
-		SpellData['access'] = Spell.access
 		SpellData['citations'] = Spell.citations
 		self.json = SpellData

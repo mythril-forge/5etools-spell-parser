@@ -81,23 +81,6 @@ class SpellToText:
 		result += '\n\n---\n\n'
 		result += Spell.description
 		result += '\n\n---'
-		# Spell class access
-		classes = Spell.access['classes']
-		if classes != [] and classes:
-			classes = self.distill_access(classes).lower()
-			result += f'\n\n**Classes:** {classes}'
-		subclasses = Spell.access['subclasses']
-		if subclasses != [] and subclasses:
-			subclasses = self.distill_access(subclasses).lower()
-			result += f'\n\n**Subclasses:** {subclasses}'
-		races = Spell.access['races']
-		if races != [] and races:
-			races = self.distill_access(races).lower()
-			result += f'\n\n**Races:** {races}'
-		subraces = Spell.access['subraces']
-		if subraces != [] and subraces:
-			subraces = self.distill_access(subraces).lower()
-			result += f'\n\n**Subraces:** {subraces}'
 		# Finally, add the citation.
 		acronym = Spell.citations[0]['book']
 		if book_transition_temp.get(acronym):
