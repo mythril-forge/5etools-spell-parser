@@ -173,10 +173,10 @@ class SpellFromText(Spell):
 					height = space2num(amount, unit)
 					self.area['height'] = height
 
-				# get effect instances
-				elif re.search(r'^\*\*Effect Instances:\*\*\s', line):
+				# get instances
+				elif re.search(r'^\*\*Instances:\*\*\s', line):
 					instances = line
-					instances = re.sub(r'^\*\*Effect Instances:\*\*\s', '', instances)
+					instances = re.sub(r'^\*\*Instances:\*\*\s', '', instances)
 					instances = instances.strip()
 					instances = int(instances)
 					self.instances = instances

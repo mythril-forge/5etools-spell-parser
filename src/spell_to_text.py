@@ -63,7 +63,7 @@ class SpellToText:
 				result += f'\n\n**{dimension}:** {measurement}'
 		# Instances isn't a good name but its what we got
 		if Spell.instances != 1:
-			result += f'\n\n**Effect Instances:** {Spell.instances}'
+			result += f'\n\n**Instances:** {Spell.instances}'
 		# Spell tags
 		for tag in Spell.tags:
 			if Spell.tags[tag]:
