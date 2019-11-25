@@ -116,7 +116,8 @@ class SpellFromText(Spell):
 					range = range.strip()
 					if range in {'self', 'touch', 'unlimited', 'special'}:
 						self.range['quality'] = range
-						# TODO fix special conditions
+						# ==TODO==
+						# fix special conditions
 					else:
 						range = range.split(' ')
 						amount = int(range[0])

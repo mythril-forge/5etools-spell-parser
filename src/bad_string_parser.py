@@ -67,8 +67,7 @@ def remove_metadata(dirty):
 
 	elif re.search(r'{@damage .+?}', dirty):
 		'''
-		==TODO==
-		add docstring
+		Damage is formatted like all other dice.
 		'''
 		# remove typing.
 		expr = r'(?<={@damage\s).+?(?=})'
@@ -78,9 +77,14 @@ def remove_metadata(dirty):
 
 	elif re.search(r'{@dice .+?}', dirty):
 		'''
-		==TODO==
-		add docstring
-		fix html symbols
+		Dice, randomness, and mathematical operators are
+		within code blocks to show their mathematical nature.
+		==NOTE==
+		HTML entities cannot be used within code blocks;
+		math symbols (such as &minus;) are used naked.
+		==FIXME==
+		Invalid spacing, like {@dice 3+ 3d6}, will
+		not be properly formatted by this function.
 		'''
 		# remove typing.
 		expr = r'(?<={@dice\s).+?(?=})'
@@ -91,10 +95,10 @@ def remove_metadata(dirty):
 		# add padding to mathematical operators.
 		expr = r'(?<=\d)\+(?=\d)'
 		dirty = re.sub(expr, ' + ', dirty)
-		expr = r'(?<=\d)\-(?=\d)'
-		dirty = re.sub(expr, ' &minus; ', dirty)
+		expr = r'(?<=\d)[\-|\–](?=\d)'
+		dirty = re.sub(expr, ' – ', dirty)
 		expr = r'(?<=\d)[\×|\*](?=\d)'
-		dirty = re.sub(expr, ' &times; ', dirty)
+		dirty = re.sub(expr, ' × ', dirty)
 		expr = r'(?<=\d)[\÷|\/](?=\d)'
 		dirty = re.sub(expr, ' &divide; ', dirty)
 		# add code ticks to specify statistics or randomness.
@@ -102,8 +106,9 @@ def remove_metadata(dirty):
 
 	elif re.search(r'{@filter .+?}', dirty):
 		'''
-		==TODO==
-		add docstring
+		Filters are incredibly complex because they
+		have a variety of indications and inputs.
+		Thus, they are just transformed into normal strings.
 		'''
 		# remove typing.
 		expr = r'(?<={@filter\s).+?(?=})'
@@ -114,19 +119,19 @@ def remove_metadata(dirty):
 
 	elif re.search(r'{@i .+?}', dirty):
 		'''
-		==TODO==
-		add docstring
+		This literally means quoted italics.
 		'''
 		# remove typing.
 		expr = r'(?<={@i\s).+?(?=})'
 		dirty = re.search(expr, dirty).group()
 		# add italics.
-		dirty = f'*{dirty}*'
+		dirty = f'*"{dirty}"*'
 
 	elif re.search(r'{@hit .+?}', dirty):
 		'''
-		==TODO==
-		add docstring
+		To-hit bonuses are specially formatted.
+		They have no padding after the plus/minus sign.
+		Otherwise they behave like other dice operators.
 		'''
 		# remove typing.
 		expr = r'(?<={@hit\s).+?(?=})'
@@ -167,8 +172,7 @@ def remove_metadata(dirty):
 
 	elif re.search(r'{@scaledice .+?}', dirty):
 		'''
-		==TODO==
-		add docstring
+		Scale-Damage is formatted like all other dice.
 		'''
 		# remove typing.
 		expr = r'(?<={@scaledice\s).+?(?=})'
@@ -181,8 +185,9 @@ def remove_metadata(dirty):
 
 	elif re.search(r'{@sense .+?}', dirty):
 		'''
-		==TODO==
-		add docstring
+		Senses, like hit points, challenge rating and others,
+		does not have any special formatting.
+		The phrase itself should infer its game mechanics.
 		'''
 		# remove typing.
 		expr = r'(?<={@sense\s).+?(?=})'
@@ -190,13 +195,12 @@ def remove_metadata(dirty):
 		# remove all these extra metadata after |
 		expr = r'.+\|'
 		dirty = re.sub(expr, '', dirty)
-		# add code ticks to specify statistics or randomness.
-		dirty = f'`{dirty}`'
 
 	elif re.search(r'{@skill .+?}', dirty):
 		'''
-		==TODO==
-		add docstring
+		Skills, like hit points, challenge rating and others,
+		does not have any special formatting.
+		The phrase itself should infer its game mechanics.
 		'''
 		# remove typing.
 		expr = r'(?<={@skill\s).+?(?=})'
@@ -204,14 +208,16 @@ def remove_metadata(dirty):
 
 	elif re.search(r'{@spell .+?}', dirty):
 		'''
-		==TODO==
-		add docstring
+		Items, spells, and other miscellaneous game mechanics
+		should be modestly distinguishable so they can be read
+		as a proper game mechanic versus their english meaning.
+		Spells especially have anchored links.
 		'''
 		# remove typing.
 		expr = r'(?<={@spell\s).+?(?=})'
 		dirty = re.search(expr, dirty).group()
 		# ==TODO==
-		# add markdown link to other spell
+		# properly add markdown link to other spell
 		slug = slugify(dirty)
 		# add italics.
 		dirty = f'[*{dirty}*](./{slug})'

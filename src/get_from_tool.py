@@ -83,4 +83,4 @@ def main():
 if __name__ == '__main__':
 	Sanctum = main()
 	json = Sanctum.extract_json()
-	print(json)
+	# print(json)
