@@ -38,12 +38,12 @@ def organize_by_level(level_library):
 			directory = os.path.dirname('./spells/')
 			directory += '/level-'
 			directory += str(level)
-			print(directory)
+			# print(directory)
 			path = directory 
 			path += '/' 
 			path += slug  
 			path += '.md'
-			print(path)
+			# print(path)
 			# create directory
 			if not os.path.exists(directory):
 				os.makedirs(directory)
@@ -65,7 +65,7 @@ def disorganize(library):
 			path += '/' 
 			path += slug  
 			path += '.md'
-			print(path)
+			# print(path)
 			# create directory
 			if not os.path.exists(directory):
 				os.makedirs(directory)
