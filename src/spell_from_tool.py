@@ -526,17 +526,24 @@ class SpellFromTool(Spell):
 		'''
 		markdown = ''
 		for entry in data:
+			addon = ''
 			if isinstance(entry, str):
-				markdown += '\n'
-				markdown += entry
-				markdown += '\n'
+				addon += '\n'
+				addon += entry
+				addon += '\n'
+				# add to markdown
+				addon = re.sub(r'\. ', '.\n', addon)
+				markdown += addon
 
 			elif entry.get('type') == 'entries':
-				markdown += '\n'
+				addon += '\n'
 				if entry['name'] != 'At Higher Levels':
-					markdown += '### '
-					markdown += entry['name']
-				markdown += self.classify_desc_info(entry['entries'])
+					addon += '### '
+					addon += entry['name']
+				addon += self.classify_desc_info(entry['entries'])
+				# add to markdown
+				addon = re.sub(r'\. ', '.\n', addon)
+				markdown += addon
 
 			elif entry.get('type') == 'quote':
 				quote = self.classify_desc_info(entry['entries'])
@@ -544,20 +551,36 @@ class SpellFromTool(Spell):
 				quote = re.sub(r'^(?=\w|.*? )', '> ', quote)
 				quote = re.sub(r'\n(?=\w|.*? )', '\n> ', quote)
 				quote = quote.strip()
-				markdown += '\n'
-				markdown += quote
-				markdown += '\n> &mdash; '
-				markdown += entry['by']
-				markdown += '\n'
+				addon += '\n'
+				addon += quote
+				addon += '\n> \n> &mdash; '
+				addon += entry['by']
+				addon += '\n'
+				# add to markdown
+				addon = re.sub(r'\. ', '.\n> ', addon)
+				markdown += addon
 
 			elif entry.get('type') == 'list':
+				# grab items and strip them. stripping is important!
 				md_list = self.classify_desc_info(entry['items'])
-				md_list = re.sub(r'\n+', '\n', md_list)
-				md_list = re.sub(r'^(?=\w|.*? )', '- ', md_list)
-				md_list = re.sub(r'\n(?=\w|.*? )', '\n- ', md_list)
 				md_list = md_list.strip()
-				markdown += md_list
-				markdown += '\n'
+				# replace a series of 2+ breaks with just 2 breaks.
+				md_list = re.sub(r'\n{2,}', '\n\n', md_list)
+				# add a dash to the first item in the list.
+				md_list = re.sub(r'^(?=\w|.*? )', '- ', md_list)
+				# a series of 2 breaks means its a list item start.
+				md_list = re.sub(r'\n{2}(?=\w|.+? )', '\n\n- ', md_list)
+				# if it has one break, it means its a new sentance.
+				md_list = re.sub(r'\n(?=\w)', '\n\t', md_list)
+				# finally, remove multiple breaks
+				md_list = re.sub(r'\n{2,}', '\n', md_list)
+				# strip whitespace
+				md_list = md_list.strip()
+				addon += md_list
+				addon += '\n'
+				# add to markdown
+				# addon = re.sub(r'\. ', '.\n\t', addon)
+				markdown += addon
 
 			elif entry.get('type') == 'table':
 				labels = self.classify_desc_info(entry['colLabels'])
@@ -565,12 +588,12 @@ class SpellFromTool(Spell):
 				labels = re.sub(r'^(?=\w|.*? )', '| ', labels)
 				labels = re.sub(r'\n(?=\w|.*? )', ' | ', labels)
 				labels = labels.strip()
-				markdown += labels
-				markdown += ' |\n|'
+				addon += labels
+				addon += ' |\n|'
 				# add seperator
 				for col in entry['colLabels']:
-					markdown += '-----|'
-				markdown += '\n'
+					addon += '-----|'
+				addon += '\n'
 				# add details
 				for row in entry['rows']:
 					details = self.classify_desc_info(row)
@@ -578,8 +601,10 @@ class SpellFromTool(Spell):
 					details = re.sub(r'^(?=\w|.*? )', '| ', details)
 					details = re.sub(r'\n(?=\w|.*? )', ' | ', details)
 					details = details.strip()
-					markdown += details
-					markdown += ' |\n'
+					addon += details
+					addon += ' |\n'
+				# add to markdown
+				markdown += addon
 
 			elif entry.get('type') == 'cell':
 				if entry['roll'].get('exact'):
@@ -588,7 +613,9 @@ class SpellFromTool(Spell):
 					roll = str(entry['roll']['min'])
 					roll += '&mdash;'
 					roll += str(entry['roll']['max'])
-				markdown += roll
+				addon += roll
+				# add to markdown
+				markdown += addon
 		# finally, return our result
 		return markdown
 
