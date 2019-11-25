@@ -7,6 +7,8 @@ from helper import *
 from bad_string_parser import *
 from spell import Spell
 
+
+
 class SpellFromTool(Spell):
 	'''
 	This class gives methods to fill in a Spells attributes.
@@ -616,7 +618,6 @@ class SpellFromTool(Spell):
 				markdown += addon
 		# finally, return our result
 		return markdown
-		
 
 
 	def get_citation(self):

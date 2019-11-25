@@ -4,8 +4,12 @@ import os
 import get_from_text
 import get_from_tool
 
+
+
 def main(library):
 	organize_by_level(library)
+
+
 
 def organize_by_source(library):
 	for acronym in library:
@@ -17,9 +21,9 @@ def organize_by_source(library):
 			directory = os.path.dirname('./spells/')
 			directory += '/'
 			directory += acronym
-			path = directory 
-			path += '/' 
-			path += slug  
+			path = directory
+			path += '/'
+			path += slug
 			path += '.md'
 			# create directory
 			if not os.path.exists(directory):
@@ -27,6 +31,8 @@ def organize_by_source(library):
 			# create file and add to directory
 			with open(path, 'w') as file:
 				file.write(spell)
+
+
 
 def organize_by_level(level_library):
 	for level in level_library:
@@ -39,9 +45,9 @@ def organize_by_level(level_library):
 			directory += '/level-'
 			directory += str(level)
 			# print(directory)
-			path = directory 
-			path += '/' 
-			path += slug  
+			path = directory
+			path += '/'
+			path += slug
 			path += '.md'
 			# print(path)
 			# create directory
@@ -50,6 +56,8 @@ def organize_by_level(level_library):
 			# create file and add to directory
 			with open(path, 'w') as file:
 				file.write(spell)
+
+
 
 def disorganize(library):
 	for acronym in library:
@@ -61,9 +69,9 @@ def disorganize(library):
 			directory = os.path.dirname('./spells/')
 			# directory += '/'
 			# directory += acronym
-			path = directory 
-			path += '/' 
-			path += slug  
+			path = directory
+			path += '/'
+			path += slug
 			path += '.md'
 			# print(path)
 			# create directory
@@ -74,11 +82,20 @@ def disorganize(library):
 				file.write(spell)
 
 
+# ==TODO==
 # def organize_via_book(library):
 
+
+
+# ==TODO==
 # def organize_via_level(library):
 
+
+
+# ==TODO==
 # def do_not_organize(library):
+
+
 
 if __name__ == '__main__':
 	data_option = input(

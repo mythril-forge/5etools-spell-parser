@@ -4,6 +4,8 @@ from slugify import slugify
 # project imports
 from helper import *
 
+
+
 class Book:
 	'''
 	A book contains many spells in an orderly fashion.

@@ -3,6 +3,7 @@ from helper import *
 import re
 
 
+
 class SpellFromText(Spell):
 	'''
 	'''
@@ -14,6 +15,7 @@ class SpellFromText(Spell):
 		self.slug = filename[0:-3]
 		self.path = './spells/' + str(filename)
 		self.get() # very important!
+
 
 	def get(self):
 		with open(self.path, 'r') as file:
@@ -76,7 +78,7 @@ class SpellFromText(Spell):
 						condition = re.sub(r'\)$', '', condition)
 						self.cast_time['quality'] = quality
 						self.cast_time['condition'] = condition
-						
+
 					else:
 						cast_time = cast_time.split(' ')
 						amount = int(cast_time[0])

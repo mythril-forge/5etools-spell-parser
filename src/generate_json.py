@@ -1,5 +1,7 @@
 import generate_json
 
+
+
 def main():
 	library = generate_json.main()
 	for acronym in library:
@@ -7,6 +9,7 @@ def main():
 		for slug in book:
 			spell = book[slug]
 			print(spell)
+
 
 
 if __name__ == '__main__':

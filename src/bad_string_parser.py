@@ -2,6 +2,8 @@ import json
 import re
 from slugify import slugify
 
+
+
 def cleanse_markdown(data):
 	while True:
 		if re.search(r'{@.*?}', data):
@@ -11,6 +13,8 @@ def cleanse_markdown(data):
 		else:
 			break
 	return data
+
+
 
 def remove_metadata(dirty):
 	if re.search(r'{@chance .+?}', dirty):
@@ -145,6 +149,8 @@ def remove_metadata(dirty):
 		raise
 
 	return dirty
+
+
 
 if __name__ == '__main__':
 	md = ''

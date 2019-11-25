@@ -8,6 +8,8 @@ from library import Library
 # project settings
 VERBOSE = True
 
+
+
 def verbose_get(resource):
 	'''
 	This function checks the VERBOSE project setting.
@@ -19,6 +21,8 @@ def verbose_get(resource):
 		print('\n' + '+'*len(output))
 		print(output)
 	return requests.get(resource)
+
+
 
 def main():
 	'''
@@ -73,6 +77,8 @@ def main():
 		Sanctum.log_book(Tome)
 	# Sanctum holds all the wizardly research you could need.
 	return Sanctum
+
+
 
 if __name__ == '__main__':
 	Sanctum = main()
