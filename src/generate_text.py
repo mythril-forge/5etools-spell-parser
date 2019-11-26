@@ -117,23 +117,24 @@ if __name__ == '__main__':
 		'├──┴─────────────┘\n'
 		'╘input: '
 	)
-	if data_option == 'TX':
+	if data_option.upper() == 'TX':
 		Sanctum = get_from_text.main()
-	elif data_option == '5E':
+	elif data_option.upper() == '5E':
 		Sanctum = get_from_tool.main()
-	elif data_option == 'JS':
+	elif data_option.upper() == 'JS':
 		Sanctum = get_from_json.main()
 	else:
-		raise
+		Sanctum = get_from_tool.main()
 
-	if sort_option == 'NO':
+	if sort_option.upper() == 'NO':
 		library = Sanctum.extract_markdown()
 		disorganize(library)
-	elif sort_option == 'LV':
+	elif sort_option.upper() == 'LV':
 		library = Sanctum.extract_markdown(True)
 		organize_by_level(library)
-	elif sort_option == 'BK':
+	elif sort_option.upper() == 'BK':
 		library = Sanctum.extract_markdown()
 		organize_by_source(library)
 	else:
-		raise
+		library = Sanctum.extract_markdown(True)
+		organize_by_level(library)
