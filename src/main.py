@@ -1,12 +1,19 @@
 # python packages
 import os
 # project imports
-import get_from_text
 import get_from_tool
 
 
 
 def main(level_library):
+	'''
+	==NOTE==
+	This only fetches markdown for now.
+	==NOTE==
+	This only sorts outputs by level for now.
+	==TODO==
+	This could be expanded, but would need to be refactored.
+	'''
 	for level in level_library:
 		level_set = level_library[level]
 		for slug in level_set:

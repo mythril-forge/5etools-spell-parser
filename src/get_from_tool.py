@@ -46,7 +46,7 @@ def main():
 		ExtraData = json.load(file)
 
 	# The url is not complete without a filename.
-	# Each d&d book is associated with a different filename.
+	# Each D&D book is associated with a different filename.
 	# The reference chosen has a json object for these books.
 	SourceData = verbose_get(url + 'index.json').json()
 
@@ -83,4 +83,3 @@ def main():
 if __name__ == '__main__':
 	Sanctum = main()
 	json = Sanctum.extract_json()
-	# print(json)
