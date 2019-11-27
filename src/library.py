@@ -25,15 +25,6 @@ class Library:
 		self.books[Book.acronym] = Book
 
 
-	def extract_json(self):
-		json_library = {}
-		for acronym in self.books:
-			Book = self.books[acronym]
-			json_book = Book.extract_json()
-			json_library[acronym] = json_book
-		return json_library
-
-
 	def extract_markdown(self):
 		text_library = {}
 		for acronym in self.books:

@@ -49,15 +49,6 @@ class Book:
 		self.spells[Spell.slug] = Spell
 
 
-	def extract_json(self):
-		json_book = {}
-		for slug in self.spells:
-			Spell = self.spells[slug]
-			json_spell = Spell.extract_json()
-			json_book[slug] = json_spell
-		return json_book
-
-
 	def extract_markdown(self):
 		text_level = {}
 		for slug in self.spells:
