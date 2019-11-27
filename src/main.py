@@ -1,7 +1,7 @@
 # python packages
 import os
 # project imports
-import get_from_tool
+import library_from_tool
 
 
 
@@ -40,7 +40,7 @@ def main(level_library):
 
 if __name__ == '__main__':
 	# ==NOTE==
-	# utilizing `get_from_tool.py`.
-	Sanctum = get_from_tool.main()
+	# utilizing `library_from_tool.py`.
+	Sanctum = library_from_tool.main()
 	library = Sanctum.extract_markdown(True)
 	main(library)
