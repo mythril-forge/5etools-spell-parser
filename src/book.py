@@ -9,11 +9,27 @@ from helper import *
 class Book:
 	'''
 	A book contains many spells in an orderly fashion.
+	Literally speaking, a book represents a
+	sourcebook from D&D, such as the Player's Handbook.
+	There are some exceptions to this rule, because
+	not all sourcebooks share the same officiality.
+	For example, Unearthed Arcana are usually less
+	than ten pages, but still use this book object.
 	'''
 	def __init__(self):
+		'''
+		Initialization leaves behind a husk of book metadata.
+		It's just a few strings and an empty spell container.
+		'''
+		# Each book has a unique name, slug, and acronym.
+		# The acronym is usually preferable to the slug.
 		self.name = None
 		self.slug = None
 		self.acronym = None
+
+		# The focus of a spellbook is, of course, its spells.
+		# Like a dictionary, you can look up spell-slugs and
+		# find their full markdown definitions.
 		self.spells = {}
 
 
