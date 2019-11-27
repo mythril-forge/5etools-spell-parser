@@ -33,7 +33,7 @@ def main(level_library):
 			if not os.path.exists(directory):
 				os.makedirs(directory)
 			# create file and add to directory
-			with open(path, 'w') as file:
+			with open(path, 'w', encoding='utf-8') as file:
 				file.write(spell)
 
 
