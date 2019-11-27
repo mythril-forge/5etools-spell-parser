@@ -30,23 +30,14 @@ class Library:
 		return json_library
 
 
-	def extract_markdown(self, by_level = False):
-		if not by_level:
-			text_library = {}
-			for acronym in self.books:
-				Book = self.books[acronym]
-				text_book = Book.extract_markdown()
-				text_library[acronym] = text_book
-			return text_library
-
-		else:
-			text_library = {}
-			for acronym in self.books:
-				Book = self.books[acronym]
-				level_book = Book.extract_markdown(True)
-				for level in level_book:
-					for slug in level_book[level]:
-						if not text_library.get(level):
-							text_library[level] = {}
-						text_library[level][slug] = level_book[level][slug]
-			return text_library
+	def extract_markdown(self):
+		text_library = {}
+		for acronym in self.books:
+			Book = self.books[acronym]
+			level_book = Book.extract_markdown()
+			for level in level_book:
+				for slug in level_book[level]:
+					if not text_library.get(level):
+						text_library[level] = {}
+					text_library[level][slug] = level_book[level][slug]
+		return text_library

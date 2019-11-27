@@ -42,5 +42,5 @@ if __name__ == '__main__':
 	# ==NOTE==
 	# utilizing `library_from_tool.py`.
 	Sanctum = library_from_tool.main()
-	library = Sanctum.extract_markdown(True)
+	library = Sanctum.extract_markdown()
 	main(library)
