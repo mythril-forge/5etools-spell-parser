@@ -534,18 +534,22 @@ class SpellFromTool(Spell):
 				cleaned = f'{cleaned}\n'
 				return cleaned
 
-			# ==TODO==
-			# The entry is type list. What does that mean?
+			# The entry is type list.
+			# Just iterate through and clean each item!
 			elif isinstance(entry, list):
+				cleaned = ''
 				# This entry has yet more entries.
-				for subentry in entry:
-					get_clean_entry(subentry, depth)
+				for item in entry:
+					cleaned += get_clean(item, depth)
+				return cleaned
 
-			# ==TODO==
-			# The entry is an entry. What does that mean?
+			# The entry is type `entries`.
+			# As ambiguous as that is, it is easy to explain.
+			# This is just a heading with content.
 			elif entry.get('type') == 'entries':
-				# This entry has yet more entries.
-				get_clean_entry(entry['entries'], depth+1)
+				cleaned += f"{'#' * (depth + 2)} {entry['name']}\n"
+				cleaned += get_clean(entry['entries'], depth + 1)
+				return cleaned
 
 			elif entry.get('type') == 'quote':
 				# The entry is expected to be a string,
