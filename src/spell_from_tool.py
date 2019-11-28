@@ -522,6 +522,12 @@ class SpellFromTool(Spell):
 
 		# Some subroutines are required to parse the data.
 		def get_clean(entry, depth=0):
+			'''
+			This will take the entries object and clean it.
+			It does a thorough job; it cleans entries recursively.
+			The function takes in the expected 5etools object,
+			and it returns a markdown-like string.
+			'''
 			# A string can't be deconstructed any more;
 			# this just parses it a bit before returning.
 			if isinstance(entry, str):
@@ -623,111 +629,6 @@ class SpellFromTool(Spell):
 
 		get_clean(entries)
 
-
-	"""
-	def classify_desc_info(self, data):
-		'''
-		Parses entries based on their 'type' for formatting.
-		This isnt game mechanics, but standard text markup.
-		'''
-		# `markdown` represents the final description, including
-		# everything between the two semantic horizontal lines.
-		markdown = ''
-		for entry in data:
-			addon = ''
-			if isinstance(entry, str):
-				addon += f'\n{entry}\n'
-				# add to markdown
-				addon = re.sub(r'\. ', '.\n', addon)
-				markdown += addon
-
-			elif entry.get('type') == 'entries':
-				addon += '\n'
-				if entry['name'] != 'At Higher Levels':
-					addon += f'### {entry["name"]}'
-				addon += self.classify_desc_info(entry['entries'])
-				# add to markdown
-				addon = re.sub(r'\. ', '.\n', addon)
-				markdown += addon
-
-			elif entry.get('type') == 'quote':
-				quote = self.classify_desc_info(entry['entries'])
-				quote = re.sub(r'\n+', '\n', quote)
-				quote = re.sub(r'^(?=\w|.*? )', '> ', quote)
-				quote = re.sub(r'\n(?=\w|.*? )', '\n> ', quote)
-				quote = quote.strip()
-				addon += '\n'
-				addon += quote
-				addon += '\n> \n> &mdash; '
-				addon += entry['by']
-				addon += '\n'
-				# add to markdown
-				addon = re.sub(r'\. ', '.\n> ', addon)
-				markdown += addon
-
-			elif entry.get('type') == 'list':
-				# Grab items and strip them.
-				# Stripping is important!
-				md_list = self.classify_desc_info(entry['items'])
-				md_list = md_list.strip()
-				# Replace a series of 2+ breaks with just 2 breaks.
-				md_list = re.sub(r'\n{2,}', '\n\n', md_list)
-				# Add a dash to the first item in the list.
-				md_list = re.sub(r'^(?=\w|.*? )', '- ', md_list)
-				# A series of 2 breaks means its a list item start.
-				md_list = re.sub(r'\n{2}(?=\w|.+? )', '\n\n- ', md_list)
-				# If it has one break, it means its a new sentance.
-				md_list = re.sub(r'\n(?=\w)', '\n\t', md_list)
-				# Finally, remove multiple breaks
-				md_list = re.sub(r'\n{2,}', '\n', md_list)
-				# Strip whitespace
-				md_list = md_list.strip()
-				addon += md_list
-				addon += '\n'
-				# add to markdown
-				# addon = re.sub(r'\. ', '.\n\t', addon)
-				markdown += addon
-
-			elif entry.get('type') == 'table':
-				labels = self.classify_desc_info(entry['colLabels'])
-				labels = re.sub(r'\n+', '\n', labels)
-				labels = re.sub(r'^(?=\w|.*? )', '| ', labels)
-				labels = re.sub(r'\n(?=\w|.*? )', ' | ', labels)
-				labels = labels.strip()
-				addon += labels
-				addon += ' |\n|'
-
-				# add seperator
-				for col in entry['colLabels']:
-					addon += '-----|'
-				addon += '\n'
-
-				# add details
-				for row in entry['rows']:
-					details = self.classify_desc_info(row)
-					# details = re.sub(r'\n+', '\n', details)
-					# details = re.sub(r'^(?=\w|.*? )', '| ', details)
-					# details = re.sub(r'\n(?=\w|.*? )', ' | ', details)
-					details = details.strip()
-					addon += details
-					print(details)
-					addon += ' |\n'
-				# add to markdown
-				markdown += addon
-
-			elif entry.get('type') == 'cell':
-				if entry['roll'].get('exact'):
-					roll = str(entry['roll']['exact'])
-				else:
-					roll = str(entry['roll']['min'])
-					roll += '&mdash;'
-					roll += str(entry['roll']['max'])
-				addon += roll
-				# add to markdown
-				markdown += addon
-		# finally, return our result
-		return markdown
-	"""
 
 
 	def get_citation(self):
