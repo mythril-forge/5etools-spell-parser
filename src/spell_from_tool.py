@@ -578,15 +578,29 @@ class SpellFromTool(Spell):
 					cleaned += content.strip() + '\n'
 				return cleaned
 
-			# ==TODO==
-			# The entry is a table. What does that mean?
+			# The entry is a table.
+			# Iterate through the contents and build it up!
 			elif entry.get('type') == 'table':
+				cleaned = ''
+				# Start with the caption, if any.
+				if entry.get('caption'):
+					cleaned += f"#### {entry['caption']}\n"
 				# This entry has yet more entries...eerrr, cells.
+				cleaned += '|'
 				for cell in entry.get('colLabels'):
-					get_clean_entry(cell, depth)
+					cleaned += (
+						f' {get_clean(cell, depth).strip()} |'
+					)
+				cleaned += f"\n{'|-----' * len(entry['colLabels'])}|"
+				# This entry has yet more entries...eerrr, cells.
 				for row in entry.get('rows'):
+					cleaned += '\n|'
 					for cell in row:
-						get_clean_entry(cell, depth)
+						cleaned += (
+							f' {get_clean(cell, depth).strip()} |'
+						)
+				cleaned += '\n'
+				return cleaned
 
 			# The `cell` type is a bit of a misnomer.
 			# It only allows for number-based dice-roll results.
