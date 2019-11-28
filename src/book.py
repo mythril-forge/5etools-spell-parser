@@ -47,14 +47,3 @@ class Book:
 
 	def log_spell(self, Spell):
 		self.spells[Spell.slug] = Spell
-
-
-	def extract_markdown(self):
-		text_level = {}
-		for slug in self.spells:
-			Spell = self.spells[slug]
-			text_spell = Spell.extract_markdown()
-			if not text_level.get(Spell.level):
-				text_level[Spell.level] = {}
-			text_level[Spell.level][slug] = text_spell
-		return text_level

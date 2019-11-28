@@ -23,16 +23,3 @@ class Library:
 
 	def log_book(self, Book):
 		self.books[Book.acronym] = Book
-
-
-	def extract_markdown(self):
-		text_library = {}
-		for acronym in self.books:
-			Book = self.books[acronym]
-			level_book = Book.extract_markdown()
-			for level in level_book:
-				for slug in level_book[level]:
-					if not text_library.get(level):
-						text_library[level] = {}
-					text_library[level][slug] = level_book[level][slug]
-		return text_library
