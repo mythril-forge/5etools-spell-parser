@@ -505,32 +505,89 @@ class SpellFromTool(Spell):
 		Gathers the object containing the details
 		of a spell's description, which holds much data.
 		'''
-		entries = self.spell_json['entries']
-		entries = self.classify_desc_info(entries)
-		entries = entries.strip()
-		markdown = '## Description\n'
-		markdown += entries
-		if self.spell_json.get('entriesHigherLevel'):
-			higher_levels = self.spell_json['entriesHigherLevel']
-			higher_levels = self.classify_desc_info(higher_levels)
-			higher_levels = higher_levels.strip()
-			markdown += '\n\n## At Higher Levels\n'
-			markdown += higher_levels
-		markdown = cleanse_markdown(markdown)
-		self.description = markdown
+		# To keep things DRY, the object must stay consistant.
+		# To do so, the two main entries are put into an object.
+		primary = self.spell_json.get('entries')
+		powerup = self.spell_json.get('entriesHigherLevel')
+
+		# The `entries` object is a supermassive clusterfuck.
+		# Sorry! Just saying, its not pretty.
+		entries = [{
+			'type': 'entries',
+			'name': 'Description',
+			'entries': primary,
+		}]
+		if powerup is not None:
+			entries.append(powerup)
+
+		# Some subroutines are required to parse the data.
+		def get_clean_entry(entry, depth=0):
+			# ==TODO==
+			# The entry is type string. What does that mean?
+			if isinstance(entry, str):
+				pass
+
+			# ==TODO==
+			# The entry is type list. What does that mean?
+			elif isinstance(entry, list):
+				# This entry has yet more entries.
+				for subentry in entry:
+					get_clean_entry(subentry, depth)
+
+			# ==TODO==
+			# The entry is an entry. What does that mean?
+			elif entry.get('type') == 'entries':
+				# This entry has yet more entries.
+				get_clean_entry(entry['entries'], depth+1)
+
+			# ==TODO==
+			# The entry is a quote. What does that mean?
+			elif entry.get('type') == 'quote':
+				# This entry has yet more entries.
+				get_clean_entry(entry['entries'], depth)
+
+			# ==TODO==
+			# The entry is a list. What does that mean?
+			elif entry.get('type') == 'list':
+				# This entry has yet more entries...eerrr, items.
+				get_clean_entry(entry['items'], depth)
+
+			# ==TODO==
+			# The entry is a table. What does that mean?
+			elif entry.get('type') == 'table':
+				# This entry has yet more entries...eerrr, cells.
+				for cell in entry.get('colLabels'):
+					get_clean_entry(cell, depth)
+				for row in entry.get('rows'):
+					for cell in row:
+						get_clean_entry(cell, depth)
+
+			# ==TODO==
+			# The entry is a cell. What does that mean?
+			elif entry.get('type') == 'cell':
+				pass
+
+			else:
+				print(entry)
+				input('Something went wrong. See logs above.')
+				raise Exception('INVALID ENTRY TYPE')
+
+		get_clean_entry(entries)
 
 
+	"""
 	def classify_desc_info(self, data):
 		'''
 		Parses entries based on their 'type' for formatting.
+		This isnt game mechanics, but standard text markup.
 		'''
+		# `markdown` represents the final description, including
+		# everything between the two semantic horizontal lines.
 		markdown = ''
 		for entry in data:
 			addon = ''
 			if isinstance(entry, str):
-				addon += '\n'
-				addon += entry
-				addon += '\n'
+				addon += f'\n{entry}\n'
 				# add to markdown
 				addon = re.sub(r'\. ', '.\n', addon)
 				markdown += addon
@@ -538,8 +595,7 @@ class SpellFromTool(Spell):
 			elif entry.get('type') == 'entries':
 				addon += '\n'
 				if entry['name'] != 'At Higher Levels':
-					addon += '### '
-					addon += entry['name']
+					addon += f'### {entry["name"]}'
 				addon += self.classify_desc_info(entry['entries'])
 				# add to markdown
 				addon = re.sub(r'\. ', '.\n', addon)
@@ -561,20 +617,21 @@ class SpellFromTool(Spell):
 				markdown += addon
 
 			elif entry.get('type') == 'list':
-				# grab items and strip them. stripping is important!
+				# Grab items and strip them.
+				# Stripping is important!
 				md_list = self.classify_desc_info(entry['items'])
 				md_list = md_list.strip()
-				# replace a series of 2+ breaks with just 2 breaks.
+				# Replace a series of 2+ breaks with just 2 breaks.
 				md_list = re.sub(r'\n{2,}', '\n\n', md_list)
-				# add a dash to the first item in the list.
+				# Add a dash to the first item in the list.
 				md_list = re.sub(r'^(?=\w|.*? )', '- ', md_list)
-				# a series of 2 breaks means its a list item start.
+				# A series of 2 breaks means its a list item start.
 				md_list = re.sub(r'\n{2}(?=\w|.+? )', '\n\n- ', md_list)
-				# if it has one break, it means its a new sentance.
+				# If it has one break, it means its a new sentance.
 				md_list = re.sub(r'\n(?=\w)', '\n\t', md_list)
-				# finally, remove multiple breaks
+				# Finally, remove multiple breaks
 				md_list = re.sub(r'\n{2,}', '\n', md_list)
-				# strip whitespace
+				# Strip whitespace
 				md_list = md_list.strip()
 				addon += md_list
 				addon += '\n'
@@ -590,18 +647,21 @@ class SpellFromTool(Spell):
 				labels = labels.strip()
 				addon += labels
 				addon += ' |\n|'
+
 				# add seperator
 				for col in entry['colLabels']:
 					addon += '-----|'
 				addon += '\n'
+
 				# add details
 				for row in entry['rows']:
 					details = self.classify_desc_info(row)
-					details = re.sub(r'\n+', '\n', details)
-					details = re.sub(r'^(?=\w|.*? )', '| ', details)
-					details = re.sub(r'\n(?=\w|.*? )', ' | ', details)
+					# details = re.sub(r'\n+', '\n', details)
+					# details = re.sub(r'^(?=\w|.*? )', '| ', details)
+					# details = re.sub(r'\n(?=\w|.*? )', ' | ', details)
 					details = details.strip()
 					addon += details
+					print(details)
 					addon += ' |\n'
 				# add to markdown
 				markdown += addon
@@ -618,6 +678,7 @@ class SpellFromTool(Spell):
 				markdown += addon
 		# finally, return our result
 		return markdown
+	"""
 
 
 	def get_citation(self):

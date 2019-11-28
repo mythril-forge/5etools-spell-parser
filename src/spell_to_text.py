@@ -80,6 +80,7 @@ class SpellToText:
 					f'{Spell.components[component]}'
 				)
 		# Spell description
+		print("\n==COMPLETE==\n")
 		result += '\n\n---\n\n'
 		result += Spell.description
 		result += '\n\n---'
