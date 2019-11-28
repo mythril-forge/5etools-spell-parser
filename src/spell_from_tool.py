@@ -531,7 +531,7 @@ class SpellFromTool(Spell):
 				# All that needs to be done is adding some extra
 				# new-line breaks to keep GitHub diffs prettier.
 				cleaned = re.sub(tails, '\n', entry)
-				cleaned = f'\n{cleaned}\n'
+				cleaned = f'{cleaned}\n'
 				return cleaned
 
 			# ==TODO==
@@ -547,17 +547,32 @@ class SpellFromTool(Spell):
 				# This entry has yet more entries.
 				get_clean_entry(entry['entries'], depth+1)
 
-			# ==TODO==
-			# The entry is a quote. What does that mean?
 			elif entry.get('type') == 'quote':
-				# This entry has yet more entries.
-				get_clean_entry(entry['entries'], depth)
+				# The entry is expected to be a string,
+				# but it might work with other formats.
+				# Naturally, the entry must be cleaned.
+				cleaned = get_clean(entry['entries'], depth).strip()
+				cleaned = re.sub(r'^', '> ', cleaned) + '\n'
+				cleaned = re.sub(r'\n', '\n> ', cleaned)
+				cleaned += f"\n> &mdash; {entry['by']}\n"
+				return cleaned
 
-			# ==TODO==
-			# The entry is a list. What does that mean?
+			# An entry with type=list is not a list-type object.
+			# Instead, it represents a bulleted list.
 			elif entry.get('type') == 'list':
+				cleaned = ''
 				# This entry has yet more entries...eerrr, items.
-				get_clean_entry(entry['items'], depth)
+				for item in entry['items']:
+					# The item is expected to be a string,
+					# but it might work with other formats.
+					# Naturally, the item must be cleaned.
+					content = get_clean(item, depth)
+					content = f'- {content}'
+					# If the item is a multiline string, then
+					# each line after the first must be indented.
+					content = re.sub(r'\n', '\n\t', content)
+					cleaned += content.strip() + '\n'
+				return cleaned
 
 			# ==TODO==
 			# The entry is a table. What does that mean?
@@ -588,7 +603,7 @@ class SpellFromTool(Spell):
 				input('Something went wrong. See logs above.')
 				raise Exception('INVALID ENTRY TYPE')
 
-		get_clean_entry(entries)
+		get_clean(entries)
 
 
 	"""
