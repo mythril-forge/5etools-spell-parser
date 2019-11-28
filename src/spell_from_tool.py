@@ -521,11 +521,18 @@ class SpellFromTool(Spell):
 			entries.append(powerup)
 
 		# Some subroutines are required to parse the data.
-		def get_clean_entry(entry, depth=0):
-			# ==TODO==
-			# The entry is type string. What does that mean?
+		def get_clean(entry, depth=0):
+			# A string can't be deconstructed any more;
+			# this just parses it a bit before returning.
 			if isinstance(entry, str):
-				pass
+				# Each sentance needs to be on a different line.
+				# The `tails` regex finds areas that break this rule.
+				tails= r'(?<=[ .!?]) '
+				# All that needs to be done is adding some extra
+				# new-line breaks to keep GitHub diffs prettier.
+				cleaned = re.sub(tails, '\n', entry)
+				cleaned = f'\n{cleaned}\n'
+				return cleaned
 
 			# ==TODO==
 			# The entry is type list. What does that mean?
@@ -562,10 +569,19 @@ class SpellFromTool(Spell):
 					for cell in row:
 						get_clean_entry(cell, depth)
 
-			# ==TODO==
-			# The entry is a cell. What does that mean?
+			# The `cell` type is a bit of a misnomer.
+			# It only allows for number-based dice-roll results.
 			elif entry.get('type') == 'cell':
-				pass
+				# Check whether its a roll range, or an exact roll.
+				if entry['roll'].get('exact'):
+					cleaned = str(entry['roll']['exact'])
+				else:
+					minimum = entry['roll']['min']
+					maximum = entry['roll']['max']
+					cleaned = f'{minimum}&ndash;{maximum}'
+				# The result will be formatted as a table-item
+				# higher in the recursive stack-trace.
+				return cleaned
 
 			else:
 				print(entry)
