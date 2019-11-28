@@ -553,7 +553,7 @@ class SpellFromTool(Spell):
 			# As ambiguous as that is, it is easy to explain.
 			# This is just a heading with content.
 			elif entry.get('type') == 'entries':
-				cleaned += f"{'#' * (depth + 2)} {entry['name']}\n"
+				cleaned = f"{'#' * (depth + 2)} {entry['name']}\n"
 				cleaned += get_clean(entry['entries'], depth + 1)
 				return cleaned
 
@@ -627,9 +627,12 @@ class SpellFromTool(Spell):
 				input('Something went wrong. See logs above.')
 				raise Exception('INVALID ENTRY TYPE')
 
-		get_clean(entries)
+		# Awesome! Now we can actually call that function.
+		entries = get_clean(entries)
 
-
+		# From there we still need to clean the entries more...
+		# Specifically, some text needs bolded or other formats.
+		self.description = entries
 
 	def get_citation(self):
 		'''
