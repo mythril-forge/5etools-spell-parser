@@ -521,7 +521,7 @@ class SpellFromTool(Spell):
 			entries.append(powerup)
 
 		# Some subroutines are required to parse the data.
-		def get_clean(entry, depth=0):
+		def scrub_data(entry, depth=0):
 			'''
 			This will take the entries object and clean it.
 			It does a thorough job; it cleans entries recursively.
@@ -546,7 +546,7 @@ class SpellFromTool(Spell):
 				cleaned = ''
 				# This entry has yet more entries.
 				for item in entry:
-					cleaned += get_clean(item, depth)
+					cleaned += scrub_data(item, depth)
 				return cleaned
 
 			# The entry is type `entries`.
@@ -554,14 +554,14 @@ class SpellFromTool(Spell):
 			# This is just a heading with content.
 			elif entry.get('type') == 'entries':
 				cleaned = f"{'#' * (depth + 2)} {entry['name']}\n"
-				cleaned += get_clean(entry['entries'], depth + 1)
+				cleaned += scrub_data(entry['entries'], depth + 1)
 				return cleaned
 
 			elif entry.get('type') == 'quote':
 				# The entry is expected to be a string,
 				# but it might work with other formats.
 				# Naturally, the entry must be cleaned.
-				cleaned = get_clean(entry['entries'], depth).strip()
+				cleaned = scrub_data(entry['entries'], depth).strip()
 				cleaned = re.sub(r'^', '> ', cleaned) + '\n'
 				cleaned = re.sub(r'\n', '\n> ', cleaned)
 				cleaned += f"\n> &mdash; {entry['by']}\n"
@@ -576,7 +576,7 @@ class SpellFromTool(Spell):
 					# The item is expected to be a string,
 					# but it might work with other formats.
 					# Naturally, the item must be cleaned.
-					content = get_clean(item, depth)
+					content = scrub_data(item, depth)
 					content = f'- {content}'
 					# If the item is a multiline string, then
 					# each line after the first must be indented.
@@ -595,15 +595,17 @@ class SpellFromTool(Spell):
 				cleaned += '|'
 				for cell in entry.get('colLabels'):
 					cleaned += (
-						f' {get_clean(cell, depth).strip()} |'
+						f' {scrub_data(cell, depth).strip()} |'
 					)
-				cleaned += f"\n{'|-----' * len(entry['colLabels'])}|"
+				cleaned += (
+					f"\n{'|-----' * len(entry['colLabels'])}|"
+				)
 				# This entry has yet more entries...eerrr, cells.
 				for row in entry.get('rows'):
 					cleaned += '\n|'
 					for cell in row:
 						cleaned += (
-							f' {get_clean(cell, depth).strip()} |'
+							f' {scrub_data(cell, depth).strip()} |'
 						)
 				cleaned += '\n'
 				return cleaned
@@ -627,11 +629,58 @@ class SpellFromTool(Spell):
 				input('Something went wrong. See logs above.')
 				raise Exception('INVALID ENTRY TYPE')
 
-		# Awesome! Now we can actually call that function.
-		entries = get_clean(entries)
-
 		# From there we still need to clean the entries more...
 		# Specifically, some text needs bolded or other formats.
+		# Looks like we need another subroutine!
+		def parse_metadata(text):
+			tag = re.search(r'{@.*? ', text)
+			if tag is None:
+				# There are no special tags in the text.
+				return text
+
+			# Split left, middle, and right based on tag result.
+			# The tag is the middle, but we will be deleting it.
+			left_text = text[:tag.span()[0]]
+			right_text = text[tag.span()[1]:]
+			tag = tag.group()[2:-1]
+			# Recursively clean the right side of the text first.
+			# This takes care of any nested text-tagging.
+			right_text = parse_metadata(right_text)
+
+			# Since the right text is cleaned, we can safely find
+			# text leading to the next available closing brace.
+			middle_text = re.search(r'.*(?=})', right_text)
+			right_text = right_text[middle_text.span()[1] + 1:]
+			middle_text = middle_text.group()
+
+			# ==NOTE==
+			# Now there are four variables.
+			# 1. tag
+			# 2. left_text
+			# 3. right_text
+			# 4. middle_text
+
+			if False:
+				raise
+			elif tag == 'condition':
+				# Conditions get emphasized/bolded.
+				middle_text = f'**{middle_text}**'
+			elif tag == 'i':
+				# Weird inline quote-like items get italics+quotes.
+				middle_text = f'*"{middle_text}"*'
+			elif tag == 'skill':
+				# Skill checks should be capitalized where used.
+				middle_text = middle_text.title()
+			else:
+				input(tag)
+				raise Exception(tag)
+
+			input(middle_text)
+			return left_text + middle_text + right_text
+
+		# Awesome! Now we can actually call that function.
+		entries = scrub_data(entries)
+		entries = parse_metadata(entries)
 		self.description = entries
 
 	def get_citation(self):
