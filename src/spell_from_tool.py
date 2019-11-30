@@ -643,6 +643,7 @@ class SpellFromTool(Spell):
 			left_text = text[:tag.span()[0]]
 			right_text = text[tag.span()[1]:]
 			tag = tag.group()[2:-1]
+
 			# Recursively clean the right side of the text first.
 			# This takes care of any nested text-tagging.
 			right_text = parse_metadata(right_text)
@@ -660,25 +661,113 @@ class SpellFromTool(Spell):
 			# 3. right_text
 			# 4. middle_text
 
-			if False:
-				raise
+			if tag == 'chance':
+				# Dice, randomness, and other math use code blocks.
+				middle_text = f'`{middle_text}%`'
+
 			elif tag == 'condition':
+				# ==NOTE==
+				# This `||` delimiter is a binary operator.
+				# It means the item on the right should be used.
+				middle_text = re.sub(r'.*\|\|', '', middle_text)
 				# Conditions get emphasized/bolded.
 				middle_text = f'**{middle_text}**'
-			elif tag == 'i':
-				# Weird inline quote-like items get italics+quotes.
-				middle_text = f'*"{middle_text}"*'
-			elif tag == 'skill':
-				# Skill checks should be capitalized where used.
+
+			elif tag == 'creature':
+				# ==NOTE==
+				# This `||` delimiter is a binary operator.
+				# It means the item on the right should be used.
+				middle_text = re.sub(r'.*\|\|', '', middle_text)
+				# Certain game mechanics get capitalized.
 				middle_text = middle_text.title()
+				# ==FIXME==
+				# "The Celestial" should not be capitalized.
+
+			elif tag == 'damage':
+				# Use proper mathematics symbols.
+				middle_text = re.sub(r'[\+]',   ' + ', middle_text)
+				middle_text = re.sub(r'[\–\-]', ' – ', middle_text)
+				middle_text = re.sub(r'[\×\*]', ' × ', middle_text)
+				middle_text = re.sub(r'[\÷\/]', ' ÷ ', middle_text)
+				# Dice modifiers must have one space of padding.
+				middle_text = re.sub(r' +', ' ', middle_text)
+				# Dice, randomness, and other math use code blocks.
+				middle_text = f'`{middle_text}`'
+
+			elif tag == 'dice':
+				# ==NOTE==
+				# This `|` delimiter is a binary operator.
+				# It means the item on the left should be used.
+				middle_text = re.sub(r'\|.*', '', middle_text)
+				# Use proper mathematics symbols.
+				middle_text = re.sub(r'[\+]',   ' + ', middle_text)
+				middle_text = re.sub(r'[\-\–]', ' – ', middle_text)
+				middle_text = re.sub(r'[\*\×]', ' × ', middle_text)
+				middle_text = re.sub(r'[\/\÷]', ' ÷ ', middle_text)
+				# Dice modifiers must have one space of padding.
+				middle_text = re.sub(r' +', ' ', middle_text)
+				# Dice, randomness, and other math use code blocks.
+				middle_text = f'`{middle_text}`'
+
+			elif tag == 'filter':
+				# ==NOTE==
+				# This `|` delimiter is a binary operator.
+				# It means the item on the left should be used.
+				middle_text = re.sub(r'\|.*', '', middle_text)
+				# Filters suck.
+				input(middle_text)
+
+			elif tag == 'hit':
+				# Use proper mathematical symbols.
+				middle_text = re.sub(r'[\+]',   '+', middle_text)
+				middle_text = re.sub(r'[\-\–]', '–', middle_text)
+				middle_text = re.sub(r'[\*\×]', '×', middle_text)
+				middle_text = re.sub(r'[\/\÷]', '÷', middle_text)
+				# Dice, randomness, and other math use code blocks.
+				middle_text = f'`{middle_text}`'
+
+			elif tag == 'i':
+				# Weird inline quotes get italics + double-quotes.
+				middle_text = f'*"{middle_text}"*'
+
+			elif tag == 'item':
+				# Items need to be italic
+				middle_text = f'*"{middle_text}"*'
+
+			elif tag == 'note':
+				# Notes might be good in blockquotes, but naw.
+				pass
+
+			elif tag == 'race':
+				# Certain game mechanics get capitalized.
+				middle_text = middle_text.title()
+
+			elif tag == 'scaledice':
+				# Dice, randomness, and other math use code blocks.
+				middle_text = f'`{middle_text}`'
+				# input(middle_text)
+
+			elif tag == 'sense':
+				# Senses don't get any special format.
+				pass
+
+			elif tag == 'skill':
+				# Certain game mechanics get capitalized.
+				middle_text = middle_text.title()
+
+			elif tag == 'spell':
+				# Spells should be italicized and become anchored.
+				middle_text = f'[*{middle_text}*][link]'
+
 			else:
-				input(tag)
+				print('\n', tag)
+				input(middle_text)
 				raise Exception(tag)
 
-			input(middle_text)
+			# Return post-formatted text.
 			return left_text + middle_text + right_text
 
-		# Awesome! Now we can actually call that function.
+		# Awesome! Now we can actually call those functions.
 		entries = scrub_data(entries)
 		entries = parse_metadata(entries)
 		self.description = entries
