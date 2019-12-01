@@ -683,7 +683,7 @@ class SpellFromTool(Spell):
 				# ==NOTE==
 				# This `||` delimiter is a binary operator.
 				# It means the item on the right should be used.
-				middle_text = re.sub(r'.*\|\|', '', middle_text)
+				middle_text = re.sub(r'.*\|.*?\|', '', middle_text)
 				# Conditions get emphasized/bolded.
 				middle_text = f'**{middle_text}**'
 
@@ -691,11 +691,17 @@ class SpellFromTool(Spell):
 				# ==NOTE==
 				# This `||` delimiter is a binary operator.
 				# It means the item on the right should be used.
-				middle_text = re.sub(r'.*\|\|', '', middle_text)
+				middle_text = re.sub(r'.*\|.*?\|', '', middle_text)
+				# ==NOTE==
+				# This `|` delimiter is a binary operator.
+				# It means the item on the left should be used.
+				middle_text = re.sub(r'\|.*', '', middle_text)
 				# Certain game mechanics get capitalized.
 				middle_text = middle_text.title()
 				# ==FIXME==
 				# "The Celestial" should not be capitalized.
+				# ==FIXME==
+				# "Tiny Servant" should has a size keyword in it.
 
 			elif tag == 'damage':
 				# Use proper mathematics symbols.
@@ -743,8 +749,16 @@ class SpellFromTool(Spell):
 				middle_text = f'*"{middle_text}"*'
 
 			elif tag == 'item':
+				# ==NOTE==
+				# This `|` delimiter is a binary operator.
+				# This time its a bit more confusing, though.
+				# If there is two of them, take the rightmost item.
+				# If there is one of them, take the leftmost item.
+				middle_text = re.sub(r'.*\|.*?\|', '', middle_text)
+				middle_text = re.sub(r'\|.*', '', middle_text)
 				# Items need to be italic
 				middle_text = f'*{middle_text}*'
+				input(middle_text)
 
 			elif tag == 'note':
 				# Notes might be good in blockquotes, but naw.
