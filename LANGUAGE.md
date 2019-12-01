@@ -113,13 +113,9 @@
 	# various races and creatures
 	'\bhuman\b',
 	'\bunicorn\b',
-
-
-	'\bhumans\b',
-	
 ]
-```
 
+```
 
 strength
 dexterity

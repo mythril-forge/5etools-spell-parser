@@ -671,6 +671,19 @@ class SpellFromTool(Spell):
 			# 3. right_text
 			# 4. middle_text
 
+			def seperate(subtext):
+				# ==NOTE==
+				# `||` indicates a morphed version of the condition.
+				# Keep the morphed text here -- the right-side.
+				subtext = re.sub(r'.*\|\|', '', subtext)
+				# `|???|` indicates extraneous metadata.
+				# Just keep the left-side text here.
+				subtext = re.sub(r'\|.*?\|.*', '', subtext)
+				# `|` indicates a semantic split.
+				# Keep the left-side data in this case.
+				subtext = re.sub(r'\|.*', '', subtext)
+				return subtext
+
 			if tag == 'action':
 				# Actions are italicized.
 				middle_text = f'*{middle_text}*'
@@ -680,22 +693,14 @@ class SpellFromTool(Spell):
 				middle_text = f'`{middle_text}%`'
 
 			elif tag == 'condition':
-				# ==NOTE==
-				# This `||` delimiter is a binary operator.
-				# It means the item on the right should be used.
-				middle_text = re.sub(r'.*\|.*?\|', '', middle_text)
+				# Get rid of seperators.
+				middle_text = seperate(middle_text)
 				# Conditions get emphasized/bolded.
 				middle_text = f'**{middle_text}**'
 
 			elif tag == 'creature':
-				# ==NOTE==
-				# This `||` delimiter is a binary operator.
-				# It means the item on the right should be used.
-				middle_text = re.sub(r'.*\|.*?\|', '', middle_text)
-				# ==NOTE==
-				# This `|` delimiter is a binary operator.
-				# It means the item on the left should be used.
-				middle_text = re.sub(r'\|.*', '', middle_text)
+				# Get rid of seperators.
+				middle_text = seperate(middle_text)
 				# Certain game mechanics get capitalized.
 				middle_text = middle_text.title()
 				# ==FIXME==
@@ -715,10 +720,8 @@ class SpellFromTool(Spell):
 				middle_text = f'`{middle_text}`'
 
 			elif tag == 'dice':
-				# ==NOTE==
-				# This `|` delimiter is a binary operator.
-				# It means the item on the left should be used.
-				middle_text = re.sub(r'\|.*', '', middle_text)
+				# Get rid of seperators.
+				middle_text = seperate(middle_text)
 				# Use proper mathematics symbols.
 				middle_text = re.sub(r'[\+]',   ' + ', middle_text)
 				middle_text = re.sub(r'[\-\–]', ' – ', middle_text)
@@ -730,10 +733,8 @@ class SpellFromTool(Spell):
 				middle_text = f'`{middle_text}`'
 
 			elif tag == 'filter':
-				# ==NOTE==
-				# This `|` delimiter is a binary operator.
-				# It means the item on the left should be used.
-				middle_text = re.sub(r'\|.*', '', middle_text)
+				# Get rid of seperators.
+				middle_text = seperate(middle_text)
 
 			elif tag == 'hit':
 				# Use proper mathematical symbols.
@@ -750,25 +751,27 @@ class SpellFromTool(Spell):
 
 			elif tag == 'item':
 				# ==NOTE==
-				# This `|` delimiter is a binary operator.
-				# This time its a bit more confusing, though.
-				# If there is two of them, take the rightmost item.
-				# If there is one of them, take the leftmost item.
+				# The seperator filter is malformed here.
+				# `|` indicates a source, keep left.
+				# `|???|` indicates a source and rename, keep right.
+				middle_text = re.sub(r'\|\|.*?', '', middle_text)
 				middle_text = re.sub(r'.*\|.*?\|', '', middle_text)
-				middle_text = re.sub(r'\|.*', '', middle_text)
 				# Items need to be italic
 				middle_text = f'*{middle_text}*'
-				input(middle_text)
 
 			elif tag == 'note':
 				# Notes might be good in blockquotes, but naw.
 				pass
 
 			elif tag == 'race':
+				# Get rid of seperators.
+				middle_text = seperate(middle_text)
 				# Certain game mechanics get capitalized.
 				middle_text = middle_text.title()
 
 			elif tag == 'scaledice':
+				# Get rid of seperators.
+				middle_text = seperate(middle_text)
 				# Dice, randomness, and other math use code blocks.
 				middle_text = f'`{middle_text}`'
 				# input(middle_text)

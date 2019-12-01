@@ -82,7 +82,7 @@ class SpellToText:
 		# Spell description
 		result += '\n\n---\n\n'
 		result += Spell.description
-		result += '\n\n---'
+		result += '---'
 		# Finally, add the citation.
 		acronym = Spell.citations[0]['book']
 		if book_transition_temp.get(acronym):
@@ -105,17 +105,6 @@ class SpellToText:
 			if tags[tag]:
 				tag_list.append(tag)
 		return ', '.join(tag_list)
-
-
-	def distill_access(self, classes):
-		result = ''
-		result_array = []
-		for player_class in classes:
-			result_array.append(player_class)
-		if result_array == []:
-			return None
-		result = ', '.join(result_array)
-		return result
 
 
 	def distill_citation(self, book, page):
