@@ -5,6 +5,7 @@ from slugify import slugify
 # project imports
 from helper import *
 from bad_string_parser import *
+from language import *
 from spell import Spell
 
 
@@ -639,6 +640,29 @@ class SpellFromTool(Spell):
 				input('Something went wrong. See logs above.')
 				raise Exception('INVALID ENTRY TYPE')
 
+		# Now we reformat special phrases.
+		def reformat_phrases(text):
+			# There is so much data to parse through;
+			# there is a seperate file to seperate concerns.
+
+			# First, capitalize special phrases.
+			for phrase in CAPITAL_PHRASES:
+				for match in re.finditer(phrase, text, re.I):
+					left_text  = text[:match.span()[0]]
+					right_text = text[match.span()[1]:]
+					middle_text = match.group().title()
+					text = left_text + middle_text + right_text
+
+			# Next, all-cap ac and dc.
+			for phrase in ALLCAP_PHRASES:
+				for match in re.finditer(phrase, text, re.I):
+					left_text  = text[:match.span()[0]]
+					right_text = text[match.span()[1]:]
+					middle_text = match.group().upper()
+					text = left_text + middle_text + right_text
+
+			return text
+
 		# From there we still need to clean the entries more...
 		# Specifically, some text needs bolded or other formats.
 		# Looks like we need another subroutine!
@@ -798,6 +822,7 @@ class SpellFromTool(Spell):
 
 		# Awesome! Now we can actually call those functions.
 		entries = scrub_data(entries)
+		entries = reformat_phrases(entries)
 		entries = parse_metadata(entries)
 		self.description = entries
 
