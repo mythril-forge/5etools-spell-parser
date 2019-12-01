@@ -2544,7 +2544,7 @@
 		"Instances": 1
 	},
 	"Mind Sliver": {
-		"Source": "UASAW",
+		"Source": "UAFRW",
 		"Level": "Cantrip",
 		"Casting Time": "Action",
 		"Range": "60 feet",
@@ -4100,6 +4100,70 @@
 		"Level": "2nd",
 		"Casting Time": "Action",
 		"Range": "60 feet (15-foot radius)",
+		"Components": "V, S",
+		"Instances": 1
+	},
+	"Ego Whip": {
+		"Source": "UAFRW",
+		"Level": "4th",
+		"Casting Time": "Action",
+		"Range": "30 feet",
+		"Components": "V",
+		"Instances": 1
+	},
+	"Id Insinuation": {
+		"Source": "UAFRW",
+		"Level": "1st",
+		"Casting Time": "Action",
+		"Range": "60 feet",
+		"Components": "V, S",
+		"Instances": 1
+	},
+	"Intellect Fortress": {
+		"Source": "UAFRW",
+		"Level": "5th",
+		"Casting Time": "Action",
+		"Range": "Self",
+		"Components": "V, S",
+		"Instances": 1
+	},
+	"Mental Barrier": {
+		"Source": "UAFRW",
+		"Level": "2nd",
+		"Casting Time": "Reaction",
+		"Range": "Self",
+		"Components": "V",
+		"Instances": 1
+	},
+	"Mind Thrust": {
+		"Source": "UAFRW",
+		"Level": "2nd",
+		"Casting Time": "Bonus acn.",
+		"Range": "60 feet",
+		"Components": "V, S",
+		"Instances": 1
+	},
+	"Psionic Blast": {
+		"Source": "UAFRW",
+		"Level": "3rd",
+		"Casting Time": "Action",
+		"Range": "Self (30-foot cone)",
+		"Components": "V",
+		"Instances": 1
+	},
+	"Psychic Crush": {
+		"Source": "UAFRW",
+		"Level": "6th",
+		"Casting Time": "Action",
+		"Range": "60 feet",
+		"Components": "V, S",
+		"Instances": 1
+	},
+	"Thought Shield": {
+		"Source": "UAFRW",
+		"Level": "2nd",
+		"Casting Time": "Action",
+		"Range": "Touch",
 		"Components": "V, S",
 		"Instances": 1
 	}

@@ -128,6 +128,7 @@ book_acronym_dict = {
 	'ua-ss': 'Unearthed Arcana: Starter Spells',
 	'ua-saw': 'Unearthed Arcana: Sorcerer and Warlock',
 	'ua-tobm': 'Unearthed Arcana: That Old Black Magic',
+	'ua-frw': 'Unearthed Arcana: Fighter, Rogue, Wizard',
 	'xge': 'Xanathar\'s Guide to Everything',
 }
 
@@ -142,6 +143,7 @@ book_transition_temp = {
 	'UAModernMagic': 'ua-mm',
 	'UAStarterSpells': 'ua-ss',
 	'UAThatOldBlackMagic': 'ua-tobm',
+	'UAFighterRogueWizard': 'ua-frw',
 	'XGE': 'xge'
 }
 
