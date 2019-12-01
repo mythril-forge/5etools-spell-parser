@@ -537,7 +537,9 @@ class SpellFromTool(Spell):
 				# All that needs to be done is adding some extra
 				# new-line breaks to keep GitHub diffs prettier.
 				cleaned = re.sub(tails, '\n', entry)
-				cleaned = f'{cleaned}\n'
+				cleaned = f'{cleaned}'
+				cleaned = cleaned.strip()
+				cleaned += '\n\n'
 				return cleaned
 
 			# The entry is type list.
@@ -547,6 +549,8 @@ class SpellFromTool(Spell):
 				# This entry has yet more entries.
 				for item in entry:
 					cleaned += scrub_data(item, depth)
+				cleaned = cleaned.strip()
+				cleaned += '\n\n'
 				return cleaned
 
 			# The entry is type `entries`.
@@ -565,6 +569,8 @@ class SpellFromTool(Spell):
 				cleaned = re.sub(r'^', '> ', cleaned) + '\n'
 				cleaned = re.sub(r'\n', '\n> ', cleaned)
 				cleaned += f"\n> &mdash; {entry['by']}\n"
+				cleaned = cleaned.strip()
+				cleaned += '\n\n'
 				return cleaned
 
 			# An entry with type=list is not a list-type object.
@@ -581,13 +587,17 @@ class SpellFromTool(Spell):
 					# If the item is a multiline string, then
 					# each line after the first must be indented.
 					content = re.sub(r'\n', '\n\t', content)
-					cleaned += content.strip() + '\n'
+					content = content.strip()
+					content += '\n'
+					cleaned += content
+				cleaned = cleaned.strip()
+				cleaned += '\n\n'
 				return cleaned
 
 			# The entry is a table.
 			# Iterate through the contents and build it up!
 			elif entry.get('type') == 'table':
-				cleaned = ''
+				cleaned = '\n'
 				# Start with the caption, if any.
 				if entry.get('caption'):
 					cleaned += f"#### {entry['caption']}\n"
@@ -607,7 +617,7 @@ class SpellFromTool(Spell):
 						cleaned += (
 							f' {scrub_data(cell, depth).strip()} |'
 						)
-				cleaned += '\n'
+				cleaned += '\n\n'
 				return cleaned
 
 			# The `cell` type is a bit of a misnomer.
