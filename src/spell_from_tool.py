@@ -650,7 +650,7 @@ class SpellFromTool(Spell):
 
 			# Since the right text is cleaned, we can safely find
 			# text leading to the next available closing brace.
-			middle_text = re.search(r'.*(?=})', right_text)
+			middle_text = re.search(r'.*?(?=})', right_text)
 			right_text = right_text[middle_text.span()[1] + 1:]
 			middle_text = middle_text.group()
 
