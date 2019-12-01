@@ -661,7 +661,11 @@ class SpellFromTool(Spell):
 			# 3. right_text
 			# 4. middle_text
 
-			if tag == 'chance':
+			if tag == 'action':
+				# Actions are italicized.
+				middle_text = f'*{middle_text}*'
+
+			elif tag == 'chance':
 				# Dice, randomness, and other math use code blocks.
 				middle_text = f'`{middle_text}%`'
 
@@ -714,8 +718,6 @@ class SpellFromTool(Spell):
 				# This `|` delimiter is a binary operator.
 				# It means the item on the left should be used.
 				middle_text = re.sub(r'\|.*', '', middle_text)
-				# Filters suck.
-				input(middle_text)
 
 			elif tag == 'hit':
 				# Use proper mathematical symbols.
@@ -732,7 +734,7 @@ class SpellFromTool(Spell):
 
 			elif tag == 'item':
 				# Items need to be italic
-				middle_text = f'*"{middle_text}"*'
+				middle_text = f'*{middle_text}*'
 
 			elif tag == 'note':
 				# Notes might be good in blockquotes, but naw.
