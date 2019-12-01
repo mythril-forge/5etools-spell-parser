@@ -497,6 +497,8 @@ class SpellFromTool(Spell):
 				self.components['material'] = material['text']
 			else:
 				self.components['material'] = material
+			material = self.components['material'].lower()
+			self.components['material'] = material
 		else:
 			pass
 
@@ -644,7 +646,7 @@ class SpellFromTool(Spell):
 		def reformat_phrases(text):
 			# There is so much data to parse through;
 			# there is a seperate file to seperate concerns.
-
+			# text = text.lower()
 			# First, capitalize special phrases.
 			for phrase in CAPITAL_PHRASES:
 				for match in re.finditer(phrase, text, re.I):
@@ -660,6 +662,51 @@ class SpellFromTool(Spell):
 					right_text = text[match.span()[1]:]
 					middle_text = match.group().upper()
 					text = left_text + middle_text + right_text
+
+			for phrase in BOLD_PHRASES:
+				shift = 0
+				for match in re.finditer(phrase, text, re.I):
+					left_text  = text[:match.span()[0] + shift]
+					right_text = text[match.span()[1] + shift:]
+					middle_text = f'**{match.group()}**'
+					# Track how much bigger/smaller `text` got.
+					new_text = left_text + middle_text + right_text
+					shift += len(new_text) - len(text)
+					text = new_text
+
+			for phrase in ITALIC_PHRASES:
+				shift = 0
+				for match in re.finditer(phrase, text, re.I):
+					left_text  = text[:match.span()[0] + shift]
+					right_text = text[match.span()[1] + shift:]
+					middle_text = f'*{match.group()}*'
+					# Track how much bigger/smaller `text` got.
+					new_text = left_text + middle_text + right_text
+					shift += len(new_text) - len(text)
+					text = new_text
+
+			for phrase in DICE_PHRASES:
+				shift = 0
+				for match in re.finditer(phrase, text, re.I):
+					left_text  = text[:match.span()[0] + shift]
+					right_text = text[match.span()[1] + shift:]
+					middle_text = f'`{match.group()}`'
+					# Track how much bigger/smaller `text` got.
+					new_text = left_text + middle_text + right_text
+					shift += len(new_text) - len(text)
+					text = new_text
+
+			for phrase in PERCENT_PHRASES:
+				shift = 0
+				for match in re.finditer(phrase, text, re.I):
+					left_text  = text[:match.span()[0] + shift]
+					right_text = text[match.span()[1] + shift:]
+					middle_text = f'`{match.group()}%`'
+					middle_text = re.sub(' percent', '', middle_text)
+					# Track how much bigger/smaller `text` got.
+					new_text = left_text + middle_text + right_text
+					shift += len(new_text) - len(text)
+					text = new_text
 
 			return text
 
@@ -694,6 +741,10 @@ class SpellFromTool(Spell):
 			# 2. left_text
 			# 3. right_text
 			# 4. middle_text
+
+			# Clean up previous subroutines.
+			middle_text = re.sub(r'(\*|`|_)+', '', middle_text)
+			tag = re.sub(r'(\*|`|_)+', '', tag)
 
 			def seperate(subtext):
 				# ==NOTE==

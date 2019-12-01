@@ -7,9 +7,10 @@ CAPITAL_PHRASES = [
 	r'\bdifficulty class(es)?\b',
 
 	# ability scores
+	r'\b(mental|physical|strength|dexterity|constitution|intelligence|wisdom|charisma) scores?\b',
 	r'\b((mental|physical|strength|dexterity|constitution|intelligence|wisdom|charisma) )?ability scores?\b',
 	# ability checks
-	r'\b((mental|physical|strength|dexterity|constitution|intelligence|wisdom|charisma|\}\)) )checks?\b',
+	r'\b(mental|physical|strength|dexterity|constitution|intelligence|wisdom|charisma|\}\)) checks?\b',
 	r'\b((mental|physical|strength|dexterity|constitution|intelligence|wisdom|charisma|\}\)) )?ability checks?\b',
 	# saving throws
 	r'\b((mental|physical|strength|dexterity|constitution|intelligence|wisdom|charisma|death) )?saving throws?\b',
@@ -38,6 +39,48 @@ ALLCAP_PHRASES = [
 	r'\bdc\b',
 ]
 
+BOLD_PHRASES = [
+	r'\bblinded\b',
+	r'\bcharmed\b',
+	r'\bdeafened\b',
+	r'\bfrightened\b',
+	r'\bgrappled\b',
+	r'\bincapacitated\b',
+	r'\binsane\b',
+	r'\binvisible\b',
+	r'\bparalyzed\b',
+	r'\bpetrified\b',
+	r'\bpoisoned\b',
+	r'\bprone\b',
+	r'\brestrained\b',
+	r'\bstunned\b',
+	r'\bunconscious\b',
+	r'\bconcentration\b',
+	r'\bexhaust(ed|ion)\b',
+	r'\bfatigued?\b',
+]
+
+ITALIC_PHRASES = [
+	# Actions
+
+	# Sizes
+	r'\btiny\b',
+	r'\bsmall\b',
+	r'\bmedium\b',
+	r'\blarge\b',
+	r'\bhuge\b',
+	r'\bgargantuan\b',
+	r'\btitanic\b',
+]
+
+DICE_PHRASES = [
+	r'\d*d\d+( ?[\+–\-×\*÷\/] ?\d*d\d+)?',
+	r' [\+–\-×\*÷\/]\d+',
+]
+
+PERCENT_PHRASES = [
+	r'\d+ percent'
+]
 
 '''
 strength
