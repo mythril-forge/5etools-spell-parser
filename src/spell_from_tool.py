@@ -536,10 +536,12 @@ class SpellFromTool(Spell):
 			if isinstance(entry, str):
 				# Each sentance needs to be on a different line.
 				# The `tails` regex finds areas that break this rule.
-				tails= r'(?<=[ .!?]) '
+				tails1 = r'(?<=([!\?\.])) '
+				tails2 = r'(?<=([!\?\.]\))) '
 				# All that needs to be done is adding some extra
 				# new-line breaks to keep GitHub diffs prettier.
-				cleaned = re.sub(tails, '\n', entry)
+				cleaned = re.sub(tails1, '\n', entry)
+				cleaned = re.sub(tails2, '\n', cleaned)
 				cleaned = f'{cleaned}'
 				cleaned = cleaned.strip()
 				cleaned += '\n\n'
@@ -617,8 +619,10 @@ class SpellFromTool(Spell):
 				for row in entry.get('rows'):
 					cleaned += '\n|'
 					for cell in row:
+						cell = scrub_data(cell, depth).strip()
+						cell = re.sub('\n', ' ', cell)
 						cleaned += (
-							f' {scrub_data(cell, depth).strip()} |'
+							f' {cell} |'
 						)
 				cleaned += '\n\n'
 				return cleaned
@@ -646,14 +650,19 @@ class SpellFromTool(Spell):
 		def reformat_phrases(text):
 			# There is so much data to parse through;
 			# there is a seperate file to seperate concerns.
-
-			# The first thing we need to do is totally reset the
-			# whole text data, and make it all lowercase.
-			# Some things were uppercase where that wasn't needed.
-			text = text.lower()
-
 			# Now we can take the first letter of every line.
 			# Naturally, those letters will become uppercase.
+			for phrase in PREUPPER_ITALICS:
+				shift = 0
+				for match in re.finditer(phrase, text):
+					left_text  = text[:match.span()[0] + shift]
+					right_text = text[match.span()[1] + shift:]
+					middle_text = f'*{match.group().lower()}*'
+					# Track how much bigger/smaller `text` got.
+					new_text = left_text + middle_text + right_text
+					shift += len(new_text) - len(text)
+					text = new_text
+
 			for phrase in NATURAL_UPPERCASE:
 				for match in re.finditer(phrase, text):
 					left_text  = text[:match.span()[0]]
@@ -682,7 +691,7 @@ class SpellFromTool(Spell):
 				for match in re.finditer(phrase, text, re.I):
 					left_text  = text[:match.span()[0] + shift]
 					right_text = text[match.span()[1] + shift:]
-					middle_text = f'**{match.group()}**'
+					middle_text = f'**{match.group().lower()}**'
 					# Track how much bigger/smaller `text` got.
 					new_text = left_text + middle_text + right_text
 					shift += len(new_text) - len(text)
@@ -693,7 +702,7 @@ class SpellFromTool(Spell):
 				for match in re.finditer(phrase, text, re.I):
 					left_text  = text[:match.span()[0] + shift]
 					right_text = text[match.span()[1] + shift:]
-					middle_text = f'*{match.group()}*'
+					middle_text = f'*{match.group().lower()}*'
 					# Track how much bigger/smaller `text` got.
 					new_text = left_text + middle_text + right_text
 					shift += len(new_text) - len(text)
@@ -704,7 +713,7 @@ class SpellFromTool(Spell):
 				for match in re.finditer(phrase, text, re.I):
 					left_text  = text[:match.span()[0] + shift]
 					right_text = text[match.span()[1] + shift:]
-					middle_text = f'`{match.group()}`'
+					middle_text = f'`{match.group().lower()}`'
 					# Track how much bigger/smaller `text` got.
 					new_text = left_text + middle_text + right_text
 					shift += len(new_text) - len(text)
@@ -715,13 +724,21 @@ class SpellFromTool(Spell):
 				for match in re.finditer(phrase, text, re.I):
 					left_text  = text[:match.span()[0] + shift]
 					right_text = text[match.span()[1] + shift:]
-					middle_text = f'`{match.group()}%`'
+					middle_text = f'`{match.group().lower()}%`'
 					middle_text = re.sub(' percent', '', middle_text)
 					# Track how much bigger/smaller `text` got.
 					new_text = left_text + middle_text + right_text
 					shift += len(new_text) - len(text)
 					text = new_text
 
+			# Here we do arbitrary cleanup before returning.
+			text = re.sub('\n\n+(?=([>-] ))', '\n', text)
+			text = re.sub('\n\n+', '\n\n', text)
+			text = re.sub(
+				'Attack And Damage Rolls',
+				'Attack &amp; Damage Rolls',
+				text
+			)
 			return text
 
 		# From there we still need to clean the entries more...
@@ -794,8 +811,6 @@ class SpellFromTool(Spell):
 				middle_text = middle_text.title()
 				# ==FIXME==
 				# "The Celestial" should not be capitalized.
-				# ==FIXME==
-				# "Tiny Servant" should has a size keyword in it.
 
 			elif tag == 'damage':
 				# Use proper mathematics symbols.
@@ -843,8 +858,8 @@ class SpellFromTool(Spell):
 				# The seperator filter is malformed here.
 				# `|` indicates a source, keep left.
 				# `|???|` indicates a source and rename, keep right.
-				middle_text = re.sub(r'\|\|.*?', '', middle_text)
 				middle_text = re.sub(r'.*\|.*?\|', '', middle_text)
+				middle_text = re.sub(r'\|.*', '', middle_text)
 				# Items need to be italic
 				middle_text = f'*{middle_text}*'
 
@@ -859,11 +874,21 @@ class SpellFromTool(Spell):
 				middle_text = middle_text.title()
 
 			elif tag == 'scaledice':
-				# Get rid of seperators.
-				middle_text = seperate(middle_text)
+				# ==NOTE==
+				# The seperator filter is malformed here.
+				# `|` indicates a source, keep left.
+				# `|???|` indicates a source and rename, keep right.
+				middle_text = re.sub(r'.*\|.*?\|', '', middle_text)
+				middle_text = re.sub(r'\|.*', '', middle_text)
+				# Use proper mathematics symbols.
+				middle_text = re.sub(r'[\+]',   ' + ', middle_text)
+				middle_text = re.sub(r'[\-\–]', ' – ', middle_text)
+				middle_text = re.sub(r'[\*\×]', ' × ', middle_text)
+				middle_text = re.sub(r'[\/\÷]', ' ÷ ', middle_text)
+				# Dice modifiers must have one space of padding.
+				middle_text = re.sub(r' +', ' ', middle_text)
 				# Dice, randomness, and other math use code blocks.
 				middle_text = f'`{middle_text}`'
-				# input(middle_text)
 
 			elif tag == 'sense':
 				# Senses don't get any special format.

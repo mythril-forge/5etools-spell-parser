@@ -12,6 +12,9 @@ CAPITAL_PHRASES = [
 	r'\barmor class(es)?\b',
 	r'\bdifficulty class(es)?\b',
 
+	# ability modifiers
+	r'\b(spellcasting|attack|strength|dexterity|constitution|intelligence|wisdom|charisma) modifiers?\b',
+	r'\b((spellcasting|attack|strength|dexterity|constitution|intelligence|wisdom|charisma) )?ability modifiers?\b',
 	# ability scores
 	r'\b(mental|physical|strength|dexterity|constitution|intelligence|wisdom|charisma) scores?\b',
 	r'\b((mental|physical|strength|dexterity|constitution|intelligence|wisdom|charisma) )?ability scores?\b',
@@ -66,22 +69,32 @@ BOLD_PHRASES = [
 	r'\bfatigued?\b',
 ]
 
-ITALIC_PHRASES = [
+PREUPPER_ITALICS = [
 	# Actions
+	r'\b((?<!Weapon )Attack|Cast a Spell|Dash|Disengage|Dodge|Help|Hide|Ready|Search|Use an Object)\b(?=.+action)(?! [A-Z])',
+	r'\b(Tiny|Small|Medium|Large|Huge|Gargantuan)\b',
+]
 
+ITALIC_PHRASES = [
+	# r'\bdash\b',
+	# r'\bdisengage\b',
+	# r'\bdodge\b',
+
+	# Actions
+	# r'\b(Attack|Cast a Spell|Dash|Disengage|Dodge|Help|Hide|Ready|Search|Use an Object)(?=.+action)'
 	# Sizes
-	r'\btiny\b',
-	r'\bsmall\b',
-	r'\bmedium\b',
-	r'\blarge\b',
-	r'\bhuge\b',
-	r'\bgargantuan\b',
-	r'\btitanic\b',
+	# r'\bTiny\b', 1.25 foot; 16 in a square
+	# r'\bSmall\b', 2.5 feet; 4 in a square
+	# r'\bMedium\b', 5 feet; 1 in a square
+	# r'\bLarge\b', 10 feet; 4 squares
+	# r'\bHuge\b', 20 feet; 16 squares
+	# r'\bGargantuan\b',
+	# r'\bTitanic\b',
 ]
 
 DICE_PHRASES = [
 	r'\d*d\d+( ?[\+–\-×\*÷\/] ?\d*d\d+)?',
-	r' [\+–\-×\*÷\/]\d+',
+	r'(?<= )[\+–\-×\*÷\/]\d+',
 ]
 
 PERCENT_PHRASES = [
