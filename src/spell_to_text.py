@@ -2,7 +2,6 @@
 pass
 # project imports
 from helper import *
-from bad_string_parser import *
 
 
 
@@ -16,17 +15,20 @@ class SpellToText:
 
 	def main(self):
 		Spell = self.spell
-
 		result = ''
+
 		# Basic spell name as header
 		result += f'# {Spell.name}'
+
 		# Homebrew indicator
 		result += '\n\n- [ ] Homebrew'
+
 		# Adding spell level and school
 		result += (
 			f'\n\n***{nth_number(Spell.level)}'
 			f'-level {Spell.school}***'
 		)
+
 		# Casting time is right up there
 		result += (
 			f'\n\n**Casting Time:** {time2str(Spell.cast_time)}'
@@ -35,6 +37,7 @@ class SpellToText:
 			result += (
 				f' ({Spell.cast_time["condition"]})'
 			)
+
 		# Duration is easy to grab
 		if Spell.duration['quality']:
 			duration = Spell.duration['quality']
@@ -46,7 +49,6 @@ class SpellToText:
 				f' ({Spell.duration["condition"]})'
 			)
 
-
 		# The range is just a number or string.
 		if Spell.range['distance']:
 			measurement = Spell.range['distance']
@@ -54,6 +56,7 @@ class SpellToText:
 			result += f'\n\n**Range:** {measurement}'
 		else:
 			result += f'\n\n**Range:** {Spell.range["quality"]}'
+
 		# The shape can be deconstructed with a for loop.
 		shape = Spell.area['shape']
 		if shape:
@@ -63,15 +66,18 @@ class SpellToText:
 				measurement = space2str(measurement)
 				dimension = dimension.capitalize()
 				result += f'\n\n**{dimension}:** {measurement}'
+
 		# Instances isn't a good name but its what we got
 		if Spell.instances != 1:
 			result += f'\n\n**Instances:** {Spell.instances}'
+
 		# Spell tags
 		for tag in Spell.tags:
 			if Spell.tags[tag]:
 				tag_list = self.distill_tags(Spell.tags).lower()
 				result += f'\n\n**Tags:** {tag_list}'
 				break
+
 		# Spell components
 		for component in Spell.components:
 			if Spell.components[component]:
@@ -79,23 +85,24 @@ class SpellToText:
 					f'\n\n**{component.capitalize()} Components:** '
 					f'{Spell.components[component]}'
 				)
+
 		# Spell description
 		result += '\n\n---\n\n'
 		result += Spell.description
 		result += '---'
+
 		# Finally, add the citation.
 		acronym = Spell.citations[0]['book']
 		if book_transition_temp.get(acronym):
 			book = book_transition_temp[acronym].upper()
 		else:
 			book = acronym
-
 		page = Spell.citations[0].get('page')
 		cite = self.distill_citation(book, page)
 		result += f'\n\n**Sources:** {cite}'
+
 		# Don't forget to set the markdown...
 		result += '\n'
-		result = cleanse_markdown(result)
 		self.text = result
 
 
