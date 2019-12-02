@@ -777,18 +777,27 @@ class SpellFromTool(Spell):
 			middle_text = re.sub(r'(\*|`|_)+', '', middle_text)
 			tag = re.sub(r'(\*|`|_)+', '', tag)
 
-			def seperate(subtext):
-				# ==NOTE==
-				# `||` indicates a morphed version of the condition.
-				# Keep the morphed text here -- the right-side.
-				subtext = re.sub(r'.*\|\|', '', subtext)
-				# `|???|` indicates extraneous metadata.
-				# Just keep the left-side text here.
-				subtext = re.sub(r'\|.*?\|.*', '', subtext)
-				# `|` indicates a semantic split.
-				# Keep the left-side data in this case.
-				subtext = re.sub(r'\|.*', '', subtext)
-				return subtext
+			def seperate(subtext, malformed = False):
+				if not malformed:
+					# ==NOTE==
+					# `||` indicates a morphed version of the string.
+					# Keep the morphed text here -- the right-side.
+					subtext = re.sub(r'.*\|\|', '', subtext)
+					# `|???|` indicates extraneous metadata.
+					# Just keep the left-side text here.
+					subtext = re.sub(r'\|.*?\|.*', '', subtext)
+					# `|` indicates a semantic split.
+					# Keep the left-side data in this case.
+					subtext = re.sub(r'\|.*', '', subtext)
+					return subtext
+				else:
+					# ==NOTE==
+					# The seperator filter is malformed here.
+					# `|` indicates a source, keep left.
+					# `|???|` indicates a source & rename, keep right.
+					subtext = re.sub(r'.*\|.*?\|', '', subtext)
+					subtext = re.sub(r'\|.*', '', subtext)
+					return subtext
 
 			if tag == 'action':
 				# Actions are italicized.
@@ -854,12 +863,8 @@ class SpellFromTool(Spell):
 				middle_text = f'*"{middle_text}"*'
 
 			elif tag == 'item':
-				# ==NOTE==
-				# The seperator filter is malformed here.
-				# `|` indicates a source, keep left.
-				# `|???|` indicates a source and rename, keep right.
-				middle_text = re.sub(r'.*\|.*?\|', '', middle_text)
-				middle_text = re.sub(r'\|.*', '', middle_text)
+				# Get rid of seperators.
+				middle_text = seperate(middle_text, True)
 				# Items need to be italic
 				middle_text = f'*{middle_text}*'
 
@@ -874,12 +879,8 @@ class SpellFromTool(Spell):
 				middle_text = middle_text.title()
 
 			elif tag == 'scaledice':
-				# ==NOTE==
-				# The seperator filter is malformed here.
-				# `|` indicates a source, keep left.
-				# `|???|` indicates a source and rename, keep right.
-				middle_text = re.sub(r'.*\|.*?\|', '', middle_text)
-				middle_text = re.sub(r'\|.*', '', middle_text)
+				# Get rid of seperators.
+				middle_text = seperate(middle_text, True)
 				# Use proper mathematics symbols.
 				middle_text = re.sub(r'[\+]',   ' + ', middle_text)
 				middle_text = re.sub(r'[\-\–]', ' – ', middle_text)
