@@ -22,7 +22,7 @@ def scrub_data(entry, depth=0):
 		cleaned = re.sub(tails, '\n', entry)
 		cleaned = f'{cleaned}'
 		cleaned = cleaned.strip()
-		cleaned += '\n\n'
+		cleaned = f'\n{cleaned}\n'
 		return cleaned
 
 	# The entry is type list.
@@ -51,9 +51,9 @@ def scrub_data(entry, depth=0):
 		cleaned = scrub_data(entry['entries'], depth).strip()
 		cleaned = re.sub(r'^', '> ', cleaned) + '\n'
 		cleaned = re.sub(r'\n', '\n> ', cleaned)
-		cleaned += f"\n> &mdash; {entry['by']}\n"
+		cleaned += f"\n> &mdash; {entry['by']}"
 		cleaned = cleaned.strip()
-		cleaned += '\n\n'
+		cleaned += '\n'
 		return cleaned
 
 	# An entry with type=list is not a list-type object.
@@ -66,7 +66,7 @@ def scrub_data(entry, depth=0):
 			# but it might work with other formats.
 			# Naturally, the item must be cleaned.
 			content = scrub_data(item, depth)
-			content = f'- {content}'
+			content = f'- {content.strip()}'
 			# If the item is a multiline string, then
 			# each line after the first must be indented.
 			content = re.sub(r'\n', '\n\t', content)
@@ -74,13 +74,13 @@ def scrub_data(entry, depth=0):
 			content += '\n'
 			cleaned += content
 		cleaned = cleaned.strip()
-		cleaned += '\n\n'
+		cleaned += '\n'
 		return cleaned
 
 	# The entry is a table.
 	# Iterate through the contents and build it up!
 	elif entry.get('type') == 'table':
-		cleaned = '\n'
+		cleaned = ''
 		# Start with the caption, if any.
 		if entry.get('caption'):
 			cleaned += f"#### {entry['caption']}\n"
@@ -102,7 +102,8 @@ def scrub_data(entry, depth=0):
 				cleaned += (
 					f' {cell} |'
 				)
-		cleaned += '\n\n'
+		cleaned = cleaned.strip()
+		cleaned = f'\n{cleaned}\n'
 		return cleaned
 
 	# The `cell` type is a bit of a misnomer.
