@@ -43,7 +43,7 @@ def scrub_data(entry, depth=0):
 		content = scrub_data(entry['entries'], depth + 1)
 		content = content.strip()
 		cleaned += content
-		cleaned = f'\n{cleaned}'
+		cleaned = f'\n{cleaned}\n'
 		return cleaned
 
 	elif entry.get('type') == 'quote':
