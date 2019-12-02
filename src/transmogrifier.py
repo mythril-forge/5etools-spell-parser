@@ -16,12 +16,10 @@ def scrub_data(entry, depth=0):
 	if isinstance(entry, str):
 		# Each sentance needs to be on a different line.
 		# The `tails` regex finds areas that break this rule.
-		tails1 = r'(?<=([!\?\.])) '
-		tails2 = r'(?<=([!\?\.]\))) '
+		tails = r'((?<=([!\?\.]))|(?<=([!\?\.]\)))) '
 		# All that needs to be done is adding some extra
 		# new-line breaks to keep GitHub diffs prettier.
-		cleaned = re.sub(tails1, '\n', entry)
-		cleaned = re.sub(tails2, '\n', cleaned)
+		cleaned = re.sub(tails, '\n', entry)
 		cleaned = f'{cleaned}'
 		cleaned = cleaned.strip()
 		cleaned += '\n\n'
@@ -125,8 +123,6 @@ def scrub_data(entry, depth=0):
 		print(entry)
 		input('Something went wrong. See logs above.')
 		raise Exception('INVALID ENTRY TYPE')
-
-
 
 
 # Now we reformat special phrases.
