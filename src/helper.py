@@ -88,31 +88,31 @@ singularize_time = {
 # The shape parameter dictionary will help parse
 # through and validate complex shape data points.
 shape_parameters = {
-	'aura': {
+	'aura': [
 		'radius',
-	},
-	'sphere': {
+	],
+	'sphere': [
 		'radius',
-	},
-	'cone': {
+	],
+	'cone': [
 		'radius',
-	},
-	'cylinder': {
+	],
+	'cylinder': [
 		'radius',
 		'height',
-	},
-	'cube': {
+	],
+	'cube': [
 		'length',
-	},
-	'line': {
+	],
+	'line': [
 		'length',
 		'width',
-	},
-	'wall': {
+	],
+	'wall': [
 		'length',
 		'width',
 		'height',
-	},
+	],
 }
 
 # these cleaned acronyms could very well be useful later...
