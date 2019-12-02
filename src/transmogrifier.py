@@ -20,7 +20,6 @@ def scrub_data(entry, depth=0):
 		# All that needs to be done is adding some extra
 		# new-line breaks to keep GitHub diffs prettier.
 		cleaned = re.sub(tails, '\n', entry)
-		cleaned = f'{cleaned}'
 		cleaned = cleaned.strip()
 		cleaned = f'\n{cleaned}\n'
 		return cleaned
@@ -40,7 +39,9 @@ def scrub_data(entry, depth=0):
 	# As ambiguous as that is, it is easy to explain.
 	# This is just a heading with content.
 	elif entry.get('type') == 'entries':
+		# Add a heading w/size relative to the recursive depth.
 		cleaned = f"{'#' * (depth + 2)} {entry['name']}\n"
+		# Recursively call `scrub_data` on contents.
 		cleaned += scrub_data(entry['entries'], depth + 1)
 		return cleaned
 
@@ -87,21 +88,15 @@ def scrub_data(entry, depth=0):
 		# This entry has yet more entries...eerrr, cells.
 		cleaned += '|'
 		for cell in entry.get('colLabels'):
-			cleaned += (
-				f' {scrub_data(cell, depth).strip()} |'
-			)
-		cleaned += (
-			f"\n{'|-----' * len(entry['colLabels'])}|"
-		)
+			cleaned += f' {scrub_data(cell, depth).strip()} |'
+		cleaned += f"\n{'|-----' * len(entry['colLabels'])}|"
 		# This entry has yet more entries...eerrr, cells.
 		for row in entry.get('rows'):
 			cleaned += '\n|'
 			for cell in row:
 				cell = scrub_data(cell, depth).strip()
 				cell = re.sub('\n', ' ', cell)
-				cleaned += (
-					f' {cell} |'
-				)
+				cleaned += f' {cell} |'
 		cleaned = cleaned.strip()
 		cleaned = f'\n{cleaned}\n'
 		return cleaned
@@ -124,6 +119,7 @@ def scrub_data(entry, depth=0):
 		print(entry)
 		input('Something went wrong. See logs above.')
 		raise Exception('INVALID ENTRY TYPE')
+
 
 
 # Now we reformat special phrases.
