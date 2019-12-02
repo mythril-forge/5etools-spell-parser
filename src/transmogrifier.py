@@ -31,8 +31,6 @@ def scrub_data(entry, depth=0):
 		# This entry has yet more entries.
 		for item in entry:
 			cleaned += scrub_data(item, depth)
-		cleaned = cleaned.strip()
-		cleaned += '\n\n'
 		return cleaned
 
 	# The entry is type `entries`.
@@ -42,7 +40,10 @@ def scrub_data(entry, depth=0):
 		# Add a heading w/size relative to the recursive depth.
 		cleaned = f"{'#' * (depth + 2)} {entry['name']}\n"
 		# Recursively call `scrub_data` on contents.
-		cleaned += scrub_data(entry['entries'], depth + 1)
+		content = scrub_data(entry['entries'], depth + 1)
+		content = content.strip()
+		cleaned += content
+		cleaned = f'\n{cleaned}'
 		return cleaned
 
 	elif entry.get('type') == 'quote':
@@ -54,7 +55,7 @@ def scrub_data(entry, depth=0):
 		cleaned = re.sub(r'\n', '\n> ', cleaned)
 		cleaned += f"\n> &mdash; {entry['by']}"
 		cleaned = cleaned.strip()
-		cleaned += '\n'
+		cleaned = f'{cleaned}\n'
 		return cleaned
 
 	# An entry with type=list is not a list-type object.
@@ -75,7 +76,7 @@ def scrub_data(entry, depth=0):
 			content += '\n'
 			cleaned += content
 		cleaned = cleaned.strip()
-		cleaned += '\n'
+		cleaned = f'{cleaned}\n'
 		return cleaned
 
 	# The entry is a table.

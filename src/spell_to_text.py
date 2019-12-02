@@ -89,7 +89,7 @@ class SpellToText:
 		# Spell description
 		result += '\n\n---\n\n'
 		result += Spell.description
-		result += '---'
+		result += '\n\n---'
 
 		# Finally, add the citation.
 		acronym = Spell.citations[0]['book']

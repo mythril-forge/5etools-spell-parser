@@ -530,7 +530,7 @@ class SpellFromTool(Spell):
 		)
 
 		# Awesome! Now we can actually call those functions.
-		entries = scrub_data(entries)
+		entries = scrub_data(entries).strip()
 		# entries = reformat_phrases(entries)
 		# entries = parse_metadata(entries)
 		self.description = entries
