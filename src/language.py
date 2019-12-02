@@ -1,3 +1,9 @@
+# Naturally Capitalized Words
+NATURAL_UPPERCASE = [
+	r'(?<=\n)(\t|"|\(|\[)?\b\w',
+	r'(?<=\n)- \b\w(?=.*\.)',
+]
+
 # Capitalized Words
 CAPITAL_PHRASES = [
 	# roll targets

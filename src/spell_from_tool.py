@@ -646,7 +646,21 @@ class SpellFromTool(Spell):
 		def reformat_phrases(text):
 			# There is so much data to parse through;
 			# there is a seperate file to seperate concerns.
-			# text = text.lower()
+
+			# The first thing we need to do is totally reset the
+			# whole text data, and make it all lowercase.
+			# Some things were uppercase where that wasn't needed.
+			text = text.lower()
+
+			# Now we can take the first letter of every line.
+			# Naturally, those letters will become uppercase.
+			for phrase in NATURAL_UPPERCASE:
+				for match in re.finditer(phrase, text):
+					left_text  = text[:match.span()[0]]
+					right_text = text[match.span()[1]:]
+					middle_text = match.group().upper()
+					text = left_text + middle_text + right_text
+
 			# First, capitalize special phrases.
 			for phrase in CAPITAL_PHRASES:
 				for match in re.finditer(phrase, text, re.I):
