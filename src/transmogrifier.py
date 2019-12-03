@@ -16,7 +16,7 @@ def scrub_data(entry, depth=0):
 	if isinstance(entry, str):
 		# Each sentance needs to be on a different line.
 		# The `tails` regex finds areas that break this rule.
-		tails = r'((?<=([!\?\.]))|(?<=([!\?\.]\)))) '
+		tails = r'((?<=([!\?\.]))|(?<=([!\?\.][\)"]))) '
 		# All that needs to be done is adding some extra
 		# new-line breaks to keep GitHub diffs prettier.
 		cleaned = re.sub(tails, '\n', entry)
