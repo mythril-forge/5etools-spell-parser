@@ -526,11 +526,15 @@ class SpellFromTool(Spell):
 		# we need to run it through several custom cleaners
 		# to get the markdownified output that we desire.
 		from transmogrifier import (
-			scrub_data, reformat_phrases, parse_metadata
+			scrub_data,
+			cleanup_uppercase,
+			reformat_phrases,
+			parse_metadata
 		)
 
 		# Awesome! Now we can actually call those functions.
 		entries = scrub_data(entries).strip()
+		# entries = cleanup_uppercase(entries)
 		# entries = reformat_phrases(entries)
 		# entries = parse_metadata(entries)
 		self.description = entries

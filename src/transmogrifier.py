@@ -122,6 +122,86 @@ def scrub_data(entry, depth=0):
 		raise Exception('INVALID ENTRY TYPE')
 
 
+def cleanup_uppercase(text):
+	# Select all pre-capitalized ability phrases.
+	ungex = r'(- |> |\| |\n\t?|# [^\n]*)'
+	regex = (
+		r'(Strength'
+		r'|Dexterity'
+		r'|Constitution'
+		r'|Intelligence'
+		r'|Wisdom'
+		r'|Charisma'
+		r'|Athletics'
+		r'|Acrobatics'
+		r'|Sleight of Hand'
+		r'|Stealth'
+		r'|Arcana'
+		r'|History'
+		r'|Investigation'
+		r'|Nature'
+		r'|Religion'
+		r'|Animal Handling'
+		r'|Insight'
+		r'|Medicine'
+		r'|Perception'
+		r'|Survival'
+		r'|Deception'
+		r'|Intimidation'
+		r'|Performance'
+		r'|Tiny'
+		r'|Small'
+		r'|Medium'
+		r'|Large'
+		r'|Huge'
+		r'|Gargantuan'
+		r'|Titanic'
+		r'|(?<!(Extra ))Attack'
+		r'|Cast a Spell'
+		r'|Dash'
+		r'|Disengage'
+		r'|Dodge'
+		r'|Help'
+		r'|Hide'
+		r'|Ready'
+		r'|Search'
+		r'|Use an Object)'
+	)
+
+	matches = set()
+	for match in re.finditer(regex, text):
+		left, right = match.span()
+		matches.add((left, right))
+
+	mismatches = set()
+	for mismatch in re.finditer(ungex + regex, text):
+		left, right = mismatch.span()
+		mismatches.add((left, right))
+		print(mismatch.group())
+
+	for mismatch in mismatches.copy():
+		bad_left, bad_right = mismatch[0], mismatch[1]
+		for match in matches.copy():
+			good_left, good_right = match[0], match[1]
+			# check if al and ar are between bl and br
+			if (
+				bad_left < good_left and good_right < bad_right
+			) or (
+				good_left < bad_left and bad_right < good_right
+			) or ( # left item is in range
+				bad_left < good_left and good_left < bad_right
+			) or ( # right item is in range
+				bad_left < good_right and good_right < bad_right
+			):
+				matches.remove(match)
+				print(f"REMOVED {match}", text[match[0]:match[1]])
+
+	for match in matches:
+		left, right = text[:match[0]], text[match[1]:]
+		middle = text[match[0]:match[1]].lower()
+		text = left + middle + right
+
+	return text
 
 # Now we reformat special phrases.
 def reformat_phrases(text):
