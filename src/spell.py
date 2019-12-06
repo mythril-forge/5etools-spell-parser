@@ -75,7 +75,7 @@ class Spell:
 		}
 
 		# long-form description
-		self.description = None,
+		self.description = None
 
 		# sources to find this spell
 		self.citations = []

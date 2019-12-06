@@ -4,7 +4,6 @@ import re
 from slugify import slugify
 # project imports
 from helper import *
-from bad_string_parser import *
 from spell import Spell
 
 
@@ -151,9 +150,23 @@ class SpellFromTool(Spell):
 			elif type == 'bonus':
 				self.cast_time['quality'] = 'bonus action'
 			elif type == 'reaction':
-				condition = cast_time['condition']
+				self.cast_time['condition'] = cast_time['condition']
 				self.cast_time['quality'] = 'reaction'
+
+				# Import markdown cleaners for reaction text
+				from transmogrifier import (
+					cleanup_uppercase,
+					reformat_phrases,
+					parse_metadata
+				)
+				# Get results thus far.
+				condition = self.cast_time['condition']
+				# Awesome! Now we can actually call those functions.
+				condition = cleanup_uppercase(condition)
+				condition = reformat_phrases(condition)
+				condition = parse_metadata(condition)
 				self.cast_time['condition'] = condition
+
 			elif type == 'special':
 				self.cast_time['quality'] = 'special'
 
@@ -496,6 +509,27 @@ class SpellFromTool(Spell):
 				self.components['material'] = material['text']
 			else:
 				self.components['material'] = material
+
+			# Simply lowercase material components for now.
+			material = self.components['material'].lower()
+			self.components['material'] = material
+
+			"""
+			# Import markdown cleaners for reaction text
+			from transmogrifier import (
+				cleanup_uppercase,
+				reformat_phrases,
+				parse_metadata
+			)
+			# Get results thus far
+			material = self.components['material']
+			# Awesome! Now we can actually call those functions.
+			material = cleanup_uppercase(material)
+			material = reformat_phrases(material)
+			material = parse_metadata(material)
+			self.components['material'] = material
+			"""
+
 		else:
 			pass
 
@@ -505,120 +539,38 @@ class SpellFromTool(Spell):
 		Gathers the object containing the details
 		of a spell's description, which holds much data.
 		'''
-		entries = self.spell_json['entries']
-		entries = self.classify_desc_info(entries)
-		entries = entries.strip()
-		markdown = '## Description\n'
-		markdown += entries
-		if self.spell_json.get('entriesHigherLevel'):
-			higher_levels = self.spell_json['entriesHigherLevel']
-			higher_levels = self.classify_desc_info(higher_levels)
-			higher_levels = higher_levels.strip()
-			markdown += '\n\n## At Higher Levels\n'
-			markdown += higher_levels
-		markdown = cleanse_markdown(markdown)
-		self.description = markdown
+		# To keep things DRY, the object must stay consistant.
+		# To do so, the two main entries are put into an object.
+		primary = self.spell_json.get('entries')
+		powerup = self.spell_json.get('entriesHigherLevel')
 
+		# The `entries` object is a supermassive clusterfuck.
+		# Sorry! Just saying, its not pretty.
+		entries = [{
+			'type': 'entries',
+			'name': 'Description',
+			'entries': primary,
+		}]
 
-	def classify_desc_info(self, data):
-		'''
-		Parses entries based on their 'type' for formatting.
-		'''
-		markdown = ''
-		for entry in data:
-			addon = ''
-			if isinstance(entry, str):
-				addon += '\n'
-				addon += entry
-				addon += '\n'
-				# add to markdown
-				addon = re.sub(r'\. ', '.\n', addon)
-				markdown += addon
+		if powerup is not None:
+			entries.append(powerup)
 
-			elif entry.get('type') == 'entries':
-				addon += '\n'
-				if entry['name'] != 'At Higher Levels':
-					addon += '### '
-					addon += entry['name']
-				addon += self.classify_desc_info(entry['entries'])
-				# add to markdown
-				addon = re.sub(r'\. ', '.\n', addon)
-				markdown += addon
+		# Now that we have this ugly `entries` object,
+		# we need to run it through several custom cleaners
+		# to get the markdownified output that we desire.
+		from transmogrifier import (
+			scrub_data,
+			cleanup_uppercase,
+			reformat_phrases,
+			parse_metadata
+		)
 
-			elif entry.get('type') == 'quote':
-				quote = self.classify_desc_info(entry['entries'])
-				quote = re.sub(r'\n+', '\n', quote)
-				quote = re.sub(r'^(?=\w|.*? )', '> ', quote)
-				quote = re.sub(r'\n(?=\w|.*? )', '\n> ', quote)
-				quote = quote.strip()
-				addon += '\n'
-				addon += quote
-				addon += '\n> \n> &mdash; '
-				addon += entry['by']
-				addon += '\n'
-				# add to markdown
-				addon = re.sub(r'\. ', '.\n> ', addon)
-				markdown += addon
-
-			elif entry.get('type') == 'list':
-				# grab items and strip them. stripping is important!
-				md_list = self.classify_desc_info(entry['items'])
-				md_list = md_list.strip()
-				# replace a series of 2+ breaks with just 2 breaks.
-				md_list = re.sub(r'\n{2,}', '\n\n', md_list)
-				# add a dash to the first item in the list.
-				md_list = re.sub(r'^(?=\w|.*? )', '- ', md_list)
-				# a series of 2 breaks means its a list item start.
-				md_list = re.sub(r'\n{2}(?=\w|.+? )', '\n\n- ', md_list)
-				# if it has one break, it means its a new sentance.
-				md_list = re.sub(r'\n(?=\w)', '\n\t', md_list)
-				# finally, remove multiple breaks
-				md_list = re.sub(r'\n{2,}', '\n', md_list)
-				# strip whitespace
-				md_list = md_list.strip()
-				addon += md_list
-				addon += '\n'
-				# add to markdown
-				# addon = re.sub(r'\. ', '.\n\t', addon)
-				markdown += addon
-
-			elif entry.get('type') == 'table':
-				labels = self.classify_desc_info(entry['colLabels'])
-				labels = re.sub(r'\n+', '\n', labels)
-				labels = re.sub(r'^(?=\w|.*? )', '| ', labels)
-				labels = re.sub(r'\n(?=\w|.*? )', ' | ', labels)
-				labels = labels.strip()
-				addon += labels
-				addon += ' |\n|'
-				# add seperator
-				for col in entry['colLabels']:
-					addon += '-----|'
-				addon += '\n'
-				# add details
-				for row in entry['rows']:
-					details = self.classify_desc_info(row)
-					details = re.sub(r'\n+', '\n', details)
-					details = re.sub(r'^(?=\w|.*? )', '| ', details)
-					details = re.sub(r'\n(?=\w|.*? )', ' | ', details)
-					details = details.strip()
-					addon += details
-					addon += ' |\n'
-				# add to markdown
-				markdown += addon
-
-			elif entry.get('type') == 'cell':
-				if entry['roll'].get('exact'):
-					roll = str(entry['roll']['exact'])
-				else:
-					roll = str(entry['roll']['min'])
-					roll += '&mdash;'
-					roll += str(entry['roll']['max'])
-				addon += roll
-				# add to markdown
-				markdown += addon
-		# finally, return our result
-		return markdown
-
+		# Awesome! Now we can actually call those functions.
+		entries = scrub_data(entries).strip()
+		entries = cleanup_uppercase(entries)
+		entries = reformat_phrases(entries)
+		entries = parse_metadata(entries)
+		self.description = entries
 
 	def get_citation(self):
 		'''
