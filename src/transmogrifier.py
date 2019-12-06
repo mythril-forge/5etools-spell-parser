@@ -124,15 +124,19 @@ def scrub_data(entry, depth=0):
 
 def cleanup_uppercase(text):
 	# Select all pre-capitalized ability phrases.
-	ungex = r'(- |> |\| |\n\t?|# [^\n]*)'
-	regex = (
+	ungex = r'(- |> |\| |\n|\n\t|# [^\n]*)'
+
+	abilities = (
 		r'(Strength'
 		r'|Dexterity'
 		r'|Constitution'
 		r'|Intelligence'
 		r'|Wisdom'
-		r'|Charisma'
-		r'|Athletics'
+		r'|Charisma)'
+	)
+
+	proficiencies = (
+		r'(Athletics'
 		r'|Acrobatics'
 		r'|Sleight of Hand'
 		r'|Stealth'
@@ -148,15 +152,20 @@ def cleanup_uppercase(text):
 		r'|Survival'
 		r'|Deception'
 		r'|Intimidation'
-		r'|Performance'
-		r'|Tiny'
+		r'|Performance)'
+	)
+
+	sizes = (
+		r'(Tiny'
 		r'|Small'
 		r'|Medium'
 		r'|Large'
 		r'|Huge'
-		r'|Gargantuan'
-		r'|Titanic'
-		r'|(?<!(Extra ))Attack'
+		r'|Gargantuan)'
+	)
+
+	actions = (
+		r'((?<!(Extra ))Attack'
 		r'|Cast a Spell'
 		r'|Dash'
 		r'|Disengage'
@@ -168,15 +177,38 @@ def cleanup_uppercase(text):
 		r'|Use an Object)'
 	)
 
-	matches = set()
+	text = special_ability(
+		text,
+		sizes,
+		ungex,
+		lambda x: f'*{x.lower()}*',
+		lambda x: f'*{x}*'
+	)
+
+	text = special_ability(
+		text,
+		actions,
+		ungex,
+		lambda x: f'*{x.lower()}*',
+		lambda x: f'*{x}*'
+	)
+
+	return text
+
+
+
+def special_ability(text, regex, ungex, transform, morph):
+	shift = 0
+
+	matches = []
 	for match in re.finditer(regex, text):
 		left, right = match.span()
-		matches.add((left, right))
+		matches.append((left, right))
 
-	mismatches = set()
+	mismatches = []
 	for mismatch in re.finditer(ungex + regex, text):
 		left, right = mismatch.span()
-		mismatches.add((left, right))
+		mismatches.append((left, right))
 		print(mismatch.group())
 
 	for mismatch in mismatches.copy():
@@ -193,15 +225,23 @@ def cleanup_uppercase(text):
 			) or ( # right item is in range
 				bad_left < good_right and good_right < bad_right
 			):
+				left, right = text[:match[0] + shift], text[match[1] + shift:]
+				middle = morph(text[match[0] + shift:match[1] + shift])
+				new_text = left + middle + right
+				shift += len(new_text) - len(text)
+				text = left + middle + right
 				matches.remove(match)
 				print(f"REMOVED {match}", text[match[0]:match[1]])
 
 	for match in matches:
-		left, right = text[:match[0]], text[match[1]:]
-		middle = text[match[0]:match[1]].lower()
+		left, right = text[:match[0] + shift], text[match[1] + shift:]
+		middle = transform(text[match[0] + shift:match[1] + shift])
+		new_text = left + middle + right
+		shift += len(new_text) - len(text)
 		text = left + middle + right
-
 	return text
+
+
 
 # Now we reformat special phrases.
 def reformat_phrases(text):

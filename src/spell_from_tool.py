@@ -534,7 +534,7 @@ class SpellFromTool(Spell):
 
 		# Awesome! Now we can actually call those functions.
 		entries = scrub_data(entries).strip()
-		# entries = cleanup_uppercase(entries)
+		entries = cleanup_uppercase(entries)
 		# entries = reformat_phrases(entries)
 		# entries = parse_metadata(entries)
 		self.description = entries
