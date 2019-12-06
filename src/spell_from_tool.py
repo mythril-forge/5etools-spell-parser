@@ -150,9 +150,23 @@ class SpellFromTool(Spell):
 			elif type == 'bonus':
 				self.cast_time['quality'] = 'bonus action'
 			elif type == 'reaction':
-				condition = cast_time['condition']
+				self.cast_time['condition'] = cast_time['condition']
 				self.cast_time['quality'] = 'reaction'
+
+				# Import markdown cleaners for reaction text
+				from transmogrifier import (
+					cleanup_uppercase,
+					reformat_phrases,
+					parse_metadata
+				)
+				# Get results thus far.
+				condition = self.cast_time['condition']
+				# Awesome! Now we can actually call those functions.
+				condition = cleanup_uppercase(condition)
+				condition = reformat_phrases(condition)
+				condition = parse_metadata(condition)
 				self.cast_time['condition'] = condition
+
 			elif type == 'special':
 				self.cast_time['quality'] = 'special'
 
@@ -495,8 +509,27 @@ class SpellFromTool(Spell):
 				self.components['material'] = material['text']
 			else:
 				self.components['material'] = material
+
+			# Simply lowercase material components for now.
 			material = self.components['material'].lower()
 			self.components['material'] = material
+
+			"""
+			# Import markdown cleaners for reaction text
+			from transmogrifier import (
+				cleanup_uppercase,
+				reformat_phrases,
+				parse_metadata
+			)
+			# Get results thus far
+			material = self.components['material']
+			# Awesome! Now we can actually call those functions.
+			material = cleanup_uppercase(material)
+			material = reformat_phrases(material)
+			material = parse_metadata(material)
+			self.components['material'] = material
+			"""
+
 		else:
 			pass
 
@@ -535,8 +568,8 @@ class SpellFromTool(Spell):
 		# Awesome! Now we can actually call those functions.
 		entries = scrub_data(entries).strip()
 		entries = cleanup_uppercase(entries)
-		# entries = reformat_phrases(entries)
-		# entries = parse_metadata(entries)
+		entries = reformat_phrases(entries)
+		entries = parse_metadata(entries)
 		self.description = entries
 
 	def get_citation(self):

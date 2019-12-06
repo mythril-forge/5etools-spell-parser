@@ -122,9 +122,10 @@ def scrub_data(entry, depth=0):
 		raise Exception('INVALID ENTRY TYPE')
 
 
+
 def cleanup_uppercase(text):
 	# Select all pre-capitalized ability phrases.
-	ungex = r'(- |> |\| |\n|\n\t|# [^\n]*)'
+	ungex = r'(- |> |"|\| |\n|\n\t|# [^\n]*)'
 
 	abilities = (
 		r'(Strength'
@@ -190,7 +191,7 @@ def cleanup_uppercase(text):
 		actions,
 		ungex,
 		lambda x: f'*{x.lower()}*',
-		lambda x: f'*{x}*'
+		lambda x: x
 	)
 
 	return text
@@ -247,26 +248,6 @@ def special_ability(text, regex, ungex, transform, morph):
 def reformat_phrases(text):
 	# There is so much data to parse through;
 	# there is a seperate file to seperate concerns.
-	# Now we can take the first letter of every line.
-	# Naturally, those letters will become uppercase.
-	for phrase in PREUPPER_ITALICS:
-		shift = 0
-		for match in re.finditer(phrase, text):
-			left_text  = text[:match.span()[0] + shift]
-			right_text = text[match.span()[1] + shift:]
-			middle_text = f'*{match.group().lower()}*'
-			# Track how much bigger/smaller `text` got.
-			new_text = left_text + middle_text + right_text
-			shift += len(new_text) - len(text)
-			text = new_text
-
-	for phrase in NATURAL_UPPERCASE:
-		for match in re.finditer(phrase, text):
-			left_text  = text[:match.span()[0]]
-			right_text = text[match.span()[1]:]
-			middle_text = match.group().upper()
-			text = left_text + middle_text + right_text
-
 	# First, capitalize special phrases.
 	for phrase in CAPITAL_PHRASES:
 		for match in re.finditer(phrase, text, re.I):
@@ -289,17 +270,6 @@ def reformat_phrases(text):
 			left_text  = text[:match.span()[0] + shift]
 			right_text = text[match.span()[1] + shift:]
 			middle_text = f'**{match.group().lower()}**'
-			# Track how much bigger/smaller `text` got.
-			new_text = left_text + middle_text + right_text
-			shift += len(new_text) - len(text)
-			text = new_text
-
-	for phrase in ITALIC_PHRASES:
-		shift = 0
-		for match in re.finditer(phrase, text, re.I):
-			left_text  = text[:match.span()[0] + shift]
-			right_text = text[match.span()[1] + shift:]
-			middle_text = f'*{match.group().lower()}*'
 			# Track how much bigger/smaller `text` got.
 			new_text = left_text + middle_text + right_text
 			shift += len(new_text) - len(text)
@@ -329,15 +299,12 @@ def reformat_phrases(text):
 			text = new_text
 
 	# Here we do arbitrary cleanup before returning.
-	text = re.sub('\n\n+(?=([>-] ))', '\n', text)
-	text = re.sub('\n\n+', '\n\n', text)
 	text = re.sub(
 		'Attack And Damage Rolls',
 		'Attack &amp; Damage Rolls',
 		text
 	)
 	return text
-
 
 
 
